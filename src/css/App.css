@@ -1,17 +1,28 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 body {
+  padding: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
   font-family: 'Poppins', sans-serif;
   background: -webkit-linear-gradient(left,#20c997, #198754);
+  overflow-x: hidden;
+  font-size: 16px;;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+ul {
+  margin: 0;
+}
+figure {
+  margin: 0;
+}
+h1, h2, h3, h4, p {
+  margin: 0;
+  font-weight: normal;
 }
 
 .App {
@@ -22,6 +33,27 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
+
+/* Colores */
+.texto-negro{
+  color: #000000;
+}
+.fondo-negro{
+  background-color: #000000;
+}
+.texto-blanco{
+  color: #ffffff;
+}
+.fondo-blanco{
+  background-color: #ffffff;
+}
+.texto-verde{
+  color: #00913e;
+}
+.fondo-verde{
+  background-color: #00913e;
+}
+/* fin colores*/
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -66,4 +98,19 @@ body {
   outline: none;
   border: 1px solid rgba(200,200,200,0.3);
   color: rgba(0,0,0, 0.5);
+}
+.menu_arriba{
+  background: linear-gradient(262deg,#00913e,#c7ce02);
+}
+.imagen_perfil{
+  border-radius: 50%;
+  border:2px solid white;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  outline: none;
+}
+
+.text-titulos-1{
+  font-size: 20px;
 }

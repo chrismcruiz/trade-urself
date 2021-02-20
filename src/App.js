@@ -1,9 +1,10 @@
 import React from 'react'
 import './css/bootstrap.css'
 import './css/App.css'
-//import Register from './pages/Register'
+import Home from "./pages/Home"
 import styled from "styled-components";
 import { AccountBox } from "./components/accountBox";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -16,9 +17,20 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <AppContainer>
-      <AccountBox />
-    </AppContainer>
+    <div>
+      <Router>
+        <Switch>
+        <Route path='/home'>
+            <Home />
+          </Route>
+          <Route path='/'>
+            <AppContainer>
+              <AccountBox />
+            </AppContainer>
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
