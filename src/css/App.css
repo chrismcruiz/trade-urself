@@ -10,6 +10,6 @@ body {
   height: 80vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-content: center;
   font-family: 'Poppins', sans-serif;
 }

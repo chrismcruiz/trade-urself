@@ -8,7 +8,7 @@ const Register = () => {
       <div className='image-container'>
         <img
           className='image'
-          src='https://i.pinimg.com/originals/86/67/d3/8667d39a220e896476d35e57b66a926d.jpg'
+          src='https://research.msu.edu/wp-content/uploads/2018/10/helping-coworkers.jpg'
           alt='eren jaeger'
         />
       </div>
