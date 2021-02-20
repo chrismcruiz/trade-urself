@@ -1,13 +1,25 @@
 import React from 'react'
+import './css/bootstrap.css'
 import './css/App.css'
-import Register from './pages/Register'
+//import Register from './pages/Register'
+import styled from "styled-components";
+import { AccountBox } from "./components/accountBox";
 
-const App = () => {
+const AppContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+function App() {
   return (
-    <div>
-      <Register />
-    </div>
-  )
+    <AppContainer>
+      <AccountBox />
+    </AppContainer>
+  );
 }
 
 export default App

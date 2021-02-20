@@ -5,11 +5,65 @@
 }
 
 body {
-  background-color: #282828;
-  width: 100vw;
-  height: 80vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-content: center;
   font-family: 'Poppins', sans-serif;
+  background: -webkit-linear-gradient(left,#20c997, #198754);
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.label_inputs{
+  color: rgba(0,0,0, 0.5);
+}
+.inputs_radius{
+  width: max-content !important;
+  height: auto !important;
+  margin-right: 5px;
+}
+
+.input_select{
+  outline: none;
+  border: 1px solid rgba(200,200,200,0.3);
+  color: rgba(0,0,0, 0.5);
 }
