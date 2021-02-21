@@ -193,3 +193,30 @@ h1, h2, h3, h4, p {
   width: 100%;
   height: 700px;
 }
+
+.div_personas_matches{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.div_imagen_personas_matches{
+  width: 104px;
+  height: 145px;
+  transition: transform .2s;
+}
+.imagen_personas_matches{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.div_imagen_personas_matches:hover {
+  transform: scale(1.1); 
+  cursor: pointer;
+}
+
+.label_nombre_matches{
+  bottom: 0px;
+  left: 20px;
+}
