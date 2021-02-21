@@ -24,7 +24,7 @@ export function SignupForm(props) {
           <label className='label_inputs py-2 ps-2'>Fecha de nacimiento</label>
           <Input className='label_inputs' type="date" placeholder="Fecha de nacimiento" required/>
         </div>
-        <label className='label_inputs py-2 ps-2'>Genero</label>
+        <label className='label_inputs py-2 ps-2'>Género</label>
         <div className='d-flex ps-2'>
           <div className='d-flex align-items-center me-3'>
             <Input className='d-inline-block inputs_radius' type="radio" name='gender' id='male' required/>
@@ -44,7 +44,7 @@ export function SignupForm(props) {
           </select>
         </div>
         <div className='pb-2'>
-          <label className='label_inputs py-2 ps-2 d-block'>Ocupacion</label>
+          <label className='label_inputs py-2 ps-2 d-block'>Ocupación</label>
           <select required name='ocupation' id='ocupation' className='input_select p-1 w-100'>
               <option value='student'>Estudiante</option>
               <option value='worker'>Egresado</option>
@@ -62,9 +62,9 @@ export function SignupForm(props) {
       <SubmitButton type="submit">Registrarme</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">
-        Ya tienes una cuenta?
+        ¿Ya tienes una cuenta?
         <BoldLink href="#" onClick={switchToSignin}>
-        Inicia sesion
+        Inicia sesión
         </BoldLink>
       </MutedLink>
     </BoxContainer>

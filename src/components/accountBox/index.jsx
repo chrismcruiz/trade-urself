@@ -144,13 +144,13 @@ export function AccountBox(props) {
           {active === "signin" && (
             <HeaderContainer>
               <HeaderText>Bienvenido</HeaderText>
-              <SmallText>Porfavor inicie sesion para continuar!</SmallText>
+              <SmallText>Por favor, inicia sesión para continuar</SmallText>
             </HeaderContainer>
           )}
           {active === "signup" && (
             <HeaderContainer>
               <HeaderText>Crear cuenta</HeaderText>
-              <SmallText>Porfavor cree una cuenta para continuar!</SmallText>
+              <SmallText>Por favor, crea una cuenta para continuar</SmallText>
             </HeaderContainer>
           )}
         </TopContainer>
