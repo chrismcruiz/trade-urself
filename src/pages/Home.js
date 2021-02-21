@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../borrar/imagen-1.webp'
+import Cards from '../components/Cards'
 
 function Home() {
   return (
@@ -17,12 +18,12 @@ function Home() {
                             </a>
                         </div>
                     </div>
-                    <div className='fondo-blanco h-100'>
-                        
+                    <div className='fondo-blanco pantalla_match'>
+
                     </div>
                 </div>
                 <div className='col-8 px-0'>
-                    a
+                    <Cards />
                 </div>
             </div>
         </div>

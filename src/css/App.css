@@ -110,7 +110,86 @@ h1, h2, h3, h4, p {
   object-fit: cover;
   outline: none;
 }
+.pantalla_match{
+  height: calc(100% - 73px);
+}
 
 .text-titulos-1{
   font-size: 20px;
+}
+
+.card {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  padding: 20px;
+  min-width: 300px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+}
+
+.card > h3 {
+  color: white;
+  position: absolute;
+  bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 3px;
+}
+
+.card__container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.8vh;
+}
+
+.swipe {
+  position: absolute;
+}
+
+.buttons-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+}
+
+.buttons .MuiIconButton-root {
+  background-color: white;
+  padding: 1.8vw;
+  margin: 0 50px;
+  box-shadow: 0px 10px 53px 0px rgba(0, 0, 0, 0.3);
+}
+
+.MuiIconButton-root:hover{
+  background-color: white !important;
+}
+.buttons__replay {
+  color: #f5b748;
+}
+
+.buttons__close {
+  color: #ec5e6f;
+}
+
+.buttons__star {
+  color: #62b4f9;
+}
+
+.buttons__fav {
+  color: #76e2b3;
+}
+
+.buttons__flash {
+  color: #915dd1;
+}
+.div_contenedor_personas{
+  width: 100%;
+  height: 700px;
 }
