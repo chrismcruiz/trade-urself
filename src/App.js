@@ -20,7 +20,7 @@ function App() {
     <div>
       <Router>
         <Switch>
-        <Route path='/home'>
+          <Route path='/home'>
             <Home />
           </Route>
           <Route path='/'>
