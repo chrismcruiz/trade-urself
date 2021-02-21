@@ -141,7 +141,7 @@ h1, h2, h3, h4, p {
 .card__container {
   display: flex;
   justify-content: center;
-  margin-top: 2.8vh;
+  margin: 13.8vh 0px;
 }
 
 .swipe {
@@ -163,7 +163,7 @@ h1, h2, h3, h4, p {
 .buttons .MuiIconButton-root {
   background-color: white;
   padding: 1.8vw;
-  margin: 0 50px;
+  margin: 0 25px;
   box-shadow: 0px 10px 53px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -201,7 +201,7 @@ h1, h2, h3, h4, p {
 }
 
 .div_imagen_personas_matches{
-  width: 104px;
+  width: 102px;
   height: 145px;
   transition: transform .2s;
 }
