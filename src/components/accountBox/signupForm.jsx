@@ -79,11 +79,12 @@ export function SignupForm(props) {
   }
 
   const handlePass = (e) =>{
-    var pass = newUser.password
-    var confirmPass = newUser.confirm_password
-    if(pass === confirmPass){
-    }else{
+    let pass = newUser.password
+    let confirmPass = newUser.confirm_password
+    if(pass !== confirmPass){
+      e.preventDefault()
       handleShow()
+      setNewUser({ ...newUser, confirm_password: '' });
     }
   }
 
@@ -102,7 +103,7 @@ export function SignupForm(props) {
         </Modal.Header>
         <Modal.Body>Contraseñas no coinciden, por favor escribirla correctamente</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="danger" onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>
