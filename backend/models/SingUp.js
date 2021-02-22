@@ -21,9 +21,12 @@ const signUpTemplate =  new mongoose.Schema({
         type: String,
         required: true
     },
-    ocupation:{
+    career:{
         type: String,
         required: true
+    },
+    photo:{
+        type: String
     },
     password:{
         type: String,

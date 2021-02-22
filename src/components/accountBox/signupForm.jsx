@@ -11,7 +11,6 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { countries } from '../../countries'
 import axios from 'axios';
-import Alert from '@material-ui/lab/Alert';
 
 
 export function SignupForm(props) {
@@ -25,39 +24,48 @@ export function SignupForm(props) {
       birthday: '',
       gender: '',
       country: '',
-      ocupation: '',
+      career: '',
+      photo:'',
       password: '',
-      confirm_password: ''
+      confirm_password: '',
     }
   );
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
 
-    const registered = {
-      name: newUser.name,
-      email: newUser.email,
-      birthday: newUser.birthday,
-      gender: newUser.gender,
-      country: newUser.country,
-      ocupation: newUser.ocupation,
-      password: newUser.password,
-      confirm_password: newUser.confirm_password
-    }
+    formData.append('photo', newUser.photo)
+    formData.append('name', newUser.name)
+    formData.append('email', newUser.email)
+    formData.append('birthday', newUser.birthday)
+    formData.append('gender', newUser.gender)
+    formData.append('country', newUser.country)
+    formData.append('career', newUser.career)
+    formData.append('password', newUser.password)
+    formData.append('confirm_password', newUser.confirm_password)
+    // const registered = {
+    //   name: newUser.name,
+    //   email: newUser.email,
+    //   birthday: newUser.birthday,
+    //   gender: newUser.gender,
+    //   country: newUser.country,
+    //   ocupation: newUser.ocupation,
+    //   photo: newUser.photo,
+    //   password: newUser.password,
+    //   confirm_password: newUser.confirm_password
+    // }
 
-
-    axios.post('http://localhost:4000/app/signup/', registered)
+    axios.post('http://localhost:4000/app/signup/', formData)
       .then(response => {
         console.log(response.data);
         if (response.status === 200) {
-          <Alert severity="success">¡Registro Exitoso!</Alert>
+          console.log(response);
           switchToSignin()
         }
-        
       })
       .catch(error => {
         console.log(error);
-
       });
   }
 
@@ -65,13 +73,13 @@ export function SignupForm(props) {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   }
 
-  // const handlePhoto = (e) => {
-  //   setNewUser({ ...newUser, photo: e.target.files[0] });
-  // }
+  const handlePhoto = (e) => {
+    setNewUser({ ...newUser, photo: e.target.files[0] });
+  }
 
   return (
     <BoxContainer>
-      <form method='POST' onSubmit={handleSubmit} encType='application/json' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <form method='POST' onSubmit={handleSubmit} encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
           type="text"
@@ -154,19 +162,23 @@ export function SignupForm(props) {
           </select>
         </div>
         <div className='pb-2'>
-          <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Ocupación</label>
+          <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
           <select
             required
-            name='ocupation'
-            id='ocupation'
+            name='career'
+            id='career'
             className='input_select p-1 w-100'
-            value={newUser.ocupation}
+            value={newUser.career}
             onChange={handleChange}
           >
-            <option value='' defaultValue disabled>Escoge una opción</option>
-            <option value='estudiante'>Estudiante</option>
-            <option value='egresado'>Egresado</option>
-            <option value='profesor'>Profesor</option>
+            <option value='' selected disabled>Escoge una opción</option>
+            <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
+            <option value='ingenieria industrial'>Ingeniería Industrial</option>
+            <option value='ingenieria de petroleos'>Ingeniería de Petroleos</option>
+            <option value='ingenieria civil'>Ingeniería Civil</option>
+            <option value='ingenieria metalurgica'>Ingeniería Metalúrgica</option>
+            <option value='ingenieria electronica'>Ingeniería Electrónica</option>
+            <option value='licenciatura en idiomas'>Licenciatura en Idiomas</option>
           </select>
         </div>
         <div className=''>
@@ -176,7 +188,8 @@ export function SignupForm(props) {
             type="file"
             name='photo'
             accept=".png, .jpg, .jpeg"
-            id='image'
+            id='photo'
+            onChange={handlePhoto}
           />
         </div>
         <Input
