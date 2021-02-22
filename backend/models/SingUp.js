@@ -17,10 +17,10 @@ const signUpTemplate =  new mongoose.Schema({
         type: String,
         required: true
     },
-    country:{
-        type: String,
-        required: true
-    },
+    // country:{
+    //     type: String,
+    //     required: true
+    // },
     career:{
         type: String,
         required: true

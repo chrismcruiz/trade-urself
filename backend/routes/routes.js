@@ -37,7 +37,7 @@ router.post('/signup', upload.single('photo'), async (req, response) => {
     const email = req.body.email;
     const birthday = req.body.birthday;
     const gender = req.body.gender;
-    const country = req.body.country;
+    // const country = req.body.country;
     const career = req.body.career;
     const photo = req.file.filename;
     const password = securePassword;
@@ -48,7 +48,7 @@ router.post('/signup', upload.single('photo'), async (req, response) => {
         email,
         birthday,
         gender,
-        country,
+        // country,
         career,
         photo,
         password,

@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -9,24 +9,24 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { countries } from '../../countries'
+// import { countries } from '../../countries'
 import axios from 'axios';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Alert } from 'react-bootstrap';
 
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
 
-  
+
   const [newUser, setNewUser] = useState(
     {
       name: '',
       email: '',
       birthday: '',
       gender: '',
-      country: '',
+      // country: '',
       career: '',
-      photo:'',
+      photo: '',
       password: '',
       confirm_password: '',
     }
@@ -41,7 +41,7 @@ export function SignupForm(props) {
     formData.append('email', newUser.email)
     formData.append('birthday', newUser.birthday)
     formData.append('gender', newUser.gender)
-    formData.append('country', newUser.country)
+    // formData.append('country', newUser.country)
     formData.append('career', newUser.career)
     formData.append('password', newUser.password)
     formData.append('confirm_password', newUser.confirm_password)
@@ -61,8 +61,7 @@ export function SignupForm(props) {
       .then(response => {
         console.log(response.data);
         if (response.status === 200) {
-          console.log(response);
-          switchToSignin()
+          handleShow2()
         }
       })
       .catch(error => {
@@ -78,10 +77,11 @@ export function SignupForm(props) {
     setNewUser({ ...newUser, photo: e.target.files[0] });
   }
 
-  const handlePass = (e) =>{
+  const handlePass = (e) => {
+
     let pass = newUser.password
     let confirmPass = newUser.confirm_password
-    if(pass !== confirmPass){
+    if (pass !== confirmPass) {
       e.preventDefault()
       handleShow()
       setNewUser({ ...newUser, confirm_password: '' });
@@ -89,21 +89,43 @@ export function SignupForm(props) {
   }
 
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleClose2 = () => {
+    setShow2(false);
+    switchToSignin()
+  }
+
+  const handleShow2 = () => setShow2(true);
 
   return (
     <BoxContainer>
       <Button className='d-none' variant="primary" onClick={handleShow}>
       </Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Error</Modal.Title>
+      <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header>
+          <Modal.Title className='alert alert-danger w-100 text-white bg-danger m-0' role='alert'>¡Error!</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Contraseñas no coinciden, por favor escribirla correctamente</Modal.Body>
+        <Modal.Body>Contraseñas no coinciden, por favor escribirlas correctamente</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleClose}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Button className='d-none' variant="success" onClick={handleShow2}>
+      </Button>
+      <Modal show={show2} onHide={handleClose2} aria-labelledby="contained-modal-title-vcenter" centered animation={true}>
+        <Modal.Header>
+          <Modal.Title className='alert alert-success w-100 text-white bg-success' role='alert'>¡Correcto!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Registro realizado satisfactoriamente</Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" className="text-white bg-success" onClick={handleClose2}>
             Cerrar
           </Button>
         </Modal.Footer>
@@ -138,40 +160,40 @@ export function SignupForm(props) {
             onChange={handleChange}
           />
         </div>
-        <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
+        <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
         <div className='d-flex ps-2' value={newUser.gender} onChange={handleChange}>
-          <div className='d-flex align-items-center me-3'>
+          <div className='d-flex align-items-center'>
             <Input
-              className='d-inline-block inputs_radius'
+              className='d-inline-block inputs_radius mr-2'
               type="radio"
               name='gender'
               id='male'
               value={'masculino'}
               required />
-            <label htmlFor="male" className='label_inputs'>Masculino</label>
+            <label htmlFor="male" className='label_inputs mr-3 mt-1 pt-1'>Masculino</label>
           </div>
-          <div className='d-flex align-items-center me-3'>
+          <div className='d-flex align-items-center'>
             <Input
-              className='d-inline-block inputs_radius'
+              className='d-inline-block inputs_radius mr-2'
               type="radio"
               name='gender'
               id='female'
               value={'femenino'}
               required />
-            <label htmlFor="female" className='label_inputs'>Femenino</label>
+            <label htmlFor="female" className='label_inputs mr-3 mt-1 pt-1'>Femenino</label>
           </div>
           <div className='d-flex align-items-center'>
             <Input
-              className='d-inline-block inputs_radius'
+              className='d-inline-block inputs_radius mr-2'
               type="radio"
               name='gender'
               id='other'
               value={'otro'}
               required />
-            <label htmlFor="other" className='label_inputs'>Otro</label>
+            <label htmlFor="other" className='label_inputs mr-3 mt-1 pt-1'>Otro</label>
           </div>
         </div>
-        <div className='pb-2'>
+        {/* <div className='pb-2'>
           <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>País</label>
           <select
             required
@@ -189,7 +211,7 @@ export function SignupForm(props) {
               >{country.name}</option>
             ))}
           </select>
-        </div>
+        </div> */}
         <div className='pb-2'>
           <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
           <select
@@ -213,7 +235,7 @@ export function SignupForm(props) {
         <div className=''>
           <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Subir imagen</label>
           <Input
-            className='label_inputs border-0 ps-2'
+            className='label_inputs border-0 ps-2 pl-0'
             type="file"
             name='photo'
             accept=".png, .jpg, .jpeg"
