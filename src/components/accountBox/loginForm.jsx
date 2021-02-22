@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import {
   BoldLink,
   BoxContainer,
-  FormContainer,
   Input,
   MutedLink,
   SubmitButton,
@@ -10,15 +9,16 @@ import {
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 
+
 export function LoginForm(props) {
   const { switchToSignup } = useContext(AccountContext);
 
   return (
     <BoxContainer>
-      <FormContainer>
-        <Input type="email" placeholder="Email" />
+      <form style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+        <Input className='mb-2' type="email" placeholder="Email" />
         <Input type="password" placeholder="Contraseña" />
-      </FormContainer>
+      </form>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#">¿Olvidaste tu contraseña?</MutedLink>
       <Marginer direction="vertical" margin="1.6em" />

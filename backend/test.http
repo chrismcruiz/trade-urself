@@ -1,0 +1,13 @@
+POST http://localhost:4000/app/signup
+Content-Type: application/json
+
+{
+    "name": "zorrita",
+    "email": "chrismcruiz@gmail.com",
+    "birthday": "01/03/1998",
+    "gender":"Masculino",
+    "country":"Colombia",
+    "ocupation":"Estudiante",
+    "password":"1234",
+    "confirm_password":"1234"
+}
