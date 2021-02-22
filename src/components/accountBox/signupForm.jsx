@@ -11,6 +11,7 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { countries } from '../../countries'
 import axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
 
 
 export function SignupForm(props) {
@@ -77,8 +78,35 @@ export function SignupForm(props) {
     setNewUser({ ...newUser, photo: e.target.files[0] });
   }
 
+  const handlePass = (e) =>{
+    var pass = newUser.password
+    var confirmPass = newUser.confirm_password
+    if(pass === confirmPass){
+    }else{
+      handleShow()
+    }
+  }
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <BoxContainer>
+      <Button className='d-none' variant="primary" onClick={handleShow}>
+      </Button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Contraseñas no coinciden, por favor escribirla correctamente</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <form method='POST' onSubmit={handleSubmit} encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
@@ -209,13 +237,13 @@ export function SignupForm(props) {
           onChange={handleChange}
           required
         />
-        <SubmitButton className='mt-3' type="submit" value='submit'>Registrarme</SubmitButton>
+        <SubmitButton className='mt-3' type="submit" value='submit' onClick={handlePass}>Registrarme</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1em" />
-      <MutedLink href="#">
+      <MutedLink href="#" className='a_hover_form_login_registro'>
         ¿Ya tienes una cuenta?
-        <BoldLink href="#" onClick={switchToSignin}>
+        <BoldLink className='a_hover_registrarse' href="#" onClick={switchToSignin}>
           Inicia sesión
         </BoldLink>
       </MutedLink>

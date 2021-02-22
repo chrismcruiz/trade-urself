@@ -1,10 +1,13 @@
 import React from 'react'
-import './css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css'
 import Home from "./pages/Home"
 import styled from "styled-components";
 import { AccountBox } from "./components/accountBox";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+<script
+  src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
+  crossorigin></script>
 
 const AppContainer = styled.div`
   width: 100%;

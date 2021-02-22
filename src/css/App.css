@@ -11,8 +11,12 @@ body {
 }
 
 a {
-  text-decoration: none;
-  color: white;
+  text-decoration: none i !important;
+  color: white ;
+}
+a:hover{
+  text-decoration: none !important;
+  color: currentColor;
 }
 ul {
   margin: 0;
@@ -219,4 +223,12 @@ h1, h2, h3, h4, p {
 .label_nombre_matches{
   bottom: 0px;
   left: 20px;
+}
+
+.a_hover_form_login_registro:hover{
+  color: rgba(200,200,200,0.8) !important;
+}
+
+.a_hover_registrarse:hover{
+  color: rgb(0,145,62) !important;
 }
