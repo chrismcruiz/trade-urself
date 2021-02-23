@@ -1,47 +1,59 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt');
 
-const signUpTemplate =  new mongoose.Schema({
-    name:{
+const signUpTemplate = new mongoose.Schema({
+    name: {
         type: String,
+        default: '',
         required: true
     },
-    email:{
+    email: {
         type: String,
+        default: '',
         required: true
     },
-    birthday:{
+    birthday: {
         type: String,
+        default: '',
         required: true
     },
-    gender:{
+    gender: {
         type: String,
+        default: '',
         required: true
     },
-    // country:{
-    //     type: String,
-    //     required: true
-    // },
-    career:{
+    career: {
         type: String,
+        default: '',
         required: true
     },
-    photo:{
-        type: String
-    },
-    password:{
+    photo: {
         type: String,
-        required: true
+        default: ''
     },
-    confirm_password: {
+    password: {
         type: String,
+        default: '',
         required: true
+        
     },
-    Date:{
+    Date: {
         type: Date,
         default: Date.now
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 })
 
-const users =  mongoose.model('users', signUpTemplate)
+signUpTemplate.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+}
 
-module.exports = users
+signUpTemplate.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password)
+}
+
+
+module.exports = mongoose.model('users', signUpTemplate)
