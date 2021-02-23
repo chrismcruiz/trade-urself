@@ -1,4 +1,5 @@
-POST http://localhost:4000/app/signin/
+GET http://localhost:4000/app/logout?token=60345f79cf4d970c0493fe2f
+
 Content-Type: application/json
 
 {

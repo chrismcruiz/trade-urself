@@ -44,43 +44,43 @@ router.post('/signup', upload.single('photo'), async (req, res, next) => {
 
     let photo = file.filename;
 
-    if(!name) {
+    if (!name) {
         return res.send({
             success: false,
             message: 'Error: El nombre no puede ir en blanco.'
         })
     }
-    if(!email) {
+    if (!email) {
         return res.send({
             success: false,
             message: 'Error: El email no puede ir en blanco.'
         })
     }
-    if(!birthday) {
+    if (!birthday) {
         return res.send({
             success: false,
             message: 'Error: La fecha de nacimiento no puede ir en blanco.'
         })
     }
-    if(!gender) {
+    if (!gender) {
         return res.send({
             success: false,
             message: 'Error: El género no puede ir en blanco.'
         })
     }
-    if(!career) {
+    if (!career) {
         return res.send({
             success: false,
             message: 'Error: La carrera no puede ir en blanco.'
         })
     }
-    if(!password) {
+    if (!password) {
         return res.send({
             success: false,
             message: 'Error: La contraseña no puede ir en blanco.'
         })
     }
-    if(!photo) {
+    if (!photo) {
         return res.send({
             success: false,
             message: 'Error: La foto no puede ir en blanco.'
@@ -92,7 +92,7 @@ router.post('/signup', upload.single('photo'), async (req, res, next) => {
     users.find({
         email: email
     }, (err, previousUsers) => {
-        if(err) {
+        if (err) {
             return res.send({
                 success: false,
                 message: 'Error: Server error'
@@ -167,13 +167,13 @@ router.post('/signin', (req, res, next) => {
         email
     } = body
 
-    if(!email) {
+    if (!email) {
         return res.send({
             success: false,
             message: 'Error: El email no puede ir en blanco.'
         })
     }
-    if(!password) {
+    if (!password) {
         return res.send({
             success: false,
             message: 'Error: La contraseña no puede ir en blanco.'
@@ -191,7 +191,7 @@ router.post('/signin', (req, res, next) => {
                 message: 'Error: server error'
             })
         }
-        if (users.length != 1){
+        if (users.length != 1) {
             return res.send({
                 success: false,
                 message: 'Error: Invalido'
@@ -220,6 +220,64 @@ router.post('/signin', (req, res, next) => {
                 message: 'Logueo válido',
                 token: doc._id
             })
+        })
+    })
+})
+
+router.get('/verify', (req, res, next) => {
+    //get the token
+    const { query } = req;
+    const { token } = query;
+    // verify the token of one of a kind and its not deleted
+
+    UserSession.find({
+        _id: token,
+        isDeleted: false,
+    }, (err, sessions) => {
+        if (err) {
+            return res.send({
+                sucess: false,
+                message: 'Error: Server error'
+            })
+        }
+
+        if (sessions.length != 1) {
+            return res.send({
+                sucess: false,
+                message: 'Error: Invalido'
+            })
+        } else {
+            return res.send({
+                success: true,
+                message: 'Correcto'
+            })
+        }
+    })
+})
+
+router.get('/logout', (req, res, next) => {
+    //get the token
+    const { query } = req;
+    const { token } = query;
+    // verify the token of one of a kind and its not deleted
+
+    UserSession.findOneAndUpdate({
+        _id: token,
+        isDeleted: false,
+    }, {
+      $set: {
+          isDeleted: true
+        }
+    }, null, (err, sessions) => {
+    if (err) {
+        return res.send({
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
         })
     })
 })
