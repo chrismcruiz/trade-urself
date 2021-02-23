@@ -11,6 +11,7 @@ dotenv.config()
 mongoose.connect(process.env.DATABASE_ACCESS, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    useFindAndModify: false,
     useUnifiedTopology: true,
 })
 

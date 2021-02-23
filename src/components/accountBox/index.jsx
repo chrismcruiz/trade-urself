@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { LoginForm } from "./loginForm.jsx";
 import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
 import { SignupForm } from "./signupForm";
+import {
+  getFromStorage,
+  setInStorage,
+} from '../../utils/storage'
 
 const BoxContainer = styled.div`
   width: 600px;
@@ -131,34 +135,77 @@ export function AccountBox(props) {
 
   const contextValue = { switchToSignup, switchToSignin };
 
+
+  const [valid, setValid] = useState(
+    {
+      isLoading: true,
+      token: '',
+      // signUpError: '',
+      // signInError: '',
+    }
+  );
+
+
+  useEffect(() => {
+    const obj = getFromStorage('the main app')
+    const { token } = obj
+    if (token) {
+      fetch('/app/verify?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            setValid(valid.token)
+            setValid({isLoading:false})
+          }
+        })
+    } else {
+      setValid({isLoading:false})
+    }
+  }, [])
+
+  if (valid.isLoading) {
+    return (<div><p>Cargando...</p></div>)
+  }
+
+  if (!valid.token) {
+    return (
+      <AccountContext.Provider value={contextValue}>
+        <BoxContainer>
+          <TopContainer>
+            <BackDrop
+              initial={false}
+              animate={isExpanded ? "expanded" : "collapsed"}
+              variants={backdropVariants}
+              transition={expandingTransition}
+            />
+            {active === "signin" && (
+              <HeaderContainer>
+                <HeaderText>Bienvenido</HeaderText>
+                <SmallText>Por favor, inicia sesión para continuar</SmallText>
+              </HeaderContainer>
+            )}
+            {active === "signup" && (
+              <HeaderContainer>
+                <HeaderText>Crear cuenta</HeaderText>
+                <SmallText>Por favor, crea una cuenta para continuar</SmallText>
+              </HeaderContainer>
+            )}
+          </TopContainer>
+          <InnerContainer>
+            {active === "signin" && 
+            <LoginForm 
+            />}
+            {active === "signup" && 
+            <SignupForm 
+            />}
+          </InnerContainer>
+        </BoxContainer>
+      </AccountContext.Provider>
+    )
+  }
   return (
-    <AccountContext.Provider value={contextValue}>
-      <BoxContainer>
-        <TopContainer>
-          <BackDrop
-            initial={false}
-            animate={isExpanded ? "expanded" : "collapsed"}
-            variants={backdropVariants}
-            transition={expandingTransition}
-          />
-          {active === "signin" && (
-            <HeaderContainer>
-              <HeaderText>Bienvenido</HeaderText>
-              <SmallText>Por favor, inicia sesión para continuar</SmallText>
-            </HeaderContainer>
-          )}
-          {active === "signup" && (
-            <HeaderContainer>
-              <HeaderText>Crear cuenta</HeaderText>
-              <SmallText>Por favor, crea una cuenta para continuar</SmallText>
-            </HeaderContainer>
-          )}
-        </TopContainer>
-        <InnerContainer>
-          {active === "signin" && <LoginForm />}
-          {active === "signup" && <SignupForm />}
-        </InnerContainer>
-      </BoxContainer>
-    </AccountContext.Provider>
+    <div>
+      <p>hola</p>
+    </div>
   );
 }

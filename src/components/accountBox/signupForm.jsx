@@ -9,10 +9,9 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-// import { countries } from '../../countries'
 import axios from 'axios';
 import { Button, Modal, Alert } from 'react-bootstrap';
-
+import index from './index'
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -24,11 +23,9 @@ export function SignupForm(props) {
       email: '',
       birthday: '',
       gender: '',
-      // country: '',
       career: '',
       photo: '',
       password: '',
-      confirm_password: '',
     }
   );
 
@@ -41,26 +38,13 @@ export function SignupForm(props) {
     formData.append('email', newUser.email)
     formData.append('birthday', newUser.birthday)
     formData.append('gender', newUser.gender)
-    // formData.append('country', newUser.country)
     formData.append('career', newUser.career)
     formData.append('password', newUser.password)
-    formData.append('confirm_password', newUser.confirm_password)
-    // const registered = {
-    //   name: newUser.name,
-    //   email: newUser.email,
-    //   birthday: newUser.birthday,
-    //   gender: newUser.gender,
-    //   country: newUser.country,
-    //   ocupation: newUser.ocupation,
-    //   photo: newUser.photo,
-    //   password: newUser.password,
-    //   confirm_password: newUser.confirm_password
-    // }
 
     axios.post('http://localhost:4000/app/signup/', formData)
       .then(response => {
         console.log(response.data);
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.success) {
           handleShow2()
         }
       })
@@ -77,14 +61,20 @@ export function SignupForm(props) {
     setNewUser({ ...newUser, photo: e.target.files[0] });
   }
 
+  let confirmP;
+  const limpiar = React.createRef();
+
+  const handleChangeP = (e) => {
+    confirmP = e.target.value
+   
+  }  
   const handlePass = (e) => {
 
     let pass = newUser.password
-    let confirmPass = newUser.confirm_password
-    if (pass !== confirmPass) {
+    if (pass !== confirmP) {
       e.preventDefault()
       handleShow()
-      setNewUser({ ...newUser, confirm_password: '' });
+      limpiar.current.value = ''
     }
   }
 
@@ -193,25 +183,6 @@ export function SignupForm(props) {
             <label htmlFor="other" className='label_inputs mr-3 mt-1 pt-1'>Otro</label>
           </div>
         </div>
-        {/* <div className='pb-2'>
-          <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>País</label>
-          <select
-            required
-            name='country'
-            id='country'
-            className='input_select p-1 w-100'
-            value={newUser.country}
-            onChange={handleChange}
-          >
-            <option value='' defaultValue disabled>Escoge una opción</option>
-            {countries.map((country) => (
-              <option
-                key={country.id}
-                value={country.name.toLowerCase().toString()}
-              >{country.name}</option>
-            ))}
-          </select>
-        </div> */}
         <div className='pb-2'>
           <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
           <select
@@ -256,11 +227,12 @@ export function SignupForm(props) {
           type="password"
           name="confirm_password"
           placeholder="Confirmar Contraseña"
-          value={newUser.confirm_password}
-          onChange={handleChange}
+          value={confirmP}
+          ref={limpiar}
+          onChange={handleChangeP}
           required
         />
-        <SubmitButton className='mt-3' type="submit" value='submit' onClick={handlePass}>Registrarme</SubmitButton>
+        <SubmitButton className='mt-3' type="submit" value='submit'  onClick={handlePass}>Registrarme</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1em" />

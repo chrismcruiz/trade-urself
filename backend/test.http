@@ -1,8 +1,11 @@
-GET http://localhost:4000/app/logout?token=60345f79cf4d970c0493fe2f
-
+POST http://localhost:4000/app/signup
 Content-Type: application/json
 
 {
-    "email": "laurentpk@gmail.com",
+    "name": "pepito",
+    "email": "pepito@gmail.com",
+    "birthday": "1997-03-02",
+    "gender": "otro",
+    "career": "ingenieria de sistemas",
     "password": "laurent"
 }
