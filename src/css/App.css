@@ -16,7 +16,7 @@ a {
 }
 a:hover{
   text-decoration: none !important;
-  color: currentColor;
+  color: black;
 }
 ul {
   margin: 0;
@@ -50,6 +50,12 @@ h1, h2, h3, h4, p {
 }
 .fondo-blanco{
   background-color: #ffffff;
+}
+.texto-gris{
+  color: #f8f9fa;
+}
+.fondo-gris{
+  background-color: #f8f9fa;
 }
 .texto-verde{
   color: #00913e;
@@ -115,7 +121,7 @@ h1, h2, h3, h4, p {
   outline: none;
 }
 .pantalla_match{
-  height: calc(100% - 73px);
+  height: calc(100% - 92px);
 }
 
 .text-titulos-1{
@@ -231,4 +237,42 @@ h1, h2, h3, h4, p {
 
 .a_hover_registrarse:hover{
   color: rgb(0,145,62) !important;
+}
+
+.a_hover_perfil:hover{
+  color: white !important;
+}
+
+.texto_admin{
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.div_contenedor_informe{
+  width: 100%;
+  height: 100vh;
+}
+
+.div_imagen_perfil_admin{
+  width: 300px;
+  height: 330px;
+}
+.imagen_perfil_admin{
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+}
+
+.contenedor_admin span{
+  color:white !important;
+}
+
+.div_contenedor_logo_nombre_admin{
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;;
+}
+
+.iconos_crud{
+  cursor: pointer;
 }
