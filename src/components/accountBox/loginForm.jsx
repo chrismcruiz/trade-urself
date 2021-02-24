@@ -8,45 +8,11 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import axios from 'axios';
 
 export function LoginForm(props) {
-  //console.log(props.props.props);
   props = props.props.props;
   const { switchToSignup } = useContext(AccountContext);
-  const [newSession, setNewSession] = useState(
-    {
-      email: '',
-      password: '',
-    }
-  );
-
-  const handleSubmit = (e) => {
-    /*e.preventDefault();
-    const signedin = {
-      email: newSession.email,
-      password: newSession.password
-    }
-
-    axios.post('http://localhost:4000/app/signin/', signedin)
-      .then(response => {
-        console.log(response.data);
-        if (response.status === 200 && response.data.success) {
-          console.log(response)
-          // setInStorage('the_main_app', { token })
-          window.location.href = '/home';
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });*/
-  }
-
-  const handleChange = (e) => {
-    setNewSession({ ...newSession, [e.target.name]: e.target.value });
-  }
-
-
+  
   return (
     <BoxContainer>
       {
@@ -58,7 +24,7 @@ export function LoginForm(props) {
         <Input
           className='mb-2'
           type="email"
-          placeholder="Emailx"
+          placeholder="Email"
           name="email"
           value={props.signInEmail}
           onChange={props.onTextboxChangeSignInEmail} />

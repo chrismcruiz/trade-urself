@@ -8,12 +8,11 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import axios from 'axios';
 import { Button, Modal, Alert } from 'react-bootstrap';
-import index from './index'
 
 export function SignupForm(props) {
   props = props.props.props;
+  console.log(props.onSignUp)
   const { switchToSignin } = useContext(AccountContext);
 
   let confirmP;
@@ -24,7 +23,6 @@ export function SignupForm(props) {
 
   }
   const handlePass = (e) => {
-
     let pass = props.signUpPassword
     if (pass !== confirmP) {
       e.preventDefault()
@@ -34,17 +32,15 @@ export function SignupForm(props) {
   }
 
   const [show, setShow] = useState(false);
-  const [show2, setShow2] = useState(false);
-
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const handleClose = () => setShow(false);
+  
+  const [show2, setShow2] = useState(false);
+  const handleShow2 = () => setShow2(true);
   const handleClose2 = () => {
     setShow2(false);
     switchToSignin()
   }
-
-  const handleShow2 = () => setShow2(true);
 
   return (
     <BoxContainer>
@@ -80,7 +76,7 @@ export function SignupForm(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-      <form method='POST' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <form method='POST' encType='multipart/form-data' onSubmit={handlePass} style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
           type="text"
@@ -92,7 +88,7 @@ export function SignupForm(props) {
         />
         <Input
           type="email"
-          placeholder="Emailx"
+          placeholder="Email"
           name="email"
           value={props.signUpEmail}
           onChange={props.onTextboxChangeSignUpEmail}

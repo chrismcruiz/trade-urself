@@ -1,36 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css'
 import Home from "./pages/Home"
-//import styled from "styled-components";
 import 'whatwg-fetch'
 import {
   getFromStorage,
   setInStorage,
 } from './utils/storage'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import axios from 'axios'
-import {
-  BoldLink,
-  BoxContainer,
-  Input,
-  MutedLink,
-  SubmitButton,
-  BoxContainer1,
-  TopContainer,
-  HeaderContainer,
-  BackDrop,
-  HeaderText,
-  SmallText,
-  InnerContainer,
-  backdropVariants,
-  expandingTransition
-} from "./components/accountBox/common";
-import { Marginer } from "./components/marginer";
-import { Button, Modal } from 'react-bootstrap';
 import Admin from './pages/Admin'
 import { AccountBox } from "./components/accountBox";
-import { AccountContext } from "./components/accountBox/accountContext";
 import styled from "styled-components";
 
 <script
@@ -46,9 +26,7 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 
-const App = (props) => {
-
-  // const { switchToSignin } = useContext(AccountContext);
+const App = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
@@ -123,17 +101,7 @@ const App = (props) => {
   }
 
   const onSignUp = (e) => {
-    //alert("a");
     e.preventDefault();
-    // const {
-    //     signUpName,
-    //     signUpEmail,
-    //     signUpBirthday,
-    //     signUpGender,
-    //     signUpCareer,
-    //     signUpPhoto,
-    //     signUpPassword
-    // }
 
     setIsLoading(true)
 
@@ -153,13 +121,6 @@ const App = (props) => {
         if (response.status === 200 && response.data.success) {
           setSignUpError(response.message)
           setIsLoading(false)
-          setSignUpName('')
-          setSignUpEmail('')
-          setSignUpBirthday('')
-          setSignUpGender('')
-          setSignUpCareer('')
-          setSignUpPhoto('')
-          setSignUpPassword('')
         }
       })
       .catch(error => {
@@ -170,11 +131,6 @@ const App = (props) => {
   }
 
   const onSignIn = (e) => {
-    // const {
-    //     signInEmail,
-    //     signInPassword
-    // }
-
     setIsLoading(true)
 
     fetch('http://localhost:4000/app/signin/', {
@@ -195,7 +151,7 @@ const App = (props) => {
           setSignInEmail('')
           setSignInPassword('')
           setToken(json.token)
-          window.location.href = '/home';
+          window.location = '/home';
         } else {
           setSignUpError(json.message)
           setIsLoading(false)
@@ -203,7 +159,7 @@ const App = (props) => {
       })
   }
 
-  const logOut = (e) => {
+  const logOut = () => {
     setIsLoading(true)
 
     const obj = getFromStorage('the_main_app')
@@ -214,7 +170,10 @@ const App = (props) => {
         .then(res => res.json())
         .then(json => {
           if (json.success) {
+            console.log('sesión cerrada')
             setToken('')
+            window.localStorage.clear()
+            window.location = '/'
             setIsLoading(false)
           } else {
             setIsLoading(false)
@@ -231,59 +190,50 @@ const App = (props) => {
 
   if (!token) {
     return (
-      <div>
-        <AppContainer>
-          <AccountBox 
-            props={
-              {
-                signInError,
-                signInEmail,
-                signInPassword, 
-                signUpError,
-                signUpName,
-                signUpEmail,
-                signUpGender,
-                signUpCareer,
-                signUpBirthday,
-                signUpPassword,
-                signUpPhoto,
-                onSignIn, 
-                onSignUp,
-                onTextboxChangeSignInEmail, 
-                onTextboxChangeSignInPassword,
-                onTextboxChangeSignUpName,
-                onTextboxChangeSignUpEmail,
-                onTextboxChangeSignUpBirthday,
-                onTextboxChangeSignUpGender,
-                onTextboxChangeSignUpCareer,
-                onTextboxChangeSignUpPassword,
-                onPhotoChangeSignUpPhoto
-              }
+      <AppContainer>
+        <AccountBox
+          props={
+            {
+              signInError,
+              signInEmail,
+              signInPassword,
+              signUpError,
+              signUpName,
+              signUpEmail,
+              signUpGender,
+              signUpCareer,
+              signUpBirthday,
+              signUpPassword,
+              signUpPhoto,
+              onSignIn,
+              onSignUp,
+              onTextboxChangeSignInEmail,
+              onTextboxChangeSignInPassword,
+              onTextboxChangeSignUpName,
+              onTextboxChangeSignUpEmail,
+              onTextboxChangeSignUpBirthday,
+              onTextboxChangeSignUpGender,
+              onTextboxChangeSignUpCareer,
+              onTextboxChangeSignUpPassword,
+              onPhotoChangeSignUpPhoto
             }
-            />
-        </AppContainer>
-      </div>
+          }
+        />
+      </AppContainer>
     )
   }
-
   return (
     <div>
       <Router>
         <Switch>
           <Route path="/home">
-            <div>
-              <Home />
-              <div className="d-flex justify-content-center fondo-blanco">
-                <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={logOut}>Cerrar sesion</p>
-                {/* <button className="mb-5" onClick={this.logOut}>Salir</button> */}
-              </div>
-            </div>
+            <Home props={ { logOut, token } } />
           </Route>
           <Route path="/admin">
-            <Admin />
+            <Admin props={ logOut, token } />
           </Route>
           <Route path="/">
-            {/* {token ? (<Home />) : (<App />)} */}
+            {token ? <Redirect to="/home" /> : null}
           </Route>
         </Switch>
       </Router>

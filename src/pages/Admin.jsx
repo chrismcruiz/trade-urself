@@ -8,7 +8,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Button, Modal } from 'react-bootstrap';
 import { Input } from "../components/accountBox/common";
 
-function Admin() {
+function Admin({ logOut }) {
 
     const [deleteShow, setDeleteShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
@@ -196,7 +196,7 @@ function Admin() {
                         <ul className='p-0'>          
                             <li className='d-flex align-items-center texto_admin mb-3 texto-negro' onClick={handleFormShow}><PersonIcon className='mr-2'></PersonIcon>Usuarios</li>
                             <a href='' className='texto-negro   '>
-                                <li className='d-flex align-items-center texto_admin mb-3'><ExitToAppIcon className='mr-2'></ExitToAppIcon>Salir</li>
+                                <li onClick={logOut} className='d-flex align-items-center texto_admin mb-3'><ExitToAppIcon className='mr-2'></ExitToAppIcon>Salir</li>
                             </a>
                         </ul>
                     </div>
