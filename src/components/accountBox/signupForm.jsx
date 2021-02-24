@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useEffect } from "react";
 import {
   BoldLink,
@@ -17,74 +16,20 @@ import { Button, Modal, Alert } from 'react-bootstrap';
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
 
+  let confirmP;
+  const limpiar = React.createRef();
 
-  const [newUser, setNewUser] = useState(
-    {
-      name: '',
-      email: '',
-      birthday: '',
-      gender: '',
-      // country: '',
-      career: '',
-      photo: '',
-      password: '',
-      confirm_password: '',
-    }
-  );
+  const handleChangeP = (e) => {
+    confirmP = e.target.value
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-
-    formData.append('photo', newUser.photo)
-    formData.append('name', newUser.name)
-    formData.append('email', newUser.email)
-    formData.append('birthday', newUser.birthday)
-    formData.append('gender', newUser.gender)
-    // formData.append('country', newUser.country)
-    formData.append('career', newUser.career)
-    formData.append('password', newUser.password)
-    formData.append('confirm_password', newUser.confirm_password)
-    // const registered = {
-    //   name: newUser.name,
-    //   email: newUser.email,
-    //   birthday: newUser.birthday,
-    //   gender: newUser.gender,
-    //   country: newUser.country,
-    //   ocupation: newUser.ocupation,
-    //   photo: newUser.photo,
-    //   password: newUser.password,
-    //   confirm_password: newUser.confirm_password
-    // }
-
-    axios.post('http://localhost:4000/app/signup/', formData)
-      .then(response => {
-        console.log(response.data);
-        if (response.status === 200) {
-          handleShow2()
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
-
-  const handleChange = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
-  }
-
-  const handlePhoto = (e) => {
-    setNewUser({ ...newUser, photo: e.target.files[0] });
-  }
-
   const handlePass = (e) => {
 
-    let pass = newUser.password
-    let confirmPass = newUser.confirm_password
-    if (pass !== confirmPass) {
+    let pass = props.signUpPassword
+    if (pass !== confirmP) {
       e.preventDefault()
       handleShow()
-      setNewUser({ ...newUser, confirm_password: '' });
+      limpiar.current.value = ''
     }
   }
 
@@ -103,6 +48,11 @@ export function SignupForm(props) {
 
   return (
     <BoxContainer>
+      {
+        (props.signUpError) ? (
+          <p>{props.signUpError}</p>
+        ) : (null)
+      }
       <Button className='d-none' variant="primary" onClick={handleShow}>
       </Button>
       <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
@@ -130,22 +80,22 @@ export function SignupForm(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-      <form method='POST' onSubmit={handleSubmit} encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <form method='POST' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
           type="text"
+          name="name"
           placeholder="Nombre"
-          name='name'
-          value={newUser.name}
-          onChange={handleChange}
+          value={props.signUpName}
+          onChange={props.onTextboxChangeSignUpName}
           required
         />
         <Input
           type="email"
-          name='email'
           placeholder="Email"
-          value={newUser.email}
-          onChange={handleChange}
+          name="email"
+          value={props.signUpEmail}
+          onChange={props.onTextboxChangeSignUpEmail}
           required
         />
         <div className=''>
@@ -153,15 +103,18 @@ export function SignupForm(props) {
           <Input
             className='label_inputs'
             type="date"
+            name="birthday"
             placeholder="Fecha de nacimiento"
+            value={props.signUpBirthday}
+            onChange={props.onTextboxChangeSignUpBirthday}
             required
-            name='birthday'
-            value={newUser.birthday}
-            onChange={handleChange}
           />
         </div>
         <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
-        <div className='d-flex ps-2' value={newUser.gender} onChange={handleChange}>
+        <div
+          className='d-flex ps-2'
+          value={props.signUpGender}
+          onChange={props.onTextboxChangeSignUpGender}>
           <div className='d-flex align-items-center'>
             <Input
               className='d-inline-block inputs_radius mr-2'
@@ -193,34 +146,14 @@ export function SignupForm(props) {
             <label htmlFor="other" className='label_inputs mr-3 mt-1 pt-1'>Otro</label>
           </div>
         </div>
-        {/* <div className='pb-2'>
-          <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>País</label>
-          <select
-            required
-            name='country'
-            id='country'
-            className='input_select p-1 w-100'
-            value={newUser.country}
-            onChange={handleChange}
-          >
-            <option value='' defaultValue disabled>Escoge una opción</option>
-            {countries.map((country) => (
-              <option
-                key={country.id}
-                value={country.name.toLowerCase().toString()}
-              >{country.name}</option>
-            ))}
-          </select>
-        </div> */}
         <div className='pb-2'>
           <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
           <select
             required
             name='career'
             id='career'
-            className='input_select p-1 w-100'
-            value={newUser.career}
-            onChange={handleChange}
+            value={props.signUpCareer}
+            onChange={props.onTextboxChangeSignUpCareer}
           >
             <option value='' selected disabled>Escoge una opción</option>
             <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
@@ -240,7 +173,8 @@ export function SignupForm(props) {
             name='photo'
             accept=".png, .jpg, .jpeg"
             id='photo'
-            onChange={handlePhoto}
+            onChange={props.onPhotoChangeSignUpPhoto}
+            required
           />
         </div>
         <Input
@@ -248,30 +182,28 @@ export function SignupForm(props) {
           type="password"
           name="password"
           placeholder="Contraseña"
-          value={newUser.password}
-          onChange={handleChange}
-          required
+          value={props.signUpPassword}
+          onChange={props.onTextboxChangeSignUpPassword}
         />
         <Input
           type="password"
           name="confirm_password"
           placeholder="Confirmar Contraseña"
-          value={newUser.confirm_password}
-          onChange={handleChange}
+          value={confirmP}
+          ref={limpiar}
+          onChange={handleChangeP}
           required
         />
-        <SubmitButton className='mt-3' type="submit" value='submit' onClick={handlePass}>Registrarme</SubmitButton>
+        <SubmitButton className='mt-3' type="submit" value='submit' onSubmit={props.onSignUp}>Registrarme</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#" className='a_hover_form_login_registro'>
         ¿Ya tienes una cuenta?
-        <BoldLink className='a_hover_registrarse' href="#" onClick={switchToSignin}>
+          <BoldLink className='a_hover_registrarse' href="#" onClick={switchToSignin}>
           Inicia sesión
-        </BoldLink>
+          </BoldLink>
       </MutedLink>
     </BoxContainer>
   );
 }
-
-
