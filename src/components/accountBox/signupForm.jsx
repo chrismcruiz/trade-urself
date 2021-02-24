@@ -13,6 +13,7 @@ import { Button, Modal, Alert } from 'react-bootstrap';
 import index from './index'
 
 export function SignupForm(props) {
+  props = props.props.props;
   const { switchToSignin } = useContext(AccountContext);
 
   let confirmP;
@@ -87,15 +88,15 @@ export function SignupForm(props) {
           placeholder="Nombre"
           value={props.signUpName}
           onChange={props.onTextboxChangeSignUpName}
-          required
+          
         />
         <Input
           type="email"
-          placeholder="Email"
+          placeholder="Emailx"
           name="email"
           value={props.signUpEmail}
           onChange={props.onTextboxChangeSignUpEmail}
-          required
+          
         />
         <div className=''>
           <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Fecha de nacimiento</label>
@@ -106,7 +107,7 @@ export function SignupForm(props) {
             placeholder="Fecha de nacimiento"
             value={props.signUpBirthday}
             onChange={props.onTextboxChangeSignUpBirthday}
-            required
+            
           />
         </div>
         <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
@@ -121,7 +122,7 @@ export function SignupForm(props) {
               name='gender'
               id='male'
               value={'masculino'}
-              required />
+               />
             <label htmlFor="male" className='label_inputs mr-3 mt-1 pt-1'>Masculino</label>
           </div>
           <div className='d-flex align-items-center'>
@@ -131,7 +132,7 @@ export function SignupForm(props) {
               name='gender'
               id='female'
               value={'femenino'}
-              required />
+               />
             <label htmlFor="female" className='label_inputs mr-3 mt-1 pt-1'>Femenino</label>
           </div>
           <div className='d-flex align-items-center'>
@@ -141,14 +142,14 @@ export function SignupForm(props) {
               name='gender'
               id='other'
               value={'otro'}
-              required />
+               />
             <label htmlFor="other" className='label_inputs mr-3 mt-1 pt-1'>Otro</label>
           </div>
         </div>
         <div className='pb-2'>
           <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
           <select
-            required
+            
             name='career'
             id='career'
             value={props.signUpCareer}
@@ -173,7 +174,7 @@ export function SignupForm(props) {
             accept=".png, .jpg, .jpeg"
             id='photo'
             onChange={props.onPhotoChangeSignUpPhoto}
-            required
+            
           />
         </div>
         <Input
@@ -191,9 +192,9 @@ export function SignupForm(props) {
           value={confirmP}
           ref={limpiar}
           onChange={handleChangeP}
-          required
+          
         />
-        <SubmitButton className='mt-3' type="submit" value='submit' onClick={props.onSignUp}>Registrarme</SubmitButton>
+        <SubmitButton className='mt-3' onClick={props.onSignUp}>Registrarme</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1em" />

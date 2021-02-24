@@ -123,6 +123,7 @@ const App = (props) => {
   }
 
   const onSignUp = (e) => {
+    //alert("a");
     e.preventDefault();
     // const {
     //     signUpName,
@@ -194,6 +195,7 @@ const App = (props) => {
           setSignInEmail('')
           setSignInPassword('')
           setToken(json.token)
+          window.location.href = '/home';
         } else {
           setSignUpError(json.message)
           setIsLoading(false)

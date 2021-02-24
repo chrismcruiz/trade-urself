@@ -11,6 +11,8 @@ import { AccountContext } from "./accountContext";
 import axios from 'axios';
 
 export function LoginForm(props) {
+  //console.log(props.props.props);
+  props = props.props.props;
   const { switchToSignup } = useContext(AccountContext);
   const [newSession, setNewSession] = useState(
     {
@@ -20,7 +22,7 @@ export function LoginForm(props) {
   );
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    /*e.preventDefault();
     const signedin = {
       email: newSession.email,
       password: newSession.password
@@ -32,11 +34,12 @@ export function LoginForm(props) {
         if (response.status === 200 && response.data.success) {
           console.log(response)
           // setInStorage('the_main_app', { token })
+          window.location.href = '/home';
         }
       })
       .catch(error => {
         console.log(error);
-      });
+      });*/
   }
 
   const handleChange = (e) => {
@@ -55,7 +58,7 @@ export function LoginForm(props) {
         <Input
           className='mb-2'
           type="email"
-          placeholder="Email"
+          placeholder="Emailx"
           name="email"
           value={props.signInEmail}
           onChange={props.onTextboxChangeSignInEmail} />

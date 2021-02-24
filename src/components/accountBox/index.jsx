@@ -109,6 +109,7 @@ const expandingTransition = {
 };
 
 export function AccountBox(props) {
+  
   const [isExpanded, setExpanded] = useState(false);
   const [active, setActive] = useState("signin");
 
@@ -148,7 +149,7 @@ export function AccountBox(props) {
 
   useEffect(() => {
     const obj = getFromStorage('the main app')
-    const { token } = obj
+    const token = obj
     if (token) {
       fetch('/app/verify?token=' + token)
         .then(res => res.json())
@@ -192,12 +193,8 @@ export function AccountBox(props) {
             )}
           </TopContainer>
           <InnerContainer>
-            {active === "signin" && 
-            <LoginForm 
-            />}
-            {active === "signup" && 
-            <SignupForm 
-            />}
+            {active === "signin" && <LoginForm props={props}/>}
+            {active === "signup" && <SignupForm props={props}/>}
           </InnerContainer>
         </BoxContainer>
       </AccountContext.Provider>

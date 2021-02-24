@@ -12,7 +12,7 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 
 export function SignIn(props) {
-
+    
     const { switchToSignup } = useContext(AccountContext);
 
     return (
@@ -26,7 +26,7 @@ export function SignIn(props) {
                 <Input
                     className='mb-2'
                     type="email"
-                    placeholder="Email"
+                    placeholder="Emailx"
                     name="email"
                     value={props.signInEmail}
                     onChange={props.onTextboxChangeSignInEmail} />
