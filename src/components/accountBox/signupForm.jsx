@@ -194,7 +194,7 @@ export function SignupForm(props) {
           onChange={handleChangeP}
           required
         />
-        <SubmitButton className='mt-3' type="submit" value='submit' onSubmit={props.onSignUp}>Registrarme</SubmitButton>
+        <SubmitButton className='mt-3' type="submit" value='submit' onClick={props.onSignUp}>Registrarme</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1em" />

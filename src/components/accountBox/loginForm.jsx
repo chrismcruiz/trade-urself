@@ -20,7 +20,7 @@ export function LoginForm(props) {
           <p>{props.signInError}</p>
         ) : (null)
       }
-      <form style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <form onSubmit={() => props.onSignIn()} style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
           type="email"
@@ -34,7 +34,7 @@ export function LoginForm(props) {
           placeholder="Contraseña"
           value={props.signInPassword}
           onChange={props.onTextboxChangeSignInPassword} />
-        <SubmitButton className='mt-3' onClick={props.onSignIn}>Entrar</SubmitButton>
+        <SubmitButton className='mt-3'>Entrar</SubmitButton>
       </form>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#" className='a_hover_form_login_registro mt-4'>¿Olvidaste tu contraseña?</MutedLink>
