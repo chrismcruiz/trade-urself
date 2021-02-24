@@ -1,12 +1,12 @@
-import React, { Component, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css'
 import Home from "./pages/Home"
 import styled from "styled-components";
 import 'whatwg-fetch'
 import {
-    getFromStorage,
-    setInStorage,
+  getFromStorage,
+  setInStorage,
 } from './utils/storage'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from 'axios'
@@ -28,48 +28,33 @@ import {
 } from "./components/accountBox/common";
 import { Marginer } from "./components/marginer";
 import { Button, Modal } from 'react-bootstrap';
-
-
+import Admin from './pages/Admin'
+import { AccountContext } from "./components/accountBox/accountContext";
 
 <script
   src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
   crossorigin></script>
 
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = (props) => {
 
-    this.state = {
-      isLoading: true,
-      token: '',
-      signUpError: '',
-      signInError: '',
-      signInEmail: '',
-      signInPassword: '',
-      signUpName: '',
-      signUpEmail: '',
-      signUpGender: '',
-      signUpCareer: '',
-      signUpBirthday: '',
-      signUpPassword: '',
-      signUpPhoto: '',
-    }
-    this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this)
-    this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this)
-    this.onTextboxChangeSignUpName = this.onTextboxChangeSignUpName.bind(this)
-    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this)
-    this.onTextboxChangeSignUpBirthday = this.onTextboxChangeSignUpBirthday.bind(this)
-    this.onTextboxChangeSignUpGender = this.onTextboxChangeSignUpGender.bind(this)
-    this.onTextboxChangeSignUpCareer = this.onTextboxChangeSignUpCareer.bind(this)
-    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this)
-    this.onPhotoChangeSignUpPhoto = this.onPhotoChangeSignUpPhoto.bind(this)
-    this.onSignIn = this.onSignIn.bind(this)
-    this.onSignUp = this.onSignUp.bind(this)
-    this.logOut = this.logOut.bind(this)
-  }
+  // const { switchToSignin } = useContext(AccountContext);
 
-  componentDidMount() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState('');
+  const [signUpError, setSignUpError] = useState('');
+  const [signInError, setSignInError] = useState('');
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+  const [signUpName, setSignUpName] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpGender, setSignUpGender] = useState('');
+  const [signUpCareer, setSignUpCareer] = useState('');
+  const [signUpBirthday, setSignUpBirthday] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
+  const [signUpPhoto, setSignUpPhoto] = useState('');
+
+  useEffect(() => {
     const obj = getFromStorage('the_main_app')
     if (obj && obj.token) {
       const { token } = obj;
@@ -78,91 +63,98 @@ class App extends Component {
         .then(res => res.json())
         .then(json => {
           if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
-            })
+            setToken(token);
+            setIsLoading(false);
+
           } else {
-            this.setState({
-              isLoading: false
-            })
+            setIsLoading(false)
           }
         })
     } else {
-      this.setState({
-        isLoading: false,
-      })
+      setIsLoading(false)
+    }
+  }, [])
+
+  const onTextboxChangeSignInEmail = (e) => {
+    setSignInEmail(e.target.value)
+  }
+
+  const onTextboxChangeSignInPassword = (e) => {
+    setSignInPassword(e.target.value)
+  }
+
+  const onTextboxChangeSignUpName = (e) => {
+    setSignUpName(e.target.value)
+
+  }
+
+  const onTextboxChangeSignUpEmail = (e) => {
+    setSignUpEmail(e.target.value)
+  }
+
+  const onTextboxChangeSignUpBirthday = (e) => {
+    setSignUpBirthday(e.target.value)
+  }
+
+  const onTextboxChangeSignUpGender = (e) => {
+    setSignUpGender(e.target.value)
+  }
+
+  const onTextboxChangeSignUpCareer = (e) => {
+    setSignUpCareer(e.target.value)
+
+  }
+  const onTextboxChangeSignUpPassword = (e) => {
+    setSignUpPassword(e.target.value)
+  }
+
+  const onPhotoChangeSignUpPhoto = (e) => {
+    setSignUpPhoto(e.target.files[0])
+  }
+
+  let confirmP;
+  const limpiar = React.createRef();
+
+  const handleChangeP = (e) => {
+    confirmP = e.target.value
+
+  }
+  const handlePass = (e) => {
+
+    let pass = signUpPassword
+    if (pass !== confirmP) {
+      e.preventDefault()
+      handleShow()
+      limpiar.current.value = ''
     }
   }
-  
-  onTextboxChangeSignInEmail(e) {
-    this.setState({
-      signInEmail: e.target.value,
-    })
+
+  const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleClose2 = () => {
+    setShow2(false);
+    // switchToSignin()
   }
 
-  onTextboxChangeSignInPassword(e) {
-    this.setState({
-      signInPassword: e.target.value,
-    })
-  }
+  const handleShow2 = () => setShow2(true);
 
-  onTextboxChangeSignUpName(e) {
-    this.setState({
-      signUpName: e.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpEmail(e) {
-    this.setState({
-      signUpEmail: e.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpBirthday(e) {
-    this.setState({
-      signUpBirthday: e.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpGender(e) {
-    this.setState({
-      signUpGender: e.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpCareer(e) {
-    this.setState({
-      signUpCareer: e.target.value,
-    })
-  }
-  onTextboxChangeSignUpPassword(e) {
-    this.setState({
-      signUpPassword: e.target.value,
-    })
-  }
-
-  onPhotoChangeSignUpPhoto(e) {
-    this.setState({
-      signUpPhoto: e.target.files[0],
-    })
-  }
-
-  onSignUp(e) {
+  const onSignUp = (e) => {
     e.preventDefault();
-    const {
-      signUpName,
-      signUpEmail,
-      signUpBirthday,
-      signUpGender,
-      signUpCareer,
-      signUpPhoto,
-      signUpPassword
-    } = this.state
+    // const {
+    //     signUpName,
+    //     signUpEmail,
+    //     signUpBirthday,
+    //     signUpGender,
+    //     signUpCareer,
+    //     signUpPhoto,
+    //     signUpPassword
+    // }
 
-    this.setState({
-      isLoading: true
-    })
+    setIsLoading(true)
 
     const formData = new FormData();
 
@@ -178,38 +170,31 @@ class App extends Component {
       .then(response => {
         console.log(response.data);
         if (response.status === 200 && response.data.success) {
-          this.setState({
-            signUpError: response.message,
-            isLoading: false,
-            signUpName: '',
-            signUpEmail: '',
-            signUpGender: '',
-            signUpCareer: '',
-            signUpBirthday: '',
-            signUpPassword: '',
-            signUpPhoto: '',
-          })
+          setSignUpError(response.message)
+          setIsLoading(false)
+          setSignUpName('')
+          setSignUpEmail('')
+          setSignUpBirthday('')
+          setSignUpGender('')
+          setSignUpCareer('')
+          setSignUpPhoto('')
+          setSignUpPassword('')
         }
       })
       .catch(error => {
         console.log(error);
-        this.setState({
-          signUpError: error,
-          isLoading: false,
-        })
+        setSignUpError(error)
+        setIsLoading(false)
       });
   }
 
-  onSignIn(e) {  
+  const onSignIn = (e) => {
+    // const {
+    //     signInEmail,
+    //     signInPassword
+    // }
 
-    const {
-      signInEmail,
-      signInPassword
-    } = this.state
-
-    this.setState({
-      isLoading: true
-    })
+    setIsLoading(true)
 
     fetch('http://localhost:4000/app/signin/', {
       method: 'POST',
@@ -224,51 +209,21 @@ class App extends Component {
       .then(json => {
         if (json.success) {
           setInStorage('the_main_app', { token: json.token })
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-            signInEmail: '',
-            signInPassword: '',
-            token: json.token,
-          })
+          setSignInError(json.message)
+          setIsLoading(false)
+          setSignInEmail('')
+          setSignInPassword('')
+          setToken(json.token)
         } else {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-          })
+          setSignUpError(json.message)
+          setIsLoading(false)
         }
       })
   }
 
-  logOut(e) {
+  const logOut = (e) => {
+    setIsLoading(true)
 
-    // const handlePass = (e) => {
-
-    //   let pass = this.newUser.password
-    //   let confirmPass = this.newUser.confirm_password
-    //   if (pass !== confirmPass) {
-    //     e.preventDefault()
-    //     handleShow()
-    //     //setNewUser({ ...this.newUser, confirm_password: '' });
-    //   }
-    // }
-  
-    // const [show, setShow] = useState(false);
-    // const [show2, setShow2] = useState(false);
-  
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
-  
-    // const handleClose2 = () => {
-    //   setShow2(false);
-    // }
-  
-    // const handleShow2 = () => setShow2(true);
-
-
-    this.setState({
-      isLoading: true,
-    })
     const obj = getFromStorage('the_main_app')
     if (obj && obj.token) {
       const { token } = obj;
@@ -277,150 +232,126 @@ class App extends Component {
         .then(res => res.json())
         .then(json => {
           if (json.success) {
-            this.setState({
-              token: '',
-              isLoading: false
-            })
+            setToken('')
+            setIsLoading(false)
           } else {
-            this.setState({
-              isLoading: false
-            })
+            setIsLoading(false)
           }
         })
-
     } else {
-      this.setState({
-        isLoading: false,
-      })
+      setIsLoading(false)
     }
   }
 
-  render() {
-    const {
-      isLoading,
-      token,
-      signInError,
-      signUpError,
-      signInEmail,
-      signInPassword,
-      signUpName,
-      signUpEmail,
-      signUpGender,
-      signUpCareer,
-      signUpBirthday,
-      signUpPassword,
-      // signUpPhoto,
-    } = this.state;
+  if (isLoading) {
+    return (<div><p>Cargando...</p></div>)
+  }
 
-    if (isLoading) {
-      return (<div><p>Cargando...</p></div>)
-    }
-
-    if (!token) {
-      return (
+  if (!token) {
+    return (
+      <div>
         <div>
-          <div>
-            {
-              (signInError) ? (
-                <p>{signInError}</p>
-              ) : (null)
-            }
-            <div className='div_contenedor_login d-flex justify-content-center'>
-              <BoxContainer1>
+          {
+            (signInError) ? (
+              <p>{signInError}</p>
+            ) : (null)
+          }
+          <div className='div_contenedor_login d-flex justify-content-center'>
+            <BoxContainer1>
               <TopContainer>
-              <BackDrop></BackDrop>
-              <HeaderContainer>
-                <HeaderText>Bienvenido</HeaderText>
-                <SmallText>Por favor, inicia sesión para continuar</SmallText>
-              </HeaderContainer>
-              </TopContainer> 
+                <BackDrop></BackDrop>
+                <HeaderContainer>
+                  <HeaderText>Bienvenido</HeaderText>
+                  <SmallText>Por favor, inicia sesión para continuar</SmallText>
+                </HeaderContainer>
+              </TopContainer>
               <InnerContainer>
-              <BoxContainer>
-                <form style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-                  <Input 
-                  className='mb-2' 
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  value={signInEmail}
-                  onChange={this.onTextboxChangeSignInEmail} />
-                  <Input 
-                  type="password"
-                  name="password"
-                  placeholder="Contraseña"
-                  value={signInPassword}
-                  onChange={this.onTextboxChangeSignInPassword} />
-                  <SubmitButton className='mt-3' onClick={this.onSignIn}>Entrar</SubmitButton>
-                </form>
-                <Marginer direction="vertical" margin={10} />
-                <MutedLink href="#" className='a_hover_form_login_registro mt-4'>¿Olvidaste tu contraseña?</MutedLink>
-                <Marginer direction="vertical" margin="1.6em" />
-                <Marginer direction="vertical" margin="1em" />
-                <MutedLink href="#" className='a_hover_form_login_registro'>
-                  ¿No tienes una cuenta?{" "}
-                  <BoldLink className='a_hover_registrarse' href="#" onClick={this.mostrarDiv}>
-                    Registrarse
-                  </BoldLink>
-                </MutedLink>
-              </BoxContainer>
+                <BoxContainer>
+                  <form style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <Input
+                      className='mb-2'
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      value={signInEmail}
+                      onChange={onTextboxChangeSignInEmail} />
+                    <Input
+                      type="password"
+                      name="password"
+                      placeholder="Contraseña"
+                      value={signInPassword}
+                      onChange={onTextboxChangeSignInPassword} />
+                    <SubmitButton className='mt-3' onClick={onSignIn}>Entrar</SubmitButton>
+                  </form>
+                  <Marginer direction="vertical" margin={10} />
+                  <MutedLink href="#" className='a_hover_form_login_registro mt-4'>¿Olvidaste tu contraseña?</MutedLink>
+                  <Marginer direction="vertical" margin="1.6em" />
+                  <Marginer direction="vertical" margin="1em" />
+                  <MutedLink href="#" className='a_hover_form_login_registro'>
+                    ¿No tienes una cuenta?{" "}
+                    <BoldLink className='a_hover_registrarse' href="#">
+                      Registrarse
+                    </BoldLink>
+                  </MutedLink>
+                </BoxContainer>
               </InnerContainer>
-              </BoxContainer1>  
-            </div>
+            </BoxContainer1>
           </div>
-          <br />
-          <br />
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-              <div className='div_contenedor_registro d-flex justify-content-center'>
-                <BoxContainer1>
-                <TopContainer>
+        </div>
+        <br />
+        <br />
+        <div>
+          {
+            (signUpError) ? (
+              <p>{signUpError}</p>
+            ) : (null)
+          }
+          <div className='div_contenedor_registro d-flex justify-content-center'>
+            <BoxContainer1>
+              <TopContainer>
                 <BackDrop></BackDrop>
                 <HeaderContainer>
                   <HeaderText>Crear cuenta</HeaderText>
                   <SmallText>Por favor, crea una cuenta para continuar</SmallText>
                 </HeaderContainer>
-                </TopContainer> 
-                <InnerContainer>
+              </TopContainer>
+              <InnerContainer>
                 <BoxContainer>
                   <Button className='d-none' variant="primary">
                   </Button>
-                  <Modal show={this.show} onHide={this.handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
+                  <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header>
                       <Modal.Title className='alert alert-danger w-100 text-white bg-danger m-0' role='alert'>¡Error!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Contraseñas no coinciden, por favor escribirlas correctamente</Modal.Body>
                     <Modal.Footer>
-                      <Button variant="danger" onClick={this.handleClose}>
+                      <Button variant="danger" onClick={handleClose}>
                         Cerrar
-                      </Button>
+                        </Button>
                     </Modal.Footer>
                   </Modal>
 
-                  <Button className='d-none' variant="success" onClick={this.handleShow2}>
+                  <Button className='d-none' variant="success" onClick={handleShow2}>
                   </Button>
-                  <Modal show={this.show2} onHide={this.handleClose2} aria-labelledby="contained-modal-title-vcenter" centered animation={true}>
+                  <Modal show={show2} onHide={handleClose2} aria-labelledby="contained-modal-title-vcenter" centered animation={true}>
                     <Modal.Header>
                       <Modal.Title className='alert alert-success w-100 text-white bg-success' role='alert'>¡Correcto!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Registro realizado satisfactoriamente</Modal.Body>
                     <Modal.Footer>
-                      <Button variant="success" className="text-white bg-success" onClick={this.handleClose2}>
+                      <Button variant="success" className="text-white bg-success" onClick={handleClose2}>
                         Cerrar
-                      </Button>
+                        </Button>
                     </Modal.Footer>
                   </Modal>
-                  <form method='POST' onSubmit={this.handleSubmit} encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <form method='POST' onSubmit={onSignUp} encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Input
                       className='mb-2'
                       type="text"
                       name="name"
                       placeholder="Nombre"
                       value={signUpName}
-                      onChange={this.onTextboxChangeSignUpName}
+                      onChange={onTextboxChangeSignUpName}
                       required
                     />
                     <Input
@@ -428,7 +359,7 @@ class App extends Component {
                       placeholder="Email"
                       name="email"
                       value={signUpEmail}
-                      onChange={this.onTextboxChangeSignUpEmail}
+                      onChange={onTextboxChangeSignUpEmail}
                       required
                     />
                     <div className=''>
@@ -439,15 +370,15 @@ class App extends Component {
                         name="birthday"
                         placeholder="Fecha de nacimiento"
                         value={signUpBirthday}
-                        onChange={this.onTextboxChangeSignUpBirthday}
+                        onChange={onTextboxChangeSignUpBirthday}
                         required
                       />
                     </div>
                     <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
-                    <div 
-                        className='d-flex ps-2' 
-                        value={signUpGender}
-                        onChange={this.onTextboxChangeSignUpGender}>
+                    <div
+                      className='d-flex ps-2'
+                      value={signUpGender}
+                      onChange={onTextboxChangeSignUpGender}>
                       <div className='d-flex align-items-center'>
                         <Input
                           className='d-inline-block inputs_radius mr-2'
@@ -486,7 +417,7 @@ class App extends Component {
                         name='career'
                         id='career'
                         value={signUpCareer}
-                        onChange={this.onTextboxChangeSignUpCareer}
+                        onChange={onTextboxChangeSignUpCareer}
                       >
                         <option value='' selected disabled>Escoge una opción</option>
                         <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
@@ -506,7 +437,7 @@ class App extends Component {
                         name='photo'
                         accept=".png, .jpg, .jpeg"
                         id='photo'
-                        onChange={this.onPhotoChangeSignUpPhoto}
+                        onChange={onPhotoChangeSignUpPhoto}
                         required
                       />
                     </div>
@@ -516,41 +447,59 @@ class App extends Component {
                       name="password"
                       placeholder="Contraseña"
                       value={signUpPassword}
-                      onChange={this.onTextboxChangeSignUpPassword}
+                      onChange={onTextboxChangeSignUpPassword}
                     />
                     <Input
                       type="password"
                       name="confirm_password"
                       placeholder="Confirmar Contraseña"
+                      value={confirmP}
+                      ref={limpiar}
+                      onChange={handleChangeP}
                       required
                     />
-                    <SubmitButton className='mt-3' type="submit" value='submit' onClick={this.onSignUp}>Registrarme</SubmitButton>
+                    <SubmitButton className='mt-3' type="submit" value='submit' onClick={onSignUp}>Registrarme</SubmitButton>
                   </form>
                   <Marginer direction="vertical" margin={10} />
                   <Marginer direction="vertical" margin="1em" />
                   <MutedLink href="#" className='a_hover_form_login_registro'>
                     ¿Ya tienes una cuenta?
-                    <BoldLink className='a_hover_registrarse' href="#">
+                      <BoldLink className='a_hover_registrarse' href="#">
                       Inicia sesión
-                    </BoldLink>
+                      </BoldLink>
                   </MutedLink>
                 </BoxContainer>
-                </InnerContainer>
-                </BoxContainer1>  
-              </div>
+              </InnerContainer>
+            </BoxContainer1>
           </div>
-        </div>
-      )
-    }
-    return (
-      <div>
-        <Home />
-        <div className="d-flex justify-content-center fondo-blanco">
-          <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={this.logOut}>Cerrar sesion</p>
-          {/* <button className="mb-5" onClick={this.logOut}>Salir</button> */}
         </div>
       </div>
     )
   }
+
+  return (
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/home">
+            <div>
+              <Home />
+              <div className="d-flex justify-content-center fondo-blanco">
+                <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={logOut}>Cerrar sesion</p>
+                {/* <button className="mb-5" onClick={this.logOut}>Salir</button> */}
+              </div>
+            </div>
+          </Route>
+          <Route path="/admin">
+            <Admin />
+          </Route>
+          <Route path="/">
+            {/* {token ? (<Home />) : (<App />)} */}
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  )
 }
+
 export default App
