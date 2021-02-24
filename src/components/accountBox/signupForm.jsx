@@ -8,10 +8,9 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-// import { countries } from '../../countries'
 import axios from 'axios';
 import { Button, Modal, Alert } from 'react-bootstrap';
-
+import index from './index'
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
