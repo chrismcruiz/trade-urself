@@ -177,7 +177,9 @@ function Home(props) {
 
           </div>
           <div className='col-9 px-0'>
-            <Cards />
+            <Cards 
+              props={props.props.token}
+            />
           </div>
         </div>
 

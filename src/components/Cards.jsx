@@ -6,7 +6,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios'
 
-function Cards() {
+function Cards(props) {
     const [users, setUsers] = useState([]);
     const [sesions, setSesions] = useState([]);
 
@@ -29,7 +29,7 @@ function Cards() {
         fetchData();
     }, [])
 
-    console.log(sesions);
+    console.log(props.props);
 
     // let unique = [Set(sesions)];
     // console.log(unique);
