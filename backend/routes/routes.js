@@ -9,7 +9,7 @@ const UserSession = require('../models/SignIn')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'images');
+        cb(null, '../src/images');
     },
     filename: function (req, file, cb) {
         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
@@ -126,35 +126,6 @@ router.post('/signup', upload.single('photo'), async (req, res, next) => {
             })
         })
     })
-    // const name = req.body.name;
-    // const email = req.body.email;
-    // const birthday = req.body.birthday;
-    // const gender = req.body.gender;
-    // const career = req.body.career;
-    // const photo = req.file.filename;
-    // const password = req.body.password;
-    // const confirm_password = req.body.confirm_password;
-
-    // const newUserData = {
-    //     name,
-    //     email,
-    //     birthday,
-    //     gender,
-    //     career,
-    //     photo,
-    //     password,
-    //     confirm_password
-    // }
-
-    // const newUser = new users(newUserData);
-
-    // newUser.save()
-    //     .then(data => {
-    //         response.json(data)
-    //     })
-    //     .catch(error => {
-    //         response.json(error)
-    //     })
 })
 
 router.post('/signin', (req, res, next) => {
@@ -282,5 +253,15 @@ router.get('/logout', (req, res, next) => {
     })
 })
 
+router.get('/users', (req, res) => { // downloading data from our database
+    const dbCard = req.body;
+    users.find((err, data) => {
+        if (err){ 
+            res.status(500).send(err) // 500 means 'internal server error'
+        } else {
+            res.status(200).send(data) // 200 means 'success'
+        }
+    })
+})
 
 module.exports = router
