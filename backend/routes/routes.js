@@ -9,7 +9,7 @@ const UserSession = require('../models/SignIn')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../src/images');
+        cb(null, '../public/images');
     },
     filename: function (req, file, cb) {
         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
@@ -256,6 +256,17 @@ router.get('/logout', (req, res, next) => {
 router.get('/users', (req, res) => { // downloading data from our database
     const dbCard = req.body;
     users.find((err, data) => {
+        if (err){ 
+            res.status(500).send(err) // 500 means 'internal server error'
+        } else {
+            res.status(200).send(data) // 200 means 'success'
+        }
+    })
+})
+
+router.get('/users/sesion', (req, res) => { // downloading data from our database
+    const sessions = req.body;
+    UserSession.find((err, data) => {
         if (err){ 
             res.status(500).send(err) // 500 means 'internal server error'
         } else {
