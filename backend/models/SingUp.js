@@ -45,6 +45,14 @@ const signUpTemplate = new mongoose.Schema({
         type: Array,
         default: ''
     },
+    likedBy: {
+        type: Array,
+        default: ''
+    },
+    rol: {
+        type: String,
+        default: 'usuario'
+    },
     Date: {
         type: Date,
         default: Date.now

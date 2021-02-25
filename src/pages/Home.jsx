@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from '../borrar/imagen-1.webp'
-// import logo from '../images/8080c81f-cc5f-4df3-86b4-7ba542850a54-1614286012485.jpg'
+// import logo from '../images/207bd542-ca2a-4553-9024-2b6f2ee80011-1614290002828.jpg'
 import Cards from '../components/Cards'
 import {
   Input,
@@ -12,9 +12,22 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function Home(props) {
   props = props.props;
+  // console.log(props.idUser)
+  // const id = props.idUser
+  const yo = props.users.filter((user) => user._id === props.idUser)
+  let ruta = ''
 
-  // const yo = props.users.filter((user) => user._id === props.idUser)
-  // `../images/${yo[0].photo}`
+  const recorrerObjeto = (obj) => {
+    for(let i = 0; i < obj.length; i++){
+      ruta = obj[i]
+    }
+    return ruta
+  }
+  
+  const path_img = recorrerObjeto(yo).photo
+
+  
+  // console.log(yo[0].photo)
 
   const [perfilShow, setPerfilShow] = useState(true);
   const [perfilBack, setPerfilBack] = useState(false);
@@ -35,7 +48,7 @@ function Home(props) {
               <div className='py-3 px-4 a_hover_perfil d-flex justify-content-between align-items-center'>
                 <div className='d-flex align-items-center'>
                   <ArrowBackIcon className='mr-2 texto-blanco' onClick={handlePerfilBack}></ArrowBackIcon>
-                  <img className='imagen_perfil' src={logo} />
+                  <img className='imagen_perfil' src={`../images/${path_img}`} />
                   <p className='pl-3 m-0 text-titulos-1 texto-blanco'>
                     Mi perfil
                                 </p>

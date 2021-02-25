@@ -29,6 +29,8 @@ const AppContainer = styled.div`
 const App = () => {
 
   const [users, setUsers] = useState([]);
+  const [rol, setRol] = useState('');
+  // const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
   const [idUser, setIdUser] = useState('');
@@ -69,13 +71,49 @@ const App = () => {
       const req = await axios.get("http://localhost:4000/app/users");
       const req2 = await axios.get("http://localhost:4000/app/users/sesion");
       setUsers(req.data);
-      // setIdUser
-      // setIdUser(req.data[req.data.length - 1].userId)
+      let id = req2.data
+      setIdUser(id[id.length - 1].userId)
+
     }
     fetchData();
 
    
   }, [])
+
+  // let objeto = ''
+  // const getRol = () => {
+  //   const logged = users.filter((user) => user._id === idUser)
+  //   for(let i = 0; i < logged.length; i++){
+  //     objeto = logged[i]
+  //     objeto = objeto.rol
+  //   }
+  //   return objeto
+  // }
+
+  const role = users.filter((user) => user._id === idUser)
+  let mirol = ''
+
+  const recorrerObjeto = (obj) => {
+    for(let i = 0; i < obj.length; i++){
+      mirol = obj[i]
+    }
+    return mirol
+  }
+  
+   
+
+  const mirolxd = recorrerObjeto(role).rol
+
+  const rolfuncion = (mirolxd) => {
+    if (mirolxd === 'usuario') {
+      mirolxd = true
+    }else {
+      mirolxd = false
+    }
+    return mirolxd
+  }
+
+  let esadmin = rolfuncion(mirolxd)
 
   const onTextboxChangeSignInEmail = (e) => {
     setSignInEmail(e.target.value)
@@ -243,7 +281,15 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/home">
+            {esadmin ? 
+            (
+              <Redirect to="/admin" />
+            ) : 
+            (
             <Home props={{ logOut, token, idUser, users }} />
+            )
+          
+            }
           </Route>
           <Route path="/admin">
             <Admin props={logOut, token} />

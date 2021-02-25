@@ -122,7 +122,7 @@ function Cards(props) {
             const index = users.map(person => person._id).indexOf(toBeRemoved)
             console.log(index) // Find the index of which to make the reference to
             alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            //childRefs.current.swipe(dir) // Swipe the card!
+            //childRefs[index].current.swipe(dir) // Swipe the card!
         }
     }
 
@@ -139,12 +139,12 @@ function Cards(props) {
         return edad;
     }
 
-    let imagen_persona_card = React.createRef();
-    let div_datos_persona = React.createRef();
-    let div_descripcion_hover = React.createRef();
-    let card_personas = React.createRef();
-    let botton_hover = React.createRef();
-    
+    const imagen_persona_card = React.createRef();
+    const div_datos_persona = React.createRef();
+    const div_descripcion_hover = React.createRef();
+    const card_personas = React.createRef();
+    const botton_hover = React.createRef();
+  
     function mostrarInfo(){
         imagen_persona_card.current.className = 'tarjeta_pequeña';
         div_datos_persona.current.className = 'div_persona_hover';
@@ -185,7 +185,7 @@ function Cards(props) {
             <div className='div_contenedor_personas d-flex justify-content-center'>
                 {users.map((user, index)=>(
                     <TinderCard
-                        ref={childRefs}
+                        ref={childRefs[index]}
                         className='swipe'
                         preventSwipe={["up", "down"]}
                         key={user._id}
