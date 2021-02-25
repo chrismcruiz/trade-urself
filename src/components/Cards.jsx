@@ -139,11 +139,11 @@ function Cards(props) {
         return edad;
     }
 
-    const imagen_persona_card = React.createRef();
-    const div_datos_persona = React.createRef();
-    const div_descripcion_hover = React.createRef();
-    const card_personas = React.createRef();
-    const botton_hover = React.createRef();
+    let imagen_persona_card = React.createRef();
+    let div_datos_persona = React.createRef();
+    let div_descripcion_hover = React.createRef();
+    let card_personas = React.createRef();
+    let botton_hover = React.createRef();
     
     function mostrarInfo(){
         imagen_persona_card.current.className = 'tarjeta_pequeña';

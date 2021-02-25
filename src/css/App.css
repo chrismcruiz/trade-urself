@@ -315,6 +315,7 @@ h1, h2, h3, h4, p {
   height: 600px !important;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  background-position: center;
 }
 .background_foto{
   height: 600px;
