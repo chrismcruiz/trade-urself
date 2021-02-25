@@ -28,6 +28,7 @@ const AppContainer = styled.div`
 
 const App = () => {
 
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
   const [idUser, setIdUser] = useState('');
@@ -63,6 +64,17 @@ const App = () => {
     } else {
       setIsLoading(false)
     }
+
+    async function fetchData() {
+      const req = await axios.get("http://localhost:4000/app/users");
+      const req2 = await axios.get("http://localhost:4000/app/users/sesion");
+      setUsers(req.data);
+      // setIdUser
+      // setIdUser(req.data[req.data.length - 1].userId)
+    }
+    fetchData();
+
+   
   }, [])
 
   const onTextboxChangeSignInEmail = (e) => {
@@ -231,10 +243,10 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/home">
-            <Home props={ { logOut, token, idUser } } />
+            <Home props={{ logOut, token, idUser, users }} />
           </Route>
           <Route path="/admin">
-            <Admin props={ logOut, token } />
+            <Admin props={logOut, token} />
           </Route>
           <Route path="/">
             {token ? <Redirect to="/home" /> : null}

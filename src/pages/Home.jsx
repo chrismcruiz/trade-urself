@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from '../borrar/imagen-1.webp'
+// import logo from '../images/8080c81f-cc5f-4df3-86b4-7ba542850a54-1614286012485.jpg'
 import Cards from '../components/Cards'
 import {
   Input,
@@ -11,7 +12,10 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function Home(props) {
   props = props.props;
-  
+
+  // const yo = props.users.filter((user) => user._id === props.idUser)
+  // `../images/${yo[0].photo}`
+
   const [perfilShow, setPerfilShow] = useState(true);
   const [perfilBack, setPerfilBack] = useState(false);
 
