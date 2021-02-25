@@ -189,7 +189,8 @@ router.post('/signin', (req, res, next) => {
             return res.send({
                 success: true,
                 message: 'Logueo válido',
-                token: doc._id
+                token: doc._id,
+                id_user: user._id
             })
         })
     })
@@ -254,7 +255,6 @@ router.get('/logout', (req, res, next) => {
 })
 
 router.get('/users', (req, res) => { // downloading data from our database
-    const dbCard = req.body;
     users.find((err, data) => {
         if (err){ 
             res.status(500).send(err) // 500 means 'internal server error'
@@ -272,6 +272,36 @@ router.get('/users/sesion', (req, res) => { // downloading data from our databas
         } else {
             res.status(200).send(data) // 200 means 'success'
         }
+    })
+})
+
+router.post('/fav', (req, res, next) => {
+    
+    const { body } = req;
+    const {person, idUser} = body;
+
+    const user = users(); //Filtrar por idUser y obtener el usuario actual
+
+    //se agrega la persona a la que le di match
+    user.liked = user.liked.push(person);
+
+    user.save((err) => {
+        if (err) {
+            return res.send({
+                success: false,
+                message: 'Error: Server error'
+            })
+        }
+
+        //Match
+        //1) Buscar la persona que le di me gusta - person (person._id)
+        //2) Filtrar por su propiedad liked con el idUser
+        //3) Si existe pues le agregan el match a las dos user.matxxx = user.matxxx.push(person); && person.matxxx = person.matxxx.push(user);
+
+        return res.send({
+            success: true,
+            message: 'Registro válido'
+        })
     })
 })
 

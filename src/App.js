@@ -30,6 +30,7 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
+  const [idUser, setIdUser] = useState('');
   const [signUpError, setSignUpError] = useState('');
   const [signInError, setSignInError] = useState('');
   const [signInEmail, setSignInEmail] = useState('');
@@ -45,13 +46,14 @@ const App = () => {
   useEffect(() => {
     const obj = getFromStorage('the_main_app')
     if (obj && obj.token) {
-      const { token } = obj;
+      const { token, idUser } = obj;
       // verify token
       fetch('http://localhost:4000/app/verify?token=' + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
             setToken(token);
+            setIdUser(idUser);
             setIsLoading(false);
 
           } else {
@@ -145,12 +147,13 @@ const App = () => {
     }).then(res => res.json())
       .then(json => {
         if (json.success) {
-          setInStorage('the_main_app', { token: json.token })
+          setInStorage('the_main_app', { token: json.token, idUser: json.id_user })
           setSignInError(json.message)
           setIsLoading(false)
           setSignInEmail('')
           setSignInPassword('')
           setToken(json.token)
+          setIdUser(json.id_user)
           window.location = '/home';
         } else {
           setSignUpError(json.message)
@@ -172,6 +175,7 @@ const App = () => {
           if (json.success) {
             console.log('sesión cerrada')
             setToken('')
+            setIdUser('')
             window.localStorage.clear()
             window.location = '/'
             setIsLoading(false)
@@ -227,7 +231,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/home">
-            <Home props={ { logOut, token } } />
+            <Home props={ { logOut, token, idUser } } />
           </Route>
           <Route path="/admin">
             <Admin props={ logOut, token } />

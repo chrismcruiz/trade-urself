@@ -131,13 +131,14 @@ h1, h2, h3, h4, p {
 .card {
   position: relative;
   width: 450px;
-  height: 500px;
+  height: 600px;
   padding: 20px;
   min-width: 300px;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
   box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
+
 }
 
 .card > h3 {
@@ -163,7 +164,7 @@ h1, h2, h3, h4, p {
   display: flex;
   justify-content: space-evenly;
   position: absolute;
-  bottom: 20px;
+  bottom: -115px;
 }
 
 .buttons {
@@ -300,33 +301,90 @@ h1, h2, h3, h4, p {
   letter-spacing: 1px;
 }
 .tarjeta_pequeña{
-  height: 300px;
+  height: 400px;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 24%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
   position: relative;
 }
-.tarjeta_pequeña .div_descripcion{
-  display: block !important;
+.tarjeta_grande{
+  height: 600px !important;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 .background_foto{
-  height: 500px;
+  height: 600px;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 20px;
-  box-shadow: 0px 18px 53px 0px rgba(0, 0, 0, 0.3);
 }
 
 .div_persona_hover{
   position: absolute;
-  bottom: 0px;
+  bottom: 15px;
   left: 63px;
   color: white;
 }
+.div_descripcion {
+  height: 178px;
+  overflow-y: auto;
+}
+
+.div_descripcion::-webkit-scrollbar {
+  width: 3px;
+}
+
+.div_descripcion::-webkit-scrollbar-arrow {
+  background-color: rgba(0, 0, 0, 0.986);
+}
+
+.div_descripcion::-webkit-scrollbar-track {
+  background-color: #949390;
+  -webkit-border-radius: 0px;
+}
+
+.div_descripcion::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 20px;
+  border-radius: 11px;
+  height: 22px;
+  background: #070707;
+}
+
+.card_hover{
+  height: 600px;
+}
+
+.boton_volver_card .MuiSvgIcon-root{
+  position: absolute !important;
+  bottom: 190px;
+  right: 20px;
+  background-color: #00913e !important;
+  width: 40px !important;
+  height: 40px !important;
+  font-size: 20px !important;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 50%;
+  /* padding: 8px 0px; */
+  color: white;
+  transform: rotate(180deg);
+  overflow: hidden !important;
+  border-color: transparent !important;
+  border-style: none !important;
+  padding: 0px;
+}
+
+.card_hover button{
+  background: transparent;
+  border-color: transparent;
+}
+
+/* .swipe_left{
+  transition: all 1.62842s ease 0s;
+  transform: translate(-1628.42px, -3.94673px) rotate(-43.0845deg) !important;
+} */

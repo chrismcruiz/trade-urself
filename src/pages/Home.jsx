@@ -10,6 +10,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 function Home(props) {
+  props = props.props;
+  
   const [perfilShow, setPerfilShow] = useState(true);
   const [perfilBack, setPerfilBack] = useState(false);
 
@@ -178,7 +180,7 @@ function Home(props) {
           </div>
           <div className='col-9 px-0'>
             <Cards 
-              props={props.props.token}
+              props={props}
             />
           </div>
         </div>
@@ -190,7 +192,7 @@ function Home(props) {
         </div>
       </div>
       <div className="d-flex justify-content-center fondo-blanco">
-        <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.props.logOut}>Cerrar sesion</p>
+        <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.logOut}>Cerrar sesion</p>
       </div>
     </div>
   );
