@@ -389,6 +389,15 @@ h1, h2, h3, h4, p {
   border-color: transparent;
 }
 
+
+.vertical-center{
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* .swipe_left{
   transition: all 1.62842s ease 0s;
   transform: translate(-1628.42px, -3.94673px) rotate(-43.0845deg) !important;

@@ -12,6 +12,7 @@ import axios from 'axios'
 import Admin from './pages/Admin'
 import { AccountBox } from "./components/accountBox";
 import styled from "styled-components";
+import { CircularProgress } from '@material-ui/core';
 
 <script
   src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
@@ -240,7 +241,7 @@ const App = () => {
   }
 
   if (isLoading) {
-    return (<div><p>Cargando...</p></div>)
+    return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
   }
 
   if (!token) {

@@ -151,7 +151,7 @@ export function SignupForm(props) {
             value={props.signUpCareer}
             onChange={props.onTextboxChangeSignUpCareer}
           >
-            <option value='' selected disabled>Escoge una opción</option>
+            <option value='' defaultValue disabled>Escoge una opción</option>
             <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
             <option value='ingenieria industrial'>Ingeniería Industrial</option>
             <option value='ingenieria de petroleos'>Ingeniería de Petroleos</option>

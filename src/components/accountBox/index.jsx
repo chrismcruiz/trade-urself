@@ -4,10 +4,6 @@ import { LoginForm } from "./loginForm.jsx";
 import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
 import { SignupForm } from "./signupForm";
-import {
-  getFromStorage,
-  setInStorage,
-} from '../../utils/storage'
 
 const BoxContainer = styled.div`
   width: 600px;
