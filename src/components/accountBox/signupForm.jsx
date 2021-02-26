@@ -152,13 +152,13 @@ export function SignupForm(props) {
             onChange={props.onTextboxChangeSignUpCareer}
           >
             <option value='' defaultValue disabled>Escoge una opción</option>
-            <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
-            <option value='ingenieria industrial'>Ingeniería Industrial</option>
-            <option value='ingenieria de petroleos'>Ingeniería de Petroleos</option>
-            <option value='ingenieria civil'>Ingeniería Civil</option>
-            <option value='ingenieria metalurgica'>Ingeniería Metalúrgica</option>
-            <option value='ingenieria electronica'>Ingeniería Electrónica</option>
-            <option value='licenciatura en idiomas'>Licenciatura en Idiomas</option>
+            <option value='Ingeniería de Sistemas'>Ingeniería de Sistemas</option>
+            <option value='Ingeniería Industrial'>Ingeniería Industrial</option>
+            <option value='Ingeniería de Petróleos'>Ingeniería de Petróleos</option>
+            <option value='Ingeniería Civil'>Ingeniería Civil</option>
+            <option value='Ingeniería Metalúrgica'>Ingeniería Metalúrgica</option>
+            <option value='Ingeniería Electrónica'>Ingeniería Electrónica</option>
+            <option value='Iicenciatura en Idiomas'>Licenciatura en Idiomas</option>
           </select>
         </div>
         <div className=''>

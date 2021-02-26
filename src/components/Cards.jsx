@@ -76,28 +76,6 @@ function Cards(props) {
     
     // fetchData();
 
-    // const db = [
-    //     {
-    //       name: 'Richard Hendricks',
-    //       url: './img/richard.jpg'
-    //     },
-    //     {
-    //       name: 'Erlich Bachman',
-    //       url: './img/erlich.jpg'
-    //     },
-    //     {
-    //       name: 'Monica Hall',
-    //       url: './img/monica.jpg'
-    //     },
-    //     {
-    //       name: 'Jared Dunn',
-    //       url: './img/jared.jpg'
-    //     },
-    //     {
-    //       name: 'Dinesh Chugtai',
-    //       url: './img/dinesh.jpg'
-    // }
-    // ]
 
     // const alreadyRemoved = []
     // const [characters] = useState(db)
@@ -211,7 +189,7 @@ function Cards(props) {
                                         {user.name} -
                                         <p className='ml-3 font-weight-normal'>{calcularEdad(user.birthday)}</p>
                                     </h3>
-                                    <p className='h4 p_carrera'>{user.career.toUpperCase()}</p>
+                                    <p className='h4'>{user.career}</p>
                                 </div>
                             </div> 
                             <div 

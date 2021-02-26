@@ -25,19 +25,25 @@ function Home(props) {
   }
   
   const path_img = recorrerObjeto(yo).photo
+  console.log(path_img)
 
   
   // console.log(yo[0].photo)
 
   const [perfilShow, setPerfilShow] = useState(true);
-  const [perfilBack, setPerfilBack] = useState(false);
+  const [session, setSession] = useState(false);
+  // const [perfilBack, setPerfilBack] = useState(false);
 
   const handlePerfilShow = () => {
-    perfilShow ? setPerfilShow(false) : setPerfilShow(false);
+    perfilShow ? setPerfilShow(false) : setPerfilShow(true);
   }
-  const handlePerfilBack = () => {
-    perfilShow ? setPerfilShow(true) : setPerfilShow(true);
+
+  const handleSession = () => {
+    session ? setSession(false) : setSession(true);
   }
+  // const handlePerfilBack = () => {
+  //   perfilShow ? setPerfilShow(true) : setPerfilShow(true);
+  // }
 
   return (
     <div className='contenedor_home'>
@@ -46,12 +52,12 @@ function Home(props) {
           <div className='col-3 px-0' style={{ width: '19.75%' }}>
             <div className='menu_arriba w-100'>
               <div className='py-3 px-4 a_hover_perfil d-flex justify-content-between align-items-center'>
-                <div className='d-flex align-items-center'>
-                  <ArrowBackIcon className='mr-2 texto-blanco' onClick={handlePerfilBack}></ArrowBackIcon>
-                  <img className='imagen_perfil' src={`../images/${path_img}`} />
+                <div className='d-flex align-items-center' onClick={handleSession}>
+                  {/* <ArrowBackIcon className='mr-2 texto-blanco' onClick={handlePerfilBack}></ArrowBackIcon> */}
+                  <img className='imagen_perfil' src={`/images/${path_img}`} />
                   <p className='pl-3 m-0 text-titulos-1 texto-blanco'>
                     Mi perfil
-                                </p>
+                  </p>
                 </div>
                 <div>
                   <CreateIcon className='m-2 texto-blanco' onClick={handlePerfilShow}></CreateIcon>
@@ -89,9 +95,21 @@ function Home(props) {
             </div> :
               <div className='fondo-blanco pantalla_match p-3'>
                 <div className='div_imagen_edit_perfil'>
-                  <img className='imagen_persona_perfil' src={logo} />
+                  <img className='imagen_persona_perfil' src={`/images/${path_img}`} />
                 </div>
                 <form method='POST' className='mt-3' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <div className=''>
+                    <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Cambiar imagen</label>
+                    <Input
+                      className='label_inputs border-0 ps-2 pl-0'
+                      type="file"
+                      name='photo'
+                      accept=".png, .jpg, .jpeg"
+                      id='photo'
+                      required
+                    />
+                  </div>
+                  
                   <Input
                     className='mb-2'
                     type="text"
@@ -171,17 +189,6 @@ function Home(props) {
                       <option value='licenciatura en idiomas'>Licenciatura en Idiomas</option>
                     </select>
                   </div>
-                  <div className=''>
-                    <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Subir imagen</label>
-                    <Input
-                      className='label_inputs border-0 ps-2 pl-0'
-                      type="file"
-                      name='photo'
-                      accept=".png, .jpg, .jpeg"
-                      id='photo'
-                      required
-                    />
-                  </div>
                   <Input
                     className='mb-2'
                     type="password"
@@ -207,9 +214,6 @@ function Home(props) {
         <div className='fondo-verde py-3 div_footer_admin w-100'>
           <p className='texto-blanco'>Copyright © 2021 TRADE URSELF® - TODOS LOS DERECHOS RESERVADOS</p>
         </div>
-      </div>
-      <div className="d-flex justify-content-center fondo-blanco">
-        <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.logOut}>Cerrar sesion</p>
       </div>
     </div>
   );

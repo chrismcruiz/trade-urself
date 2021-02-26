@@ -31,7 +31,7 @@ const App = () => {
 
   const [users, setUsers] = useState([]);
   const [rol, setRol] = useState('');
-  // const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
   const [idUser, setIdUser] = useState('');
@@ -70,11 +70,9 @@ const App = () => {
 
     async function fetchData() {
       const req = await axios.get("http://localhost:4000/app/users");
-      const req2 = await axios.get("http://localhost:4000/app/users/sesion");
       setUsers(req.data);
-      let id = req2.data
-      setIdUser(id[id.length - 1].userId)
-      
+      const req2 = await axios.get("http://localhost:4000/app/users/sesion");
+      setSessions(req2.data) 
     }
     fetchData();
   }, [])
