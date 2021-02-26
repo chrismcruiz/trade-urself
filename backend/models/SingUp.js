@@ -49,9 +49,9 @@ const signUpTemplate = new mongoose.Schema({
         type: Array,
         default: ''
     },
-    rol: {
-        type: String,
-        default: 'usuario'
+    admin: {
+        type: Boolean,
+        default: false
     },
     Date: {
         type: Date,

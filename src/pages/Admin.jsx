@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from '../borrar/imagen-1.webp'
+import logo from '../borrar/imagen-1.png'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -8,7 +8,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Button, Modal } from 'react-bootstrap';
 import { Input } from "../components/accountBox/common";
 
-function Admin({ logOut }) {
+function Admin(props) {
+    props = props.props
 
     const [deleteShow, setDeleteShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
@@ -196,7 +197,7 @@ function Admin({ logOut }) {
                         <ul className='p-0'>          
                             <li className='d-flex align-items-center texto_admin mb-3 texto-negro' onClick={handleFormShow}><PersonIcon className='mr-2'></PersonIcon>Usuarios</li>
                             <a href='' className='texto-negro   '>
-                                <li onClick={logOut} className='d-flex align-items-center texto_admin mb-3'><ExitToAppIcon className='mr-2'></ExitToAppIcon>Salir</li>
+                                <li onClick={props.logOut} className='d-flex align-items-center texto_admin mb-3'><ExitToAppIcon className='mr-2'></ExitToAppIcon>Salir</li>
                             </a>
                         </ul>
                     </div>
@@ -266,7 +267,7 @@ function Admin({ logOut }) {
                 </div> : 
                 <div className='col-9 px-0 fondo-blanco div_contenedor_informe p-5 text-center position-relative'>
                     <div className='div_contenedor_logo_nombre_admin position-relative'>
-                        <img src={logo}></img>
+                        <img className='admin_perfil' src={logo}></img>
                         <h2 className='mt-5'>Administrador TRADE URSELF</h2>
                     </div>
                 </div>

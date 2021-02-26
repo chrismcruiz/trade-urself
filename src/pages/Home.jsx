@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from '../borrar/imagen-1.webp'
+import logo from '../borrar/imagen-1.png'
 // import logo from '../images/207bd542-ca2a-4553-9024-2b6f2ee80011-1614290002828.jpg'
 import Cards from '../components/Cards'
 import {

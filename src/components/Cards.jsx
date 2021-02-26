@@ -19,10 +19,16 @@ function Cards(props) {
             const req = await axios.get("http://localhost:4000/app/users");
             if(req.data.length > 0){
                 for(var i = 0; i < req.data.length; i++){
+                    console.log('aqui')
+                    console.log(req.data[i].admin)
                     if(req.data[i]._id === props.idUser){
                         req.data.splice(i, 1);
-                        break;
+                        continue;
                     }
+                    // if(req.data[i].admin === true){
+                    //     req.data.splice(i, 1);
+                    //     break;
+                    // }
                 }
             }
             setUsers(req.data);

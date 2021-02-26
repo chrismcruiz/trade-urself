@@ -119,6 +119,10 @@ h1, h2, h3, h4, p {
   height: 60px;
   object-fit: cover;
   outline: none;
+
+}
+.admin_perfil{
+  border-radius: 50%;
 }
 .pantalla_match{
   height: calc(100% - 92px);
@@ -164,7 +168,7 @@ h1, h2, h3, h4, p {
   display: flex;
   justify-content: space-evenly;
   position: absolute;
-  bottom: -115px;
+  bottom: -145px;
 }
 
 .buttons {

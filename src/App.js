@@ -73,13 +73,23 @@ const App = () => {
       setUsers(req.data);
       let id = req2.data
       setIdUser(id[id.length - 1].userId)
-
+      
     }
     fetchData();
-
-   
   }, [])
 
+  const usuario_logueado = users.filter((user) => user._id === idUser)
+  let usuario = ''
+  const getRol = (obj) => {
+    for(let i = 0; i < obj.length; i++){
+      usuario = obj[i]
+      
+      return usuario.admin
+    }
+  }
+
+  let rol_user = getRol(usuario_logueado)
+  console.log(rol_user)
   // let objeto = ''
   // const getRol = () => {
   //   const logged = users.filter((user) => user._id === idUser)
@@ -90,30 +100,21 @@ const App = () => {
   //   return objeto
   // }
 
-  const role = users.filter((user) => user._id === idUser)
-  let mirol = ''
-
-  const recorrerObjeto = (obj) => {
-    for(let i = 0; i < obj.length; i++){
-      mirol = obj[i]
-    }
-    return mirol
-  }
   
-   
+  // let mirol = ''
 
-  const mirolxd = recorrerObjeto(role).rol
+  // const recorrerObjeto = (obj) => {
+  //   for(let i = 0; i < obj.length; i++){
+  //     mirol = obj[i]
+  //   }
+  //   return mirol
+  // }
+  
+  // console.log('estoy acá')
+  // console.log(recorrerObjeto(role).rol)
 
-  const rolfuncion = (mirolxd) => {
-    if (mirolxd === 'usuario') {
-      mirolxd = true
-    }else {
-      mirolxd = false
-    }
-    return mirolxd
-  }
+ 
 
-  let esadmin = rolfuncion(mirolxd)
 
   const onTextboxChangeSignInEmail = (e) => {
     setSignInEmail(e.target.value)
@@ -227,7 +228,7 @@ const App = () => {
             setToken('')
             setIdUser('')
             window.localStorage.clear()
-            window.location = '/'
+            window.location.href = '/'
             setIsLoading(false)
           } else {
             setIsLoading(false)
@@ -281,18 +282,15 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/home">
-            {esadmin ? 
-            (
+            {rol_user ? (
               <Redirect to="/admin" />
-            ) : 
-            (
+            ) : (
             <Home props={{ logOut, token, idUser, users }} />
-            )
-          
-            }
+            )}
+            
           </Route>
           <Route path="/admin">
-            <Admin props={logOut, token} />
+            <Admin props={{ logOut, token }} />
           </Route>
           <Route path="/">
             {token ? <Redirect to="/home" /> : null}
