@@ -13,6 +13,8 @@ import Admin from './pages/Admin'
 import { AccountBox } from "./components/accountBox";
 import styled from "styled-components";
 import { CircularProgress } from '@material-ui/core';
+import {filtrarUser, recorrerObjeto} from './utils/Utils'
+
 
 <script
   src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"
@@ -30,7 +32,6 @@ const AppContainer = styled.div`
 const App = () => {
 
   const [users, setUsers] = useState([]);
-  const [rol, setRol] = useState('');
   const [sessions, setSessions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('');
@@ -77,44 +78,7 @@ const App = () => {
     fetchData();
   }, [])
 
-  const usuario_logueado = users.filter((user) => user._id === idUser)
-  let usuario = ''
-  const getRol = (obj) => {
-    for(let i = 0; i < obj.length; i++){
-      usuario = obj[i]
-      
-      return usuario.admin
-    }
-  }
-
-  let rol_user = getRol(usuario_logueado)
-  console.log(rol_user)
-  // let objeto = ''
-  // const getRol = () => {
-  //   const logged = users.filter((user) => user._id === idUser)
-  //   for(let i = 0; i < logged.length; i++){
-  //     objeto = logged[i]
-  //     objeto = objeto.rol
-  //   }
-  //   return objeto
-  // }
-
   
-  // let mirol = ''
-
-  // const recorrerObjeto = (obj) => {
-  //   for(let i = 0; i < obj.length; i++){
-  //     mirol = obj[i]
-  //   }
-  //   return mirol
-  // }
-  
-  // console.log('estoy acá')
-  // console.log(recorrerObjeto(role).rol)
-
- 
-
-
   const onTextboxChangeSignInEmail = (e) => {
     setSignInEmail(e.target.value)
   }
@@ -238,6 +202,8 @@ const App = () => {
     }
   }
 
+  const admin = recorrerObjeto(filtrarUser(users, idUser)).admin
+  
   if (isLoading) {
     return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
   }
@@ -281,12 +247,11 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/home">
-            {rol_user ? (
+            {admin ? (
               <Redirect to="/admin" />
             ) : (
             <Home props={{ logOut, token, idUser, users }} />
             )}
-            
           </Route>
           <Route path="/admin">
             <Admin props={{ logOut, token }} />

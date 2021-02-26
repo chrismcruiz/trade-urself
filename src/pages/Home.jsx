@@ -7,28 +7,15 @@ import {
   SubmitButton,
 } from "../components/accountBox/common";
 import CreateIcon from '@material-ui/icons/Create';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+// import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {filtrarUser, recorrerObjeto} from '../utils/Utils'
 
 function Home(props) {
   props = props.props;
-  // console.log(props.idUser)
-  // const id = props.idUser
-  const yo = props.users.filter((user) => user._id === props.idUser)
-  let ruta = ''
 
-  const recorrerObjeto = (obj) => {
-    for(let i = 0; i < obj.length; i++){
-      ruta = obj[i]
-    }
-    return ruta
-  }
-  
+  const yo = filtrarUser(props.users, props.idUser)
   const path_img = recorrerObjeto(yo).photo
-  console.log(path_img)
 
-  
-  // console.log(yo[0].photo)
 
   const [perfilShow, setPerfilShow] = useState(true);
   const [session, setSession] = useState(false);
@@ -93,11 +80,11 @@ function Home(props) {
                 </div>
               </div>
             </div> :
-              <div className='fondo-blanco pantalla_match p-3'>
+              <div className='fondo-blanco pantalla_match px-4'>
                 <div className='div_imagen_edit_perfil'>
                   <img className='imagen_persona_perfil' src={`/images/${path_img}`} />
                 </div>
-                <form method='POST' className='mt-3' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                <form method='POST' className='mt-0 ml-2' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                   <div className=''>
                     <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Cambiar imagen</label>
                     <Input
@@ -202,7 +189,7 @@ function Home(props) {
             }
 
           </div>
-          <div className='col-9 px-0'>
+          <div className='col-9 px-0 seccion_tarjetas'>
             <Cards 
               props={props}
             />
@@ -210,10 +197,13 @@ function Home(props) {
         </div>
 
       </div>
-      <div className='col-12 p-0 text-center'>
+      <div className='col-12 p-0 text-center copyright'>
         <div className='fondo-verde py-3 div_footer_admin w-100'>
           <p className='texto-blanco'>Copyright © 2021 TRADE URSELF® - TODOS LOS DERECHOS RESERVADOS</p>
         </div>
+      </div>
+      <div className="d-flex justify-content-center fondo-blanco">
+        <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.logOut}>Cerrar sesion</p>
       </div>
     </div>
   );
