@@ -255,7 +255,7 @@ const App = () => {
           </Route>
           <Route path="/admin">
             {admin ? (
-                <Admin props={{ logOut, token }} />
+                <Admin props={{ logOut, token, idUser, users }} />
               ) : (
                 <Redirect to="/home" />
             )}

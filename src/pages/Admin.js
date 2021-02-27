@@ -7,9 +7,11 @@ import CreateIcon from '@material-ui/icons/Create';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Button, Modal } from 'react-bootstrap';
 import { Input } from "../components/accountBox/common";
+import { filtrarUser, recorrerObjeto } from '../utils/Utils'
 
 function Admin(props) {
     props = props.props
+    const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
 
     const [deleteShow, setDeleteShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
@@ -187,7 +189,7 @@ function Admin(props) {
                 <div className='col-3 px-0'>
                     <div className='menu_arriba w-100'>
                         <div className='py-3 px-4 d-flex align-items-center'> 
-                            <img className='imagen_perfil' src={logo} />                                  
+                            <img className='imagen_perfil' src={`/images/${img}`} />                                  
                             <p className='pl-3 m-0 text-titulos-1 texto-blanco'>
                                 Administrador
                             </p>
@@ -267,7 +269,7 @@ function Admin(props) {
                 </div> : 
                 <div className='col-9 px-0 fondo-blanco div_contenedor_informe p-5 text-center position-relative'>
                     <div className='div_contenedor_logo_nombre_admin position-relative'>
-                        <img className='admin_perfil' src={logo}></img>
+                        <img className='admin_perfil' src={`/images/${img}`} ></img>
                         <h2 className='mt-5'>Administrador TRADE URSELF</h2>
                     </div>
                 </div>
