@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import axios from 'axios'
 
+
 function Cards(props) {
     props = props.props;
     
@@ -209,25 +210,6 @@ function Cards(props) {
                                 className='buttons__replay botton_navigation'
                                 fontSize='large'/>
                             </IconButton>                   
-                        </div>
-                        <div className='buttons-container'>
-                            <div className='buttons d-flex'>
-                                <IconButton>
-                                    <ReplayIcon 
-                                    className='buttons__replay'
-                                    fontSize='large'/>
-                                </IconButton>
-                                <IconButton onClick={() => swipe('left')}>
-                                    <CloseIcon 
-                                    className='buttons__close'
-                                    fontSize='large'/>
-                                </IconButton>
-                                <IconButton onClick={favUser(user, props.idUser)}>
-                                    <FavoriteIcon 
-                                    className='buttons__fav'
-                                    fontSize='large'/>
-                                </IconButton>  
-                            </div>              
                         </div>
                     </TinderCard>
                 ))}

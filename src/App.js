@@ -250,11 +250,15 @@ const App = () => {
             {admin ? (
               <Redirect to="/admin" />
             ) : (
-            <Home props={{ logOut, token, idUser, users }} />
+              <Home props={{ logOut, onSignUp, token, idUser, users }} />
             )}
           </Route>
           <Route path="/admin">
-            <Admin props={{ logOut, token }} />
+            {admin ? (
+                <Admin props={{ logOut, token }} />
+              ) : (
+                <Redirect to="/home" />
+            )}
           </Route>
           <Route path="/">
             {token ? <Redirect to="/home" /> : null}
