@@ -20,10 +20,11 @@ function Home(props) {
   // }
  
   return (
+    <div>
     <div className='contenedor_home'>
       <div className='container-fluid'>
         <div className='row'>
-          <div className='col-3 px-0' style={{ width: '19.75%' }}>
+          <div className='col-3 px-0 fondo-blanco' style={{ width: '19.75%' }}>
             {/* Menú lateral */}
             <Sidebar props={props} />
           </div>
@@ -31,12 +32,13 @@ function Home(props) {
             {/* Tarjetas */}
             <Cards props={props} />
             {/* Botones */}
-            <Buttons />
+            <Buttons/>
           </div>
         </div>
       </div>
       {/* Parte del CopyRight */}
-      <Footer props={props} />
+    </div>
+    <Footer props={props} />
     </div>
   );
 }

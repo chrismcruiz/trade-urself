@@ -162,7 +162,7 @@ function Cards(props) {
 
     return (
         <div className='card__container position-relative'>
-            <div className='div_contenedor_personas d-flex justify-content-center'>
+            <div className='div_contenedor_personas'>
                 {users.map((user, index)=>(
                     <TinderCard
                         ref={childRefs[index]}

@@ -9,15 +9,15 @@ import {filtrarUser, recorrerObjeto} from '../utils/Utils'
 const editProfile = (props) => {
     const img = recorrerObjeto(filtrarUser(props.props.users, props.props.idUser)).photo
     return (
-        <div>
+        <div className='p-3'>
             <div className='fondo-blanco pantalla_match px-4'>
                 <div className='div_imagen_edit_perfil'>
                     <img className='imagen_persona_perfil' src={`/images/${img}`} />
                 </div>
             </div>
-            <form method='POST' className='mt-0 ml-2' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+            <form method='POST' className='' encType='multipart/form-data'>
                 <div className=''>
-                    <label className='label_inputs py-2 ps-2' style={{ fontWeight: '700' }}>Cambiar imagen</label>
+                    <label className='label_inputs py-2 pt-4' style={{ fontWeight: '700' }}>Cambiar imagen</label>
                     <Input
                         className='label_inputs border-0 ps-2 pl-0'
                         type="file"
@@ -108,7 +108,7 @@ const editProfile = (props) => {
                     </select>
                 </div>
                 <Input
-                    className='mb-2'
+                    className='my-2'
                     type="password"
                     name="password"
                     placeholder="Contraseña"
@@ -116,6 +116,9 @@ const editProfile = (props) => {
                 />
                 <SubmitButton className='mt-3' type="submit" value='submit'>Guardar</SubmitButton>
             </form>
+            <div className="d-flex justify-content-center fondo-blanco pt-4">
+                <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.props.logOut} >Cerrar sesion</p>
+            </div>
         </div>
     )
 }

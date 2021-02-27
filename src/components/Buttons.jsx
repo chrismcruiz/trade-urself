@@ -7,8 +7,8 @@ import "../css/App.css"
 
 const Buttons = () => {
     return (
-        <div className='buttons-container'>
-            <div className='buttons d-flex'>
+        <div className='buttons-container pt-5'>
+            <div className='buttons d-flex justify-content-center'>
                 <IconButton>
                     <ReplayIcon
                         className='buttons__replay'
@@ -17,6 +17,7 @@ const Buttons = () => {
                 <IconButton>
                     <CloseIcon
                         className='buttons__close'
+                        
                         fontSize='large' />
                 </IconButton>
                 <IconButton>
