@@ -5,13 +5,14 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import axios from 'axios'
 import CloseIcon from '@material-ui/icons/Close';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import '../css/App.css'
 // import Buttons from "../components/Buttons"
+
 
 function Cards(props) {
     props = props.props;
-
+    
     const [users, setUsers] = useState([]);
-    // const [sesions, setSesions] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -24,41 +25,37 @@ function Cards(props) {
                     }
                     if (req.data[i].admin) req.data.splice(i, 1);
                 }
+                setUsers(req.data);
             }
-            setUsers(req.data);
         }
         fetchData();
     }, [])
 
-
-
+    let db = users
     const alreadyRemoved = []
-    let charactersState = [...users];
+    let charactersState = db
 
-    const [characters, setCharacters] = useState(...users)
     const [lastDirection, setLastDirection] = useState()
+    const childRefs = useMemo(() => Array(db.length).fill(0).map(i => React.createRef()), [db])
 
-
-    const childRefs = useMemo(() => Array([...users].length).fill(0).map(i => React.createRef()), [])
- 
-    
     const swiped = (direction, nameToDelete) => {
         console.log('removing: ' + nameToDelete)
-        setLastDirection(direction)
+        if (direction === 'left') setLastDirection('izquierda')
+        else setLastDirection('derecha')
         alreadyRemoved.push(nameToDelete)
     }
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
         charactersState = charactersState.filter(character => character.name !== name)
-        setCharacters(charactersState)
+        setUsers(charactersState)
     }
 
     const swipe = (dir) => {
-        const cardsLeft = characters.filter(person => !alreadyRemoved.includes(person._id))
+        const cardsLeft = users.filter(person => !alreadyRemoved.includes(person._id))
         if (cardsLeft.length) {
             const toBeRemoved = cardsLeft[cardsLeft.length - 1]._id // Find the card object to be removed
-            const index = [...users].map(person => person._id).indexOf(toBeRemoved) // Find the index of which to make the reference to
+            const index = db.map(person => person._id).indexOf(toBeRemoved) // Find the index of which to make the reference to
             alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
             childRefs[index].current.swipe(dir) // Swipe the card!
         }
@@ -114,8 +111,8 @@ function Cards(props) {
                                 essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
                                 containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
                             PageMaker including versions of Lorem Ipsum.</div>
-                            <IconButton className='boton_volver_card shadow d-none'
-
+                            <IconButton 
+                                className='boton_volver_card shadow d-none'
                             >
                                 <NavigationIcon
                                     className='buttons__replay botton_navigation'
@@ -128,30 +125,25 @@ function Cards(props) {
             {/* Botones */}
             <div className='buttons-container pt-5'>
                 <div className='buttons d-flex justify-content-center'>
-                    {/* <IconButton>
-                        <ReplayIcon
-                            className='buttons__replay'
-                            fontSize='large' />
-                    </IconButton> */}
                     <IconButton
                         onClick={() => swipe('left')}
                     >
-                        <CloseIcon
+                        <CloseIcon 
                             className='buttons__close'
-                            fontSize='large'
+                           fontSize='large'
                         />
                     </IconButton>
                     <IconButton
                         onClick={() => swipe('right')}
                     >
-                        <FavoriteIcon
+                        <FavoriteIcon 
                             className='buttons__fav'
-                            fontSize='large' 
+                           fontSize='large' 
                         />
                     </IconButton>
                 </div>
             </div>
-            {lastDirection ? <h2 key={lastDirection} className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText'>Swipe a card or press a button to get started!</h2>}
+            {lastDirection ? <h2 key={lastDirection} className='infoText'>Deslizaste a la {lastDirection}</h2> : <h2 className='infoText'>¡Desliza una tarjeta o presiona un botón para comenzar!</h2>}
         </div>
     )
 }

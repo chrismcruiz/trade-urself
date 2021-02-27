@@ -7,7 +7,7 @@ import "../css/App.css"
 
 const Buttons = (props) => {
     return (
-        <h1>ohla</h1>
+        <h1>hola</h1>
     )
 }
 
