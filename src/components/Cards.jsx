@@ -1,30 +1,28 @@
 import React, { useState, useMemo, useEffect, Component } from 'react'
 import TinderCard from "react-tinder-card"
-import ReplayIcon from '@material-ui/icons/Replay';
-import CloseIcon from '@material-ui/icons/Close';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import axios from 'axios'
-
+import CloseIcon from '@material-ui/icons/Close';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+// import Buttons from "../components/Buttons"
 
 function Cards(props) {
     props = props.props;
-    
+
     const [users, setUsers] = useState([]);
-    const [sesions, setSesions] = useState([]);
-    //console.log(props);
-    
+    // const [sesions, setSesions] = useState([]);
+
     useEffect(() => {
         async function fetchData() {
             const req = await axios.get("http://localhost:4000/app/users");
-            if(req.data.length > 0){
-                for(let i = 0; i < req.data.length; i++){
-                    if(req.data[i]._id === props.idUser){
+            if (req.data.length > 0) {
+                for (let i = 0; i < req.data.length; i++) {
+                    if (req.data[i]._id === props.idUser) {
                         req.data.splice(i, 1);
                         continue;
                     }
-                    if(req.data[i].admin) req.data.splice(i, 1);
+                    if (req.data[i].admin) req.data.splice(i, 1);
                 }
             }
             setUsers(req.data);
@@ -32,77 +30,37 @@ function Cards(props) {
         fetchData();
     }, [])
 
-    /*useEffect(() => {
-        async function fetchData() {
-        const req = await axios.get("http://localhost:4000/app/users/sesion");
-        //console.log(req.data)
-        req.data.map((i) =>{
-            setSesions(i.userId);
-        })
-        }
-        fetchData();
-    }, [])*/
 
-    //console.log(props.props);
-
-    // let unique = [Set(sesions)];
-    // console.log(unique);
-
-    // function onlyUnique(value, index, self) {
-    //     return self.indexOf(value) === index;
-    // }
-    // const unique = sesions.filter(onlyUnique);
-    // console.log(unique);
-
-    // sesions.map((sesion) => {
-    //     let ids = []
-    //     ids = [...ids,sesion.userId]
-    //     ids.push(sesion.userId)
-    //     //const ids = sesion.userId
-    //     console.log(ids)
-    // })
-    // function filterUsuarios(){
-        
-    // }
-
-    // async function fetchData() {
-    //     const req = await axios.get("http://localhost:4000/app/users");
-    //     console.log(req.data)
-    // }
-    
-    // fetchData();
-
-
-    // const alreadyRemoved = []
-    // const [characters] = useState(db)
-    // const childRefs = useMemo(() => Array(db.length).fill(0).map(i => React.createRef()), [])
-
-    // const swipe = (dir) => {
-    //     const cardsLeft = characters.filter(person => !alreadyRemoved.includes(person.name))
-    //     console.log(cardsLeft)
-    //     if (cardsLeft.length) {
-    //         const toBeRemoved = cardsLeft[cardsLeft.length - 1].name // Find the card object to be removed
-    //         console.log(toBeRemoved)
-    //         const index = db.map(person => person.name).indexOf(toBeRemoved) // Find the index of which to make the reference to
-    //         console.log(index)
-    //         alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-    //         childRefs[index].current.swipe(dir) // Swipe the card!
-    //     }
-    // }
 
     const alreadyRemoved = []
-    let characters = users
-    const childRefs = useMemo(() => Array(users.length).fill(0).map(i => React.createRef()), [])
+    let charactersState = [...users];
+
+    const [characters, setCharacters] = useState(...users)
+    const [lastDirection, setLastDirection] = useState()
+
+
+    const childRefs = useMemo(() => Array([...users].length).fill(0).map(i => React.createRef()), [])
+ 
+    
+    const swiped = (direction, nameToDelete) => {
+        console.log('removing: ' + nameToDelete)
+        setLastDirection(direction)
+        alreadyRemoved.push(nameToDelete)
+    }
+
+    const outOfFrame = (name) => {
+        console.log(name + ' left the screen!')
+        charactersState = charactersState.filter(character => character.name !== name)
+        setCharacters(charactersState)
+    }
+
     const swipe = (dir) => {
         const cardsLeft = characters.filter(person => !alreadyRemoved.includes(person._id))
-        console.log(cardsLeft)
         if (cardsLeft.length) {
             const toBeRemoved = cardsLeft[cardsLeft.length - 1]._id // Find the card object to be removed
-            console.log(toBeRemoved)
-            const index = users.map(person => person._id).indexOf(toBeRemoved)
-            console.log(index) // Find the index of which to make the reference to
+            const index = [...users].map(person => person._id).indexOf(toBeRemoved) // Find the index of which to make the reference to
             alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            //childRefs[index].current.swipe(dir) // Swipe the card!
+            childRefs[index].current.swipe(dir) // Swipe the card!
         }
     }
 
@@ -119,110 +77,81 @@ function Cards(props) {
         return edad;
     }
 
-    const imagen_persona_card = React.createRef();
-    const div_datos_persona = React.createRef();
-    const div_descripcion_hover = React.createRef();
-    const card_personas = React.createRef();
-    const botton_hover = React.createRef();
-  
-    function mostrarInfo(){
-        imagen_persona_card.current.className = 'tarjeta_pequeña';
-        div_datos_persona.current.className = 'div_persona_hover';
-        div_descripcion_hover.current.className = 'div_descripcion d-block p-3';
-        card_personas.current.className = 'card p-0 card_hover';
-        botton_hover.current.className = 'boton_volver_card d-block';
-    }
-
-    function ocultarInfo(){
-        imagen_persona_card.current.className = 'tarjeta_pequeña tarjeta_grande';
-        div_datos_persona.current.className = 'div_persona_hover';
-        div_descripcion_hover.current.className = 'div_descripcion d-none p-3 ';
-        card_personas.current.className = 'card p-0 card_hover';
-        botton_hover.current.className = 'boton_volver_card d-none';
-    }
-
-    function favUser(person, idUser){
-        fetch('http://localhost:4000/app/fav/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                person: person,
-                idUser: idUser,
-            }),
-        }).then(res => res.json()).then(json => {
-            if (json.success) {
-            
-            } else {
-
-            }
-        })
-    }
-
     return (
         <div className='card__container position-relative'>
             <div className='div_contenedor_personas'>
-                {users.map((user, index)=>(
+                {users.map((user, index) =>
                     <TinderCard
                         ref={childRefs[index]}
                         className='swipe'
                         preventSwipe={["up", "down"]}
+                        onSwipe={(dir) => swiped(dir, user._id)} 
+                        onCardLeftScreen={() => outOfFrame(user.name)}
                         key={user._id}
                     >
-                        <div className='card p-0' 
-                        ref={card_personas}>
+                        <div className='card p-0'
+                        >
                             <div
-                            className='p-2 background_foto position-relative'
-                            style={{ backgroundImage: `url(./images/${user.photo})`}}
-                            ref={imagen_persona_card}
+                                className='p-2 background_foto position-relative'
+                                style={{ backgroundImage: `url(./images/${user.photo})` }}
                             >
-                                <div className='position-absolute div_info_personas texto-blanco' 
-                                    onClick={mostrarInfo}
-                                    ref={div_datos_persona}
-                                    >
+                                <div className='position-absolute div_info_personas texto-blanco'
+
+                                >
                                     <h3 className='m-0 d-flex mb-2' >
                                         {user.name} -
                                         <p className='ml-3 font-weight-normal'>{calcularEdad(user.birthday)}</p>
                                     </h3>
                                     <p className='h4'>{user.career}</p>
                                 </div>
-                            </div> 
-                            <div 
-                            className='p-0 overflow-auto d-none div_descripcion'
-                            ref={div_descripcion_hover}
-                            >Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining 
-                            essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets 
-                            containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus 
-                            PageMaker including versions of Lorem Ipsum.</div>  
+                            </div>
+                            <div
+                                className='p-0 overflow-auto d-none div_descripcion'
+                            >Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                It has survived not only five centuries, but also the leap into electronic typesetting, remaining
+                                essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                                containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+                            PageMaker including versions of Lorem Ipsum.</div>
                             <IconButton className='boton_volver_card shadow d-none'
-                            onClick={ocultarInfo}
-                             ref={botton_hover}>
-                                <NavigationIcon 
-                                className='buttons__replay botton_navigation'
-                                fontSize='large'/>
-                            </IconButton>                   
+
+                            >
+                                <NavigationIcon
+                                    className='buttons__replay botton_navigation'
+                                    fontSize='large' />
+                            </IconButton>
                         </div>
                     </TinderCard>
-                ))}
-            </div>
-            {/* <div className='div_contenedor_personas d-flex justify-content-center'>
-
-                {characters.map((character, index) =>
-                <TinderCard ref={childRefs[index]} className='swipe' key={character.name}>
-                    <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
-                    <h3>{character.name}</h3>
-                    </div>
-                    <div className='buttons'>
-                        <button onClick={() => swipe('left')}>Swipe left!</button>
-                        <button onClick={() => swipe('right')}>Swipe right!</button>
-                    </div>
-                </TinderCard>
                 )}
-            </div> */}
+            </div>
+            {/* Botones */}
+            <div className='buttons-container pt-5'>
+                <div className='buttons d-flex justify-content-center'>
+                    {/* <IconButton>
+                        <ReplayIcon
+                            className='buttons__replay'
+                            fontSize='large' />
+                    </IconButton> */}
+                    <IconButton
+                        onClick={() => swipe('left')}
+                    >
+                        <CloseIcon
+                            className='buttons__close'
+                            fontSize='large'
+                        />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => swipe('right')}
+                    >
+                        <FavoriteIcon
+                            className='buttons__fav'
+                            fontSize='large' 
+                        />
+                    </IconButton>
+                </div>
+            </div>
+            {lastDirection ? <h2 key={lastDirection} className='infoText'>You swiped {lastDirection}</h2> : <h2 className='infoText'>Swipe a card or press a button to get started!</h2>}
         </div>
     )
 }
