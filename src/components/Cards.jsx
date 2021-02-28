@@ -7,12 +7,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import '../css/App.css'
 import {filtrarUser, recorrerObjeto} from '../utils/Utils'
+import { CircularProgress } from '@material-ui/core';
 // import Buttons from "../components/Buttons"
 
 function Cards(props) {
     props = props.props;
 
     const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const peopleLiked = recorrerObjeto(filtrarUser(props.users, props.idUser)).liked
     // peopleLiked = Object.values(peopleLiked)
     // console.log('hola')
@@ -27,6 +29,8 @@ function Cards(props) {
                     break;
                 }
                 setUsers(req.data);
+                setIsLoading(false);
+                
             }
         }
         fetchData();
@@ -42,13 +46,14 @@ function Cards(props) {
                 continue;
             }
         }
+        // setIsLoading(false);
     }
 
     limpiarUsers(users)
 
-    let db = users
+    let db = [...users]
     const alreadyRemoved = []
-    let charactersState = db
+    // let charactersState = db
 
     const [lastDirection, setLastDirection] = useState()
     const childRefs = useMemo(() => Array(db.length).fill(0).map(i => React.createRef()), [db])
@@ -64,11 +69,11 @@ function Cards(props) {
         alreadyRemoved.push(nameToDelete)
     }
 
-    const outOfFrame = (name) => {
-        console.log(name + ' left the screen!')
-        charactersState = charactersState.filter(character => character.name !== name)
-        setUsers(charactersState)
-    }
+    // const outOfFrame = (name) => {
+    //     console.log(name + ' left the screen!')
+    //     charactersState = charactersState.filter(character => character.name !== name)
+    //     setUsers(charactersState)
+    // }
 
     const swipe = (dir) => {
         const cardsLeft = users.filter(person => !alreadyRemoved.includes(person._id))
@@ -105,6 +110,13 @@ function Cards(props) {
         return edad;
     }
 
+    if (isLoading) {
+        return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
+    }
+
+    if (users.length === 0) {
+        return (<div className='infoText h-100 d-inline-block d-flex justify-content-center' >No hay personas para mostrar...</div>)
+    }
     return (
         <div className='card__container position-relative'>
             <div className='div_contenedor_personas'>
@@ -114,7 +126,6 @@ function Cards(props) {
                         className='swipe'
                         preventSwipe={["up", "down"]}
                         onSwipe={(dir) => swiped(dir, user._id)}
-                        onCardLeftScreen={() => outOfFrame(user.name)}
                         key={user._id}
                     >
                         <div className='card p-0'
