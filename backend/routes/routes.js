@@ -236,7 +236,7 @@ router.get('/logout', (req, res, next) => {
     const { token } = query;
     // verify the token of one of a kind and its not deleted
 
-    UserSession.findOneAndUpdate({
+    users.findOneAndUpdate({
         _id: token,
         isDeleted: false,
     }, {
@@ -278,34 +278,60 @@ router.get('/users/sesion', (req, res) => { // downloading data from our databas
     })
 })
 
-router.post('/fav', (req, res, next) => {
-    
+router.post('/liked', (req, res, next) => {
+
     const { body } = req;
-    const {person, idUser} = body;
+    const { idUser, idPersonLiked } = body;
 
-    const user = users(); //Filtrar por idUser y obtener el usuario actual
-
-    //se agrega la persona a la que le di match
-    user.liked = user.liked.push(person);
-
-    user.save((err) => {
-        if (err) {
-            return res.send({
-                success: false,
-                message: 'Error: Server error'
-            })
+    users.updateOne({
+        _id: idUser,
+    }, {
+      $push: {
+          liked: idPersonLiked
         }
-
-        //Match
-        //1) Buscar la persona que le di me gusta - person (person._id)
-        //2) Filtrar por su propiedad liked con el idUser
-        //3) Si existe pues le agregan el match a las dos user.matxxx = user.matxxx.push(person); && person.matxxx = person.matxxx.push(user);
-
+    }, null, (err, sessions) => {
+    if (err) {
         return res.send({
-            success: true,
-            message: 'Registro válido'
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
         })
     })
+
 })
+
+// router.post('/fav', (req, res, next) => {
+    
+//     const { body } = req;
+//     const {person, idUser} = body;
+
+//     const user = users(); //Filtrar por idUser y obtener el usuario actual
+
+//     //se agrega la persona a la que le di match
+//     user.liked = user.liked.push(person);
+
+//     user.save((err) => {
+//         if (err) {
+//             return res.send({
+//                 success: false,
+//                 message: 'Error: Server error'
+//             })
+//         }
+
+//         //Match
+//         //1) Buscar la persona que le di me gusta - person (person._id)
+//         //2) Filtrar por su propiedad liked con el idUser
+//         //3) Si existe pues le agregan el match a las dos user.matxxx = user.matxxx.push(person); && person.matxxx = person.matxxx.push(user);
+
+//         return res.send({
+//             success: true,
+//             message: 'Registro válido'
+//         })
+//     })
+// })
 
 module.exports = router

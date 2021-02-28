@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, Component } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import TinderCard from "react-tinder-card"
 import IconButton from '@material-ui/core/IconButton';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -6,30 +6,45 @@ import axios from 'axios'
 import CloseIcon from '@material-ui/icons/Close';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import '../css/App.css'
+import {filtrarUser, recorrerObjeto} from '../utils/Utils'
 // import Buttons from "../components/Buttons"
-
 
 function Cards(props) {
     props = props.props;
-    
+
     const [users, setUsers] = useState([]);
+    const peopleLiked = recorrerObjeto(filtrarUser(props.users, props.idUser)).liked
+    // peopleLiked = Object.values(peopleLiked)
+    // console.log('hola')
+    // console.log(peopleLiked.indexOf('6038742ce9e05e0e789dd80a'))
 
     useEffect(() => {
         async function fetchData() {
             const req = await axios.get("http://localhost:4000/app/users");
             if (req.data.length > 0) {
                 for (let i = 0; i < req.data.length; i++) {
-                    if (req.data[i]._id === props.idUser) {
-                        req.data.splice(i, 1);
-                        continue;
-                    }
                     if (req.data[i].admin) req.data.splice(i, 1);
+                    break;
                 }
                 setUsers(req.data);
             }
         }
         fetchData();
     }, [])
+
+    const limpiarUsers = (users) => {
+        for (let i = 0; i < users.length; i++) {
+            if (peopleLiked.includes(users[i]._id)) {
+                users.splice(i, 1);
+                continue;
+            } else if (users[i]._id === props.idUser) {
+                users.splice(i, 1);
+                continue;
+            }
+        }
+    }
+
+    limpiarUsers(users)
 
     let db = users
     const alreadyRemoved = []
@@ -40,8 +55,12 @@ function Cards(props) {
 
     const swiped = (direction, nameToDelete) => {
         console.log('removing: ' + nameToDelete)
-        if (direction === 'left') setLastDirection('izquierda')
-        else setLastDirection('derecha')
+        if (direction === 'left') {
+            setLastDirection('izquierda')
+        } else {
+            setLastDirection('derecha')
+            enviarLike(props.idUser, nameToDelete)
+        }    
         alreadyRemoved.push(nameToDelete)
     }
 
@@ -55,18 +74,30 @@ function Cards(props) {
         const cardsLeft = users.filter(person => !alreadyRemoved.includes(person._id))
         if (cardsLeft.length) {
             const toBeRemoved = cardsLeft[cardsLeft.length - 1]._id // Find the card object to be removed
-            const index = db.map(person => person._id).indexOf(toBeRemoved) // Find the index of which to make the reference to
+            const index = db.map(person => person._id) // Find the index of which to make the reference to
+            const i = index.indexOf(toBeRemoved)
             alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            childRefs[index].current.swipe(dir) // Swipe the card!
+            childRefs[i].current.swipe(dir) // Swipe the card!
         }
     }
 
-    function calcularEdad(años) {
+    const enviarLike = (idUser, idPersonLiked) => {
+        const body = { idUser, idPersonLiked }
+        axios.post('http://localhost:4000/app/liked', body)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const calcularEdad = (años) => {
         años = años;
-        var hoy = new Date();
-        var cumpleanos = new Date(años);
-        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-        var m = hoy.getMonth() - cumpleanos.getMonth();
+        let hoy = new Date();
+        let cumpleanos = new Date(años);
+        let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        let m = hoy.getMonth() - cumpleanos.getMonth();
 
         if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
             edad--;
@@ -82,7 +113,7 @@ function Cards(props) {
                         ref={childRefs[index]}
                         className='swipe'
                         preventSwipe={["up", "down"]}
-                        onSwipe={(dir) => swiped(dir, user._id)} 
+                        onSwipe={(dir) => swiped(dir, user._id)}
                         onCardLeftScreen={() => outOfFrame(user.name)}
                         key={user._id}
                     >
@@ -111,7 +142,7 @@ function Cards(props) {
                                 essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
                                 containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
                             PageMaker including versions of Lorem Ipsum.</div>
-                            <IconButton 
+                            <IconButton
                                 className='boton_volver_card shadow d-none'
                             >
                                 <NavigationIcon
@@ -128,17 +159,17 @@ function Cards(props) {
                     <IconButton
                         onClick={() => swipe('left')}
                     >
-                        <CloseIcon 
+                        <CloseIcon
                             className='buttons__close'
-                           fontSize='large'
+                            fontSize='large'
                         />
                     </IconButton>
                     <IconButton
                         onClick={() => swipe('right')}
                     >
-                        <FavoriteIcon 
+                        <FavoriteIcon
                             className='buttons__fav'
-                           fontSize='large' 
+                            fontSize='large'
                         />
                     </IconButton>
                 </div>

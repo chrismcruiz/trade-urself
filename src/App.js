@@ -137,6 +137,12 @@ const App = () => {
         if (response.status === 200 && response.data.success) {
           setSignUpError(response.message)
           setIsLoading(false)
+          setSignUpName('')
+          setSignUpEmail('')
+          setSignUpBirthday('')
+          setSignUpGender('')
+          setSignUpCareer('')
+          setSignUpPassword('')
         }
       })
       .catch(error => {
