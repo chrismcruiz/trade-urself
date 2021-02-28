@@ -35,17 +35,12 @@ const signUpTemplate = new mongoose.Schema({
         type: String,
         default: '',
         required: true
-        
     },
     matches: {
         type: Array,
         default: ''
     },
     liked: {
-        type: Array,
-        default: ''
-    },
-    likedBy: {
         type: Array,
         default: ''
     },

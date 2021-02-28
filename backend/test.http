@@ -1,7 +1,6 @@
-POST http://localhost:4000/app/liked
+GET http://localhost:4000/app/isliked
 Content-Type: application/json
 
 {
-    "idUser": "603883c5e9e05e0e789dd882",
-    "idPersonLiked": "60387211e9e05e0e789dd800"
+    "idPersonLiked": "603adde436830a0a94e5ffea"
 }

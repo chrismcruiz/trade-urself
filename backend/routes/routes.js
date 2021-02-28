@@ -304,34 +304,16 @@ router.post('/liked', (req, res, next) => {
 
 })
 
-// router.post('/fav', (req, res, next) => {
-    
-//     const { body } = req;
-//     const {person, idUser} = body;
-
-//     const user = users(); //Filtrar por idUser y obtener el usuario actual
-
-//     //se agrega la persona a la que le di match
-//     user.liked = user.liked.push(person);
-
-//     user.save((err) => {
-//         if (err) {
-//             return res.send({
-//                 success: false,
-//                 message: 'Error: Server error'
-//             })
-//         }
-
-//         //Match
-//         //1) Buscar la persona que le di me gusta - person (person._id)
-//         //2) Filtrar por su propiedad liked con el idUser
-//         //3) Si existe pues le agregan el match a las dos user.matxxx = user.matxxx.push(person); && person.matxxx = person.matxxx.push(user);
-
-//         return res.send({
-//             success: true,
-//             message: 'Registro válido'
-//         })
-//     })
-// })
+router.get('/isLiked', (req, res) => {
+    const { body } = req;
+    const { idPersonLiked } = body;
+    users.findOne({_id: idPersonLiked}, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+})
 
 module.exports = router

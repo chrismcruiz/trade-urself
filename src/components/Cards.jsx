@@ -6,7 +6,7 @@ import axios from 'axios'
 import CloseIcon from '@material-ui/icons/Close';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import '../css/App.css'
-import {filtrarUser, recorrerObjeto} from '../utils/Utils'
+import { filtrarUser, recorrerObjeto } from '../utils/Utils'
 import { CircularProgress } from '@material-ui/core';
 // import Buttons from "../components/Buttons"
 
@@ -30,7 +30,7 @@ function Cards(props) {
                 }
                 setUsers(req.data);
                 setIsLoading(false);
-                
+
             }
         }
         fetchData();
@@ -65,7 +65,7 @@ function Cards(props) {
         } else {
             setLastDirection('derecha')
             enviarLike(props.idUser, nameToDelete)
-        }    
+        }
         alreadyRemoved.push(nameToDelete)
     }
 
@@ -86,11 +86,22 @@ function Cards(props) {
         }
     }
 
+    // const revisarLikes = () => {
+    //     axios.get('http://localhost:4000/app/isliked', idPersonLiked)
+    //         .then(response => {
+    //             console.log('hola')
+    //             console.log(response.data)
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         });
+    // }
+
     const enviarLike = (idUser, idPersonLiked) => {
         const body = { idUser, idPersonLiked }
         axios.post('http://localhost:4000/app/liked', body)
             .then(response => {
-                console.log(response.data);
+                console.log(response.data)
             })
             .catch(error => {
                 console.log(error);
