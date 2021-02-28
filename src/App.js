@@ -13,7 +13,7 @@ import Admin from './pages/Admin'
 import { AccountBox } from "./components/accountBox";
 import styled from "styled-components";
 import { CircularProgress } from '@material-ui/core';
-import {filtrarUser, recorrerObjeto} from './utils/Utils'
+import { filtrarUser, recorrerObjeto } from './utils/Utils'
 
 
 <script
@@ -73,12 +73,12 @@ const App = () => {
       const req = await axios.get("http://localhost:4000/app/users");
       setUsers(req.data);
       const req2 = await axios.get("http://localhost:4000/app/users/sesion");
-      setSessions(req2.data) 
+      setSessions(req2.data)
     }
     fetchData();
   }, [])
 
-  
+
   const onTextboxChangeSignInEmail = (e) => {
     setSignInEmail(e.target.value)
   }
@@ -184,7 +184,6 @@ const App = () => {
 
   const logOut = () => {
     setIsLoading(true)
-
     const obj = getFromStorage('the_main_app')
     if (obj && obj.token) {
       const { token } = obj;
@@ -193,11 +192,10 @@ const App = () => {
         .then(res => res.json())
         .then(json => {
           if (json.success) {
-            console.log('sesión cerrada')
+            window.localStorage.clear()
             setToken('')
             setIdUser('')
-            window.localStorage.clear()
-            window.location.href = '/'
+            window.location = '/'
             setIsLoading(false)
           } else {
             setIsLoading(false)
@@ -209,7 +207,7 @@ const App = () => {
   }
 
   const admin = recorrerObjeto(filtrarUser(users, idUser)).admin
-  
+
   if (isLoading) {
     return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
   }
@@ -256,15 +254,19 @@ const App = () => {
             {admin ? (
               <Redirect to="/admin" />
             ) : (
-              <Home props={{ logOut, onSignUp, token, idUser, users }} />
-            )}
+                <Home props={{ logOut, onSignUp, token, idUser, users }} />
+              )}
           </Route>
           <Route path="/admin">
-            {admin ? (
-                <Admin props={{ logOut, token, idUser, users }} />
-              ) : (
+            {admin ? 
+              (
+                <Admin props={{ logOut, token, idUser, users, isLoading }} />
+              )
+              :
+              (
                 <Redirect to="/home" />
-            )}
+              )
+            }
           </Route>
           <Route path="/">
             {token ? <Redirect to="/home" /> : null}

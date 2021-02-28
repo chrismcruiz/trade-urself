@@ -8,11 +8,12 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { Button, Modal } from 'react-bootstrap';
 import { Input } from "../components/accountBox/common";
 import { filtrarUser, recorrerObjeto } from '../utils/Utils'
+import { CircularProgress } from '@material-ui/core';
 
 function Admin(props) {
     props = props.props
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
-
+  
     const [deleteShow, setDeleteShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
     const [viewShow, setViewShow] = useState(false);
@@ -27,6 +28,10 @@ function Admin(props) {
 
     const handleFormShow = () => {
         formShow ? setFormShow(true) : setFormShow(true);
+    }
+
+    if (props.isLoading) {
+        return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
     }
 
     return (
@@ -198,7 +203,7 @@ function Admin(props) {
                     <div className='fondo-gris pantalla_match p-3'>
                         <ul className='p-0'>          
                             <li className='d-flex align-items-center texto_admin mb-3 texto-negro' onClick={handleFormShow}><PersonIcon className='mr-2'></PersonIcon>Usuarios</li>
-                            <a href='' className='texto-negro   '>
+                            <a href='#' className='texto-negro'>
                                 <li onClick={props.logOut} className='d-flex align-items-center texto_admin mb-3'><ExitToAppIcon className='mr-2'></ExitToAppIcon>Salir</li>
                             </a>
                         </ul>
