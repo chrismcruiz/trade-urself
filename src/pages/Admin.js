@@ -13,6 +13,39 @@ import axios from 'axios'
 
 function Admin(props) {
     props = props.props
+
+    const [aUsers, setUsers] = useState([]);
+    //const [aNombres, setNombres] = useState([]);
+
+    useEffect(() => {
+        async function users() {
+            const req = await axios.get("http://localhost:4000/app/users");
+            //console.log(req.data);
+            // if (req.data) {
+            //     console.log(req.data)
+            //     //setUsers(req.data);
+            // }
+            //var nombres = [];
+            if (req.data.length > 0) {
+                for (let i = 0; i < req.data.length; i++) {
+                    if (req.data[i].admin){
+                        req.data.splice(i, 1);
+                        break;
+                    }//else{
+                    //     nombres[req.data[i]._id] = req.data[i].name;
+                    // } 
+                }
+                //console.log(req.data)
+                //setNombres(nombres);
+                setUsers(req.data);
+            }
+        }
+        users()
+    }, [])
+    
+    
+
+    
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
   
     const [deleteShow, setDeleteShow] = useState(false);
@@ -34,18 +67,6 @@ function Admin(props) {
     if (props.isLoading) {
         return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
     }
-
-    // const [aUsers, setUser] = useState([]);
-
-    // useEffect(() => {
-    //     async function users() {
-    //         const req = await axios.get("http://localhost:4000/app/users");
-    //         if (req.data) {
-                
-    //         }
-    //     }
-    //     users()
-    // }, [])
 
     return (
     <div className='contenedor_admin'>
@@ -233,54 +254,32 @@ function Admin(props) {
                                     <th scope="col">Carrera</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Match</th>
-                                    <th scope="col">Descripcion</th>
                                     <th scope="col">Fecha de creacion</th>
                                     <th scope="col" className="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody> 
+                            <tbody>
+                           
+                            {aUsers.map((user, index) =>
+                             
                                 <tr>
-                                    <th scope="row" className="text-center">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                    <td scope="row" className="text-center">{user._id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.career}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.matches.filter(function (val) { if(val !== "" ){ return val; }}).join(', ')}
+                                    </td>
+                                    <td>{user.Date.substr(0,10)}
+                                    </td>
                                     <td className='d-flex justify-content-center'>
                                         <CancelIcon className='m-2 iconos_crud' onClick={() => setDeleteShow(true)}></CancelIcon>
                                         <CreateIcon className='m-2 iconos_crud' onClick={() => setEditShow(true)}></CreateIcon>
                                         <VisibilityIcon className='m-2 iconos_crud' onClick={() => setViewShow(true)}></VisibilityIcon>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row" className="text-center">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td className='d-flex justify-content-center'>
-                                        <CancelIcon className='m-2'></CancelIcon>
-                                        <CreateIcon className='m-2'></CreateIcon>
-                                        <VisibilityIcon className='m-2'></VisibilityIcon>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" className="text-center">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td className='d-flex justify-content-center'>
-                                        <CancelIcon className='m-2'></CancelIcon>
-                                        <CreateIcon className='m-2'></CreateIcon>
-                                        <VisibilityIcon className='m-2'></VisibilityIcon>
-                                    </td>
-                                </tr>
+                                
+                               )} 
+                               
                             </tbody>
                         </table>
                     </div>
