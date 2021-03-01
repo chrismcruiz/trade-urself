@@ -47,6 +47,11 @@ const App = () => {
   const [signUpBirthday, setSignUpBirthday] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
   const [signUpPhoto, setSignUpPhoto] = useState('');
+  const [matches, setMatches] = useState([]);
+
+  // const matches = recorrerObjeto(filtrarUser(users, idUser)).matches
+  // const arrayMatches = matches.splice(1, 1)
+  // console.log(arrayMatches)
 
   useEffect(() => {
     const obj = getFromStorage('the_main_app')
@@ -74,6 +79,7 @@ const App = () => {
       setUsers(req.data);
       const req2 = await axios.get("http://localhost:4000/app/users/sesion");
       setSessions(req2.data)
+      
     }
     fetchData();
   }, [])
@@ -133,7 +139,7 @@ const App = () => {
 
     axios.post('http://localhost:4000/app/signup/', formData)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
         if (response.status === 200 && response.data.success) {
           setSignUpError(response.message)
           setIsLoading(false)
@@ -146,7 +152,7 @@ const App = () => {
         }
       })
       .catch(error => {
-        console.log(error);
+        //console.log(error);
         setSignUpError(error)
         setIsLoading(false)
       });
@@ -174,6 +180,7 @@ const App = () => {
           setSignInPassword('')
           setToken(json.token)
           setIdUser(json.id_user)
+          setMatches(json.matches)
           window.location = '/home';
         } else {
           setSignUpError(json.message)

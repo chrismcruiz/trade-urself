@@ -1,7 +1,14 @@
-DELETE  http://localhost:4000/app/deleteusers
+# DELETE  http://localhost:4000/app/deleteusers
+# Content-Type: application/json
+
+# {
+#     "idUser": "",
+#     "idPersonLiked": ""
+# }
+
+POST  http://localhost:4000/app/users/match
 Content-Type: application/json
 
 {
-    "idUser": "",
-    "idPersonLiked": ""
+    "_id": ["603c7ac622fb3b09609719c0","603c57c222fb3b0960971993"]
 }

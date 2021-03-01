@@ -7,6 +7,7 @@ import { filtrarUser, recorrerObjeto } from '../utils/Utils'
 
 const Sidebar = (props) => {
     props = props.props
+    //console.log(props);
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
 
     const [perfilShow, setPerfilShow] = useState(true);
@@ -34,7 +35,7 @@ const Sidebar = (props) => {
             </div>
             {perfilShow ?
                 // Ventana de Matches
-                (<Matches />)
+                (<Matches props={props}/>)
                 :
                 // Ventana de editar perfil
                 (<EditProfile props={props} />)

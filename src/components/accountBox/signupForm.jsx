@@ -12,7 +12,7 @@ import { Button, Modal, Alert } from 'react-bootstrap';
 
 export function SignupForm(props) {
   props = props.props.props;
-  console.log(props.onSignUp)
+  //console.log(props.onSignUp)
   const { switchToSignin } = useContext(AccountContext);
 
   let confirmP;

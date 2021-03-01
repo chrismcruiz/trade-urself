@@ -26,8 +26,10 @@ function Cards(props) {
             const req = await axios.get("http://localhost:4000/app/users");
             if (req.data.length > 0) {
                 for (let i = 0; i < req.data.length; i++) {
-                    if (req.data[i].admin) req.data.splice(i, 1);
-                    break;
+                    if (req.data[i].admin){
+                        req.data.splice(i, 1);
+                        break;
+                    }           
                 }
                 setUsers(req.data);
                 setIsLoading(false);
@@ -59,7 +61,7 @@ function Cards(props) {
     const childRefs = useMemo(() => Array(db.length).fill(0).map(i => React.createRef()), [db])
 
     const swiped = (direction, nameToDelete) => {
-        console.log('removing: ' + nameToDelete)
+        //console.log('removing: ' + nameToDelete)
         alreadyRemoved.push(nameToDelete)
         if (direction === 'right') {
             enviarLike(props.idUser, nameToDelete)

@@ -193,7 +193,8 @@ router.post('/signin', (req, res, next) => {
                 success: true,
                 message: 'Logueo válido',
                 token: doc._id,
-                id_user: user._id
+                id_user: user._id,
+                matches: user.matches
             })
         })
     })
@@ -362,6 +363,40 @@ router.delete('/deletesessions', (req, res, next) => {
         })
     })
 
+})
+
+router.post('/users/match', (req, res) => { // downloading data from our database
+    
+    const { body } = req;
+    const { _id } = body;
+
+    users.find({
+        _id: { $in: _id } 
+    },(err, data) => {
+        if (err){ 
+            res.status(500).send(err) // 500 means 'internal server error'
+        } else {
+            var aMatches = data[0].matches;
+            aMatches.shift();
+            res.status(200).send(aMatches)
+        }
+    })
+})
+
+router.post('/matches', (req, res) => { // downloading data from our database
+    
+    const { body } = req;
+    const { matches } = body;
+
+    users.find({
+        _id: { $in: matches } 
+    },(err, data) => {
+        if (err){ 
+            res.status(500).send(err) // 500 means 'internal server error'
+        } else {  
+            res.status(200).send(data)
+        }
+    })
 })
 
 module.exports = router

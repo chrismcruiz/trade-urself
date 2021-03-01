@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from '../borrar/imagen-1.png'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -9,6 +9,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { Input } from "../components/accountBox/common";
 import { filtrarUser, recorrerObjeto } from '../utils/Utils'
 import { CircularProgress } from '@material-ui/core';
+import axios from 'axios'
 
 function Admin(props) {
     props = props.props
@@ -33,6 +34,18 @@ function Admin(props) {
     if (props.isLoading) {
         return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
     }
+
+    // const [aUsers, setUser] = useState([]);
+
+    // useEffect(() => {
+    //     async function users() {
+    //         const req = await axios.get("http://localhost:4000/app/users");
+    //         if (req.data) {
+                
+    //         }
+    //     }
+    //     users()
+    // }, [])
 
     return (
     <div className='contenedor_admin'>
