@@ -286,7 +286,7 @@ router.post('/liked', (req, res, next) => {
     users.updateOne({
         _id: idUser,
     }, {
-      $push: {
+      $addToSet: {
           liked: idPersonLiked
         }
     }, null, (err, sessions) => {
@@ -304,16 +304,64 @@ router.post('/liked', (req, res, next) => {
 
 })
 
-router.get('/isLiked', (req, res) => {
+router.post('/setmatch', (req, res, next) => {
+
     const { body } = req;
-    const { idPersonLiked } = body;
-    users.findOne({_id: idPersonLiked}, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
+    const { idUser, idPersonLiked } = body;
+
+    users.updateOne({
+        _id: idUser,
+    }, {
+      $addToSet: {
+          matches: idPersonLiked
         }
+    }, null, (err, sessions) => {
+    if (err) {
+        return res.send({
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
+        })
     })
+
+})
+
+router.delete('/deleteusers', (req, res, next) => {
+
+    users.deleteMany({}, null, (err, sessions) => {
+    if (err) {
+        return res.send({
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
+        })
+    })
+
+})
+
+router.delete('/deletesessions', (req, res, next) => {
+
+    UserSession.deleteMany({}, null, (err, sessions) => {
+    if (err) {
+        return res.send({
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
+        })
+    })
+
 })
 
 module.exports = router

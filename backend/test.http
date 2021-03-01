@@ -1,6 +1,7 @@
-GET http://localhost:4000/app/isliked
+DELETE  http://localhost:4000/app/deleteusers
 Content-Type: application/json
 
 {
-    "idPersonLiked": "603adde436830a0a94e5ffea"
+    "idUser": "",
+    "idPersonLiked": ""
 }

@@ -46,12 +46,11 @@ function Cards(props) {
                 continue;
             }
         }
-        // setIsLoading(false);
     }
 
     limpiarUsers(users)
 
-    let db = [...users]
+    let db = users
     const alreadyRemoved = []
     // let charactersState = db
 
@@ -60,13 +59,10 @@ function Cards(props) {
 
     const swiped = (direction, nameToDelete) => {
         console.log('removing: ' + nameToDelete)
-        if (direction === 'left') {
-            setLastDirection('izquierda')
-        } else {
-            setLastDirection('derecha')
-            enviarLike(props.idUser, nameToDelete)
-        }
         alreadyRemoved.push(nameToDelete)
+        if (direction === 'right') {
+            enviarLike(props.idUser, nameToDelete)
+        } 
     }
 
     // const outOfFrame = (name) => {
@@ -79,29 +75,41 @@ function Cards(props) {
         const cardsLeft = users.filter(person => !alreadyRemoved.includes(person._id))
         if (cardsLeft.length) {
             const toBeRemoved = cardsLeft[cardsLeft.length - 1]._id // Find the card object to be removed
-            const index = db.map(person => person._id) // Find the index of which to make the reference to
-            const i = index.indexOf(toBeRemoved)
+            const index = db.map(person => person._id).indexOf(toBeRemoved) // Find the index of which to make the reference to
             alreadyRemoved.push(toBeRemoved) // Make sure the next card gets removed next time if this card do not have time to exit the screen
-            childRefs[i].current.swipe(dir) // Swipe the card!
+            childRefs[index].current.swipe(dir) // Swipe the card!
+        }
+        
+    }
+
+    const setMatch = async (idUser, idPersonLiked)  => {
+        const body = { idUser, idPersonLiked }
+        await axios.post('http://localhost:4000/app/setmatch', body)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    const revisarLikes = (idUser, idPersonLiked) => {
+        let match = false
+        const liked = recorrerObjeto(db.filter(person => person._id === idPersonLiked)).liked
+        if (liked.includes(idUser)) match = true
+        if (match) {
+            setMatch(idUser, idPersonLiked)
+            setMatch(idPersonLiked, idUser)
         }
     }
 
-    // const revisarLikes = () => {
-    //     axios.get('http://localhost:4000/app/isliked', idPersonLiked)
-    //         .then(response => {
-    //             console.log('hola')
-    //             console.log(response.data)
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         });
-    // }
-
-    const enviarLike = (idUser, idPersonLiked) => {
+    const enviarLike = async (idUser, idPersonLiked) => {
         const body = { idUser, idPersonLiked }
-        axios.post('http://localhost:4000/app/liked', body)
+        await axios.post('http://localhost:4000/app/liked', body)
             .then(response => {
-                console.log(response.data)
+                if (response.status === 200) {
+                    revisarLikes(idUser, idPersonLiked)
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -133,11 +141,11 @@ function Cards(props) {
             <div className='div_contenedor_personas'>
                 {users.map((user, index) =>
                     <TinderCard
-                        ref={childRefs[index]}
                         className='swipe'
-                        preventSwipe={["up", "down"]}
-                        onSwipe={(dir) => swiped(dir, user._id)}
+                        ref={childRefs[index]}
                         key={user._id}
+                        onSwipe={(dir) => swiped(dir, user._id)}
+                        preventSwipe={["up", "down"]}
                     >
                         <div className='card p-0'
                         >
