@@ -16,6 +16,7 @@ function Cards(props) {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const peopleLiked = recorrerObjeto(filtrarUser(props.users, props.idUser)).liked
+    const [matches, setMatches] = useState(false);
     // peopleLiked = Object.values(peopleLiked)
     // console.log('hola')
     // console.log(peopleLiked.indexOf('6038742ce9e05e0e789dd80a'))
@@ -93,6 +94,10 @@ function Cards(props) {
             });
     }
 
+    const mostrarMatch = () =>{
+        setTimeout(function(){ setMatches(true); }, 500)
+    }
+
     const revisarLikes = (idUser, idPersonLiked) => {
         let match = false
         const liked = recorrerObjeto(db.filter(person => person._id === idPersonLiked)).liked
@@ -100,8 +105,11 @@ function Cards(props) {
         if (match) {
             setMatch(idUser, idPersonLiked)
             setMatch(idPersonLiked, idUser)
+            mostrarMatch()
         }
+        
     }
+    
 
     const enviarLike = async (idUser, idPersonLiked) => {
         const body = { idUser, idPersonLiked }
@@ -134,8 +142,26 @@ function Cards(props) {
     }
 
     if (users.length === 0) {
-        return (<div className='infoText h-100 d-inline-block d-flex justify-content-center' >No hay personas para mostrar...</div>)
+        return (<div className='infoText d-inline-block d-flex justify-content-center align-items-center' >No hay personas para mostrar...</div>)
     }
+
+    const quitarMatch = () =>{
+        setTimeout(function(){ setMatches(false); }, 1800)
+        setTimeout(function(){ window.location.reload() }, 1100)
+    }
+
+
+
+    if (matches) {
+        return(
+                <div>
+                    <div className='alert_match'>
+                        ¡Match!
+                    </div>
+                    {quitarMatch()}
+                </div>)
+    }
+
     return (
         <div className='card__container position-relative'>
             <div className='div_contenedor_personas'>

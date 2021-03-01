@@ -285,13 +285,14 @@ h1, h2, h3, h4, p {
 
 .div_imagen_edit_perfil{
   width: 100%;
-  height: 350px;
+  height: 275px;
 }
 
 .imagen_persona_perfil{
   width: 100%;
   height: 100%;
   object-fit: scale-down;
+  border-radius: 50%;
 }
 
 .boton_salir{
@@ -407,13 +408,11 @@ h1, h2, h3, h4, p {
 
 .seccion_tarjetas {
   margin: 85px 0px;
+  height: 750px;
 }
 
 .infoText {
   width: 100%;
-  height: 28px;
-  justify-content: center;
-  display: flex;
   color: #fff;
   animation-name: popup;
   animation-duration: 800ms;
@@ -434,3 +433,31 @@ h1, h2, h3, h4, p {
   64%  { transform: scale(1,1) }
   100% { transform: scale(1,1) }
 }
+
+.alert_match {
+  background: 50% 100% / 50% 50% no-repeat radial-gradient(ellipse at bottom, white, transparent, transparent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 6vw;
+  font-family: "Source Sans Pro", sans-serif;
+  animation: reveal 1000ms ease-in-out forwards 200ms,
+             glow 2000ms linear infinite 2000ms;
+  transform: translate(-50%,-50%);
+  top: 38%;
+  left: 50%;
+  position: absolute;
+  }
+  @keyframes reveal {
+    80%{
+      letter-spacing: 8px;
+    }
+    100% {
+      background-size: 300% 300%;
+    }
+  }
+  @keyframes glow {
+    40% {
+      text-shadow: 0 0 8px #fff;
+    }
+  } 
