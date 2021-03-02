@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import logo from '../borrar/imagen-1.png'
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -13,8 +12,8 @@ import axios from 'axios'
 
 function Admin(props) {
     props = props.props
-
     const [aUsers, setUsers] = useState([]);
+    const [aUsersIniciales, setUsersIni] = useState([]);
     const [aNombres, setNombres] = useState([]);
 
     useEffect(() => {
@@ -38,13 +37,11 @@ function Admin(props) {
                 //console.log(req.data)
                 setNombres(nombres);
                 setUsers(req.data);
+                setUsersIni(req.data);
             }
         }
         users()
     }, [])
-    
-    
-
     
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
   
@@ -62,6 +59,25 @@ function Admin(props) {
 
     const handleFormShow = () => {
         formShow ? setFormShow(true) : setFormShow(true);
+    }
+
+    const [filtroTabla, setFiltroTabla] = useState('')
+
+    function filtroUsuarios(e){
+        var a = e.target.value
+        if(a !== undefined && a !== ""){
+            var aResultado = aUsers.filter(function(valor){
+                return valor.name.toLowerCase().indexOf(a) > -1 
+                || valor.career.toLowerCase().indexOf(a) > -1
+                || valor.email.indexOf(a) > -1
+                || valor.Date.substr(0,10).indexOf(a) > -1
+                || valor._id.indexOf(a) > -1;
+            });
+            setUsers(aResultado);
+        }else{
+            setUsers(aUsersIniciales);
+        }
+        setFiltroTabla(a); 
     }
 
     if (props.isLoading) {
@@ -244,7 +260,17 @@ function Admin(props) {
                     </div>
                 </div>
                 {formShow ? <div className='col-9 px-0 fondo-blanco div_contenedor_informe p-5'>
-                    <p className='texto-negro h4'>Informe de tabla de usuarios</p>
+                    
+                    <p className='texto-negro h2'>Informe de tabla de usuarios</p>
+                    <Input 
+                        placeholder='Buscar'
+                        type='text'
+                        className='mt-2 py-2 w-50'
+                        //onKeyUp={filtroUsuarios}
+                        value={filtroTabla}
+                        onChange={filtroUsuarios}
+                        name='txt_filtro'
+                    />
                     <div className='table-responsive mt-4 shadow-sm'>
                         <table className='table'>
                             <thead className="thead-dark">
@@ -256,7 +282,7 @@ function Admin(props) {
                                     <th scope="col">Email</th>
                                     <th scope="col">Match</th>
                                     <th scope="col"># Matches</th>
-                                    {/* <th scope="col">Fecha de creacion</th> */}
+                                    <th scope="col">Fecha de creacion</th>
                                     <th scope="col" className="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -274,22 +300,17 @@ function Admin(props) {
                                     <td>{user.email}</td>
                                     <td>{
                                             user.matches.map(function (val) { 
-                                                //console.log(val)
                                                 if(val != ""){    
-                                                    console.log(val)                             
-                                                    //var a = val.substr(-20,5)
-                                                    //console.log(a)
                                                     return aNombres[val]
                                                 }
-                                                console.log(val.length)
-                                                console.log(typeof val);
-                                                //return val && val.length > 0 ? val : undefined;
+                                                //console.log(val.length)
+                                                //console.log(typeof val);
                                             }).join(' ').trim().replace(' ',', ')
                                         }                                      
                                     </td>
                                     <td>{user.matches.length-1}</td>
-                                    {/* <td>{user.Date.substr(0,10)}
-                                    </td> */}
+                                    <td>{user.Date.substr(0,10)}
+                                    </td>
                                     <td className='d-flex justify-content-center'>
                                         <CancelIcon className='m-2 iconos_crud' onClick={() => setDeleteShow(true)}></CancelIcon>
                                         <CreateIcon className='m-2 iconos_crud' onClick={() => setEditShow(true)}></CreateIcon>

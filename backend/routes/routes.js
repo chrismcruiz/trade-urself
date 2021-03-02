@@ -399,4 +399,20 @@ router.post('/matches', (req, res) => { // downloading data from our database
     })
 })
 
+router.post('/getInfo', (req, res) => { // downloading data from our database
+    
+    const { body } = req;
+    const { _id } = body;
+
+    users.find({
+        _id: { $in: _id } 
+    },(err, data) => {
+        if (err){ 
+            res.status(500).send(err) // 500 means 'internal server error'
+        } else {  
+            res.status(200).send(data)
+        }
+    })
+})
+
 module.exports = router

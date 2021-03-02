@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import {
     Input,
     SubmitButton,
 } from "./accountBox/common";
 import {filtrarUser, recorrerObjeto} from '../utils/Utils'
+import axios from 'axios'
 
+const EditProfile = (props) => {
+    props = props.props;
+    
+    const [oUser, setInfoUser] = useState([]);
 
-const editProfile = (props) => {
-    const img = recorrerObjeto(filtrarUser(props.props.users, props.props.idUser)).photo
+    useEffect(() => {
+        async function getInfo() {
+            const req = await axios.post("http://localhost:4000/app/getInfo",{
+                _id: props.idUser
+            });
+            if (req.data) {
+                setInfoUser(req.data[0]);
+            }
+        }
+        getInfo()
+    }, [])
+
+    const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
     return (
         <div className='p-3'>
             <div className='fondo-blanco pantalla_match px-4'>
@@ -33,14 +49,14 @@ const editProfile = (props) => {
                     type="text"
                     name="name"
                     placeholder="Nombre"
-                    value={''}
+                    value={oUser.name}
                     required
                 />
                 <Input
                     type="email"
                     placeholder="Email"
                     name="email"
-                    value={''}
+                    value={oUser.email}
                     required
                 />
                 <div className=''>
@@ -117,10 +133,10 @@ const editProfile = (props) => {
                 <SubmitButton className='mt-3' type="submit" value='submit'>Guardar</SubmitButton>
             </form>
             <div className="d-flex justify-content-center fondo-blanco pt-4">
-                <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.props.logOut} >Cerrar sesion</p>
+                <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.logOut} >Cerrar sesion</p>
             </div>
         </div>
     )
 }
 
-export default editProfile
+export default EditProfile
