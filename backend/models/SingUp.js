@@ -44,6 +44,10 @@ const signUpTemplate = new mongoose.Schema({
         type: Array,
         default: ''
     },
+    description: {
+        type: String,
+        default: '', 
+    },
     admin: {
         type: Boolean,
         default: false
