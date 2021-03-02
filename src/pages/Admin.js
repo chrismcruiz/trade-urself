@@ -15,7 +15,7 @@ function Admin(props) {
     props = props.props
 
     const [aUsers, setUsers] = useState([]);
-    //const [aNombres, setNombres] = useState([]);
+    const [aNombres, setNombres] = useState([]);
 
     useEffect(() => {
         async function users() {
@@ -25,18 +25,18 @@ function Admin(props) {
             //     console.log(req.data)
             //     //setUsers(req.data);
             // }
-            //var nombres = [];
+            var nombres = [];
             if (req.data.length > 0) {
                 for (let i = 0; i < req.data.length; i++) {
                     if (req.data[i].admin){
                         req.data.splice(i, 1);
-                        break;
-                    }//else{
-                    //     nombres[req.data[i]._id] = req.data[i].name;
-                    // } 
+                        //break;
+                    }else{
+                        nombres[req.data[i]._id] = req.data[i].name;
+                    } 
                 }
                 //console.log(req.data)
-                //setNombres(nombres);
+                setNombres(nombres);
                 setUsers(req.data);
             }
         }
@@ -249,12 +249,14 @@ function Admin(props) {
                         <table className='table'>
                             <thead className="thead-dark">
                                 <tr>
+                                    <th scope="col">Photo</th>
                                     <th scope="col" className="text-center">Id</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Carrera</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Match</th>
-                                    <th scope="col">Fecha de creacion</th>
+                                    <th scope="col"># Matches</th>
+                                    {/* <th scope="col">Fecha de creacion</th> */}
                                     <th scope="col" className="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -263,14 +265,31 @@ function Admin(props) {
                             {aUsers.map((user, index) =>
                              
                                 <tr>
-                                    <td scope="row" className="text-center">{user._id}</td>
+                                    <td>
+                                        <img className='imagen_personas_matches_admin' src={`/images/${user.photo}`} />
+                                    </td>
+                                    <td scope="row" className="text-center">{user._id.substr(-5,20)}</td>
                                     <td>{user.name}</td>
                                     <td>{user.career}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.matches.filter(function (val) { if(val !== "" ){ return val; }}).join(', ')}
+                                    <td>{
+                                            user.matches.map(function (val) { 
+                                                //console.log(val)
+                                                if(val != ""){    
+                                                    console.log(val)                             
+                                                    //var a = val.substr(-20,5)
+                                                    //console.log(a)
+                                                    return aNombres[val]
+                                                }
+                                                console.log(val.length)
+                                                console.log(typeof val);
+                                                //return val && val.length > 0 ? val : undefined;
+                                            }).join(' ').trim().replace(' ',', ')
+                                        }                                      
                                     </td>
-                                    <td>{user.Date.substr(0,10)}
-                                    </td>
+                                    <td>{user.matches.length-1}</td>
+                                    {/* <td>{user.Date.substr(0,10)}
+                                    </td> */}
                                     <td className='d-flex justify-content-center'>
                                         <CancelIcon className='m-2 iconos_crud' onClick={() => setDeleteShow(true)}></CancelIcon>
                                         <CreateIcon className='m-2 iconos_crud' onClick={() => setEditShow(true)}></CreateIcon>

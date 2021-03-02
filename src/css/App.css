@@ -463,3 +463,10 @@ h1, h2, h3, h4, p {
       text-shadow: 0 0 8px #fff;
     }
   } 
+
+  .imagen_personas_matches_admin{
+    width: 60px;
+    height: 60px;
+    object-fit: scale-down;
+    border-radius: 50%;
+  }

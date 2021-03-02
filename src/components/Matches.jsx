@@ -30,6 +30,7 @@ const Matches = (props) => {
 
     return (
         <div className='fondo-blanco pantalla_match p-3'>
+            <h2 className='h5 pl-2'>Matches</h2>
             <div className='div_personas_matches'>
                 {aMatchesUser.map((match, index) =>
                     <div className='div_imagen_personas_matches position-relative m-2 d-inline-block'>
