@@ -95,44 +95,6 @@ const EditProfile = (props) => {
                         required
                     />
                 </div>
-                <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
-                <div
-                    className='d-flex ps-2'
-                    value={oUser.gender}
-                    onChange={onTextboxChangeUpdateGenero}
-                    >
-                    <div className='d-flex align-items-center'>
-                        <Input
-                            className='d-inline-block inputs_radius mr-2'
-                            type="radio"
-                            name='gender'
-                            id='male'
-                            value={'Masculino'}
-                            required 
-                            />
-                        <label htmlFor="male" className='label_inputs mr-3 mt-1 pt-1'>Masculino</label>
-                    </div>
-                    <div className='d-flex align-items-center'>
-                        <Input
-                            className='d-inline-block inputs_radius mr-2'
-                            type="radio"
-                            name='gender'
-                            id='female'
-                            value={'Femenino'}
-                            required />
-                        <label htmlFor="female" className='label_inputs mr-3 mt-1 pt-1'>Femenino</label>
-                    </div>
-                    <div className='d-flex align-items-center'>
-                        <Input
-                            className='d-inline-block inputs_radius mr-2'
-                            type="radio"
-                            name='gender'
-                            id='other'
-                            value={'otro'}
-                            required />
-                        <label htmlFor="other" className='label_inputs mr-3 mt-1 pt-1'>Otro</label>
-                    </div>
-                </div>
                 <div className='pb-2'>
                     <label className='label_inputs py-2 ps-2 d-block' style={{ fontWeight: '700' }}>Carrera</label>
                     <select
@@ -152,14 +114,6 @@ const EditProfile = (props) => {
                         <option value='licenciatura en idiomas'>Licenciatura en Idiomas</option>
                     </select>
                 </div>
-                <Input
-                    className='my-2'
-                    type="password"
-                    name="password"
-                    placeholder="Contraseña"
-                    value={oUser.password}
-                    onChange={onTextboxChangeUpdateContraseña}
-                />
                 <SubmitButton className='mt-3' type="submit" value='submit'>Guardar</SubmitButton>
             </form>
             <div className="d-flex justify-content-center fondo-blanco pt-4">

@@ -139,6 +139,29 @@ function Cards(props) {
         return edad;
     }
 
+    
+    const imagen_persona_card = React.createRef();
+    const div_datos_persona = React.createRef();
+    const div_descripcion_hover = React.createRef();
+    const card_personas = React.createRef();
+    const botton_hover = React.createRef();
+
+    function mostrarInfo(){
+        imagen_persona_card.current.className = 'tarjeta_pequeña';
+        div_datos_persona.current.className = 'div_persona_hover';
+        div_descripcion_hover.current.className = 'div_descripcion d-block p-3';
+        card_personas.current.className = 'card p-0 card_hover';
+        botton_hover.current.className = 'boton_volver_card d-block';
+    }
+
+    function ocultarInfo(){
+        imagen_persona_card.current.className = 'tarjeta_pequeña tarjeta_grande';
+        div_datos_persona.current.className = 'div_persona_hover';
+        div_descripcion_hover.current.className = 'div_descripcion d-none p-3 ';
+        card_personas.current.className = 'card p-0 card_hover';
+        botton_hover.current.className = 'boton_volver_card d-none';
+    }
+
     if (isLoading) {
         return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
     }
@@ -176,13 +199,16 @@ function Cards(props) {
                         preventSwipe={["up", "down"]}
                     >
                         <div className='card p-0'
+                         ref={card_personas}
                         >
                             <div
                                 className='p-2 background_foto position-relative'
                                 style={{ backgroundImage: `url(./images/${user.photo})` }}
+                                ref={imagen_persona_card}
                             >
                                 <div className='position-absolute div_info_personas texto-blanco'
-
+                                onClick={mostrarInfo}
+                                ref={div_datos_persona}
                                 >
                                     <h3 className='m-0 d-flex mb-2' >
                                         {user.name} -
@@ -193,15 +219,18 @@ function Cards(props) {
                             </div>
                             <div
                                 className='p-0 overflow-auto d-none div_descripcion'
-                            >Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                                essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                                containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-                            PageMaker including versions of Lorem Ipsum.</div>
+                                ref={div_descripcion_hover}
+                                >El presente proyecto tiene como objetivo definir los procesos a realizar durante el
+                                funcionamiento de una sala de despiece, fabrica de embutidos y salazones cárnicos a
+                                partir de canales de cerdo ibérico con capacidad para transformar 140 canales de cerdo
+                                ibérico durante 5 días a la semana, así como definir y justificar, técnica y
+                                económicamente, las obras e instalaciones necesarias para que pueda desarrollarse dicha
+                                actividad.
+                                .</div>
                             <IconButton
                                 className='boton_volver_card shadow d-none'
+                                onClick={ocultarInfo}
+                                ref={botton_hover}
                             >
                                 <NavigationIcon
                                     className='buttons__replay botton_navigation'
