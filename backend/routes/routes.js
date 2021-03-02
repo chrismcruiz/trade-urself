@@ -415,4 +415,58 @@ router.post('/getInfo', (req, res) => { // downloading data from our database
     })
 })
 
+router.put('/update', upload.single('photo'), async (req, res) => { // downloading data from our database
+    
+    const { body, file } = req;
+    const {
+        _id,
+        name,
+        birthday,
+        description,
+        career,
+        photo,
+    } = body;
+
+    let {
+        email
+    } = body;
+
+
+    let photoxd = ''
+
+    if (file === undefined) {
+        photoxd = photo
+    } else {
+        photoxd = file.filename;
+    }
+
+
+    email = email.toLowerCase();
+
+    users.updateOne({
+        _id: _id 
+    }, {
+        $set: {
+            name: name,
+            birthday: birthday,
+            description: description,
+            career: career,
+            photo: photoxd
+          }
+      }, null, (err, sessions) => {
+      if (err) {
+          return res.send({
+              sucess: false,
+              message: 'Error: Server error'
+          })
+      }
+      return res.send({
+          success: true,
+          message: 'Correcto'
+          })
+      })
+  
+})
+
+
 module.exports = router

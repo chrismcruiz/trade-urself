@@ -5,47 +5,77 @@ import {
 } from "./accountBox/common";
 import {filtrarUser, recorrerObjeto} from '../utils/Utils'
 import axios from 'axios'
+import { CircularProgress } from '@material-ui/core';
 
 const EditProfile = (props) => {
     props = props.props;
-    
-    const [oUser, setInfoUser] = useState([]);
-
-    useEffect(() => {
-        async function getInfo() {
-            const req = await axios.post("http://localhost:4000/app/getInfo",{
-                _id: props.idUser
-            });
-            if (req.data) {
-                setInfoUser(req.data[0]);
-            }
-        }
-        getInfo()
-    }, [])
-
+   
+    const user = recorrerObjeto(filtrarUser(props.users, props.idUser))
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
 
-    function onTextboxChangeUpdateNombre(e){
-        setInfoUser(e.target.value)
+    const [isLoading, setIsLoading] = useState(false);
+    const [editDescription, setEditDescription] = useState(user.description);
+    const [editPhoto, setEditPhoto] = useState(img.toString());
+    const [editName, setEditName] = useState(user.name);
+    const [editEmail, setEditEmail] = useState(user.email);
+    const [editBirthday, setEditBirthday] = useState(user.birthday);
+    const [editCareer, setEditCareer] = useState(user.career);
+
+
+    function onTextboxChangeUpdateNombre(e) {
+        setEditName(e.target.value)
     }
-    function onTextboxChangeUpdateEmail(e){
-        setInfoUser(e.target.value)
+    function onTextboxChangeUpdateEmail(e) {
+        setEditEmail(e.target.value)
     }
-    function onTextboxChangeUpdateFecha(e){
-        setInfoUser(e.target.value)
+    function onTextboxChangeUpdateFecha(e) {
+        setEditBirthday(e.target.value)
     }
-    function onTextboxChangeUpdateDescription(e){
-        setInfoUser(e.target.value)
+    function onTextboxChangeUpdateDescription(e) {
+        setEditDescription(e.target.value)
     }
-    function onTextboxChangeUpdateCarrera(e){
-        setInfoUser(e.target.value)
+    function onTextboxChangeUpdateCarrera(e) {
+        setEditCareer(e.target.value)
     }
-    // function onTextboxChangeUpdateContraseña(e){
-    //     setInfoUser(e.target.value)
-    // }
+
+    const onPhotoChangeUpdatePhoto = (e) => {
+        setEditPhoto(e.target.files[0])
+    }
+
+    const onEdit = async (e) => {
+        // e.preventDefault();
+        setIsLoading(true)
+        
+        const formData = new FormData();
+
+        formData.append('_id', user._id)
+        formData.append('photo', editPhoto)
+        formData.append('name', editName)
+        formData.append('email', editEmail)
+        formData.append('birthday', editBirthday)
+        formData.append('description', editDescription)
+        formData.append('career', editCareer)
+       
+
+        await axios.put('http://localhost:4000/app/update/', formData)
+            .then(response => {
+                console.log(response.data);
+                setIsLoading(false)
+                window.location.reload()
+                
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false)
+            });
+    }
+
+    if (isLoading) {
+        return (<div className="vertical-center"><CircularProgress color="primary" size={60} /></div>)
+    }
 
     return (
-        
+
         <div className='p-3'>
             <div className='fondo-blanco pantalla_match px-4'>
                 <div className='div_imagen_edit_perfil'>
@@ -53,15 +83,15 @@ const EditProfile = (props) => {
                 </div>
             </div>
             <form method='POST' className='' encType='multipart/form-data'>
-                <div className="form-group  mb-0"> 
+                <div className="form-group  mb-0">
                     <label htmlFor='description' className='label_inputs py-2 pt-4' style={{ fontWeight: '700' }}>Descripción</label>
-                    <textarea 
-                        rows="3" 
-                        cols="3" 
-                        id='description' 
-                        className='form-control textarea' 
+                    <textarea
+                        rows="3"
+                        cols="3"
+                        id='description'
+                        className='form-control textarea'
                         placeholder='Añade una descripción breve de tí...'
-                        value={oUser.description}
+                        value={editDescription}
                         onChange={onTextboxChangeUpdateDescription}
                     ></textarea>
                 </div>
@@ -74,7 +104,7 @@ const EditProfile = (props) => {
                         accept=".png, .jpg, .jpeg"
                         id='photo'
                         required
-                        //value={''}
+                        onChange={onPhotoChangeUpdatePhoto}
                     />
                 </div>
 
@@ -83,7 +113,7 @@ const EditProfile = (props) => {
                     type="text"
                     name="name"
                     placeholder="Nombre"
-                    value={oUser.name}
+                    value={editName}
                     onChange={onTextboxChangeUpdateNombre}
                     required
                 />
@@ -91,7 +121,7 @@ const EditProfile = (props) => {
                     type="email"
                     placeholder="Email"
                     name="email"
-                    value={oUser.email}
+                    value={editEmail}
                     onChange={onTextboxChangeUpdateEmail}
                     required
                 />
@@ -102,7 +132,7 @@ const EditProfile = (props) => {
                         type="date"
                         name="birthday"
                         placeholder="Fecha de nacimiento"
-                        value={oUser.birthday}
+                        value={editBirthday}
                         onChange={onTextboxChangeUpdateFecha}
                         required
                     />
@@ -113,7 +143,7 @@ const EditProfile = (props) => {
                         required
                         name='career'
                         id='career'
-                        value={oUser.career}
+                        value={editCareer}
                         onChange={onTextboxChangeUpdateCarrera}
                     >
                         <option value='' selected disabled>Escoge una opción</option>
@@ -126,7 +156,7 @@ const EditProfile = (props) => {
                         <option value='licenciatura en idiomas'>Licenciatura en Idiomas</option>
                     </select>
                 </div>
-                <SubmitButton className='mt-3' type="submit" value='submit'>Guardar</SubmitButton>
+                <SubmitButton className='mt-3' type="submit" value='submit' onClick={onEdit} >Guardar</SubmitButton>
             </form>
             <div className="d-flex justify-content-center fondo-blanco pt-4">
                 <p className='text-danger font-weight-bold h4 m-0 py-3 boton_salir' onClick={props.logOut} >Cerrar sesion</p>
