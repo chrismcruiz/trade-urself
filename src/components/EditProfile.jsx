@@ -34,15 +34,15 @@ const EditProfile = (props) => {
     function onTextboxChangeUpdateFecha(e){
         setInfoUser(e.target.value)
     }
-    function onTextboxChangeUpdateGenero(e){
+    function onTextboxChangeUpdateDescription(e){
         setInfoUser(e.target.value)
     }
     function onTextboxChangeUpdateCarrera(e){
         setInfoUser(e.target.value)
     }
-    function onTextboxChangeUpdateContraseña(e){
-        setInfoUser(e.target.value)
-    }
+    // function onTextboxChangeUpdateContraseña(e){
+    //     setInfoUser(e.target.value)
+    // }
 
     return (
         
@@ -53,6 +53,18 @@ const EditProfile = (props) => {
                 </div>
             </div>
             <form method='POST' className='' encType='multipart/form-data'>
+                <div className="form-group  mb-0"> 
+                    <label htmlFor='description' className='label_inputs py-2 pt-4' style={{ fontWeight: '700' }}>Descripción</label>
+                    <textarea 
+                        rows="3" 
+                        cols="3" 
+                        id='description' 
+                        className='form-control textarea' 
+                        placeholder='Añade una descripción breve de tí...'
+                        value={oUser.description}
+                        onChange={onTextboxChangeUpdateDescription}
+                    ></textarea>
+                </div>
                 <div className=''>
                     <label className='label_inputs py-2 pt-4' style={{ fontWeight: '700' }}>Cambiar imagen</label>
                     <Input
