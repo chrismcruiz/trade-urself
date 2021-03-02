@@ -24,7 +24,28 @@ const EditProfile = (props) => {
     }, [])
 
     const img = recorrerObjeto(filtrarUser(props.users, props.idUser)).photo
+
+    function onTextboxChangeUpdateNombre(e){
+        setInfoUser(e.target.value)
+    }
+    function onTextboxChangeUpdateEmail(e){
+        setInfoUser(e.target.value)
+    }
+    function onTextboxChangeUpdateFecha(e){
+        setInfoUser(e.target.value)
+    }
+    function onTextboxChangeUpdateGenero(e){
+        setInfoUser(e.target.value)
+    }
+    function onTextboxChangeUpdateCarrera(e){
+        setInfoUser(e.target.value)
+    }
+    function onTextboxChangeUpdateContraseña(e){
+        setInfoUser(e.target.value)
+    }
+
     return (
+        
         <div className='p-3'>
             <div className='fondo-blanco pantalla_match px-4'>
                 <div className='div_imagen_edit_perfil'>
@@ -41,6 +62,7 @@ const EditProfile = (props) => {
                         accept=".png, .jpg, .jpeg"
                         id='photo'
                         required
+                        //value={''}
                     />
                 </div>
 
@@ -50,6 +72,7 @@ const EditProfile = (props) => {
                     name="name"
                     placeholder="Nombre"
                     value={oUser.name}
+                    onChange={onTextboxChangeUpdateNombre}
                     required
                 />
                 <Input
@@ -57,6 +80,7 @@ const EditProfile = (props) => {
                     placeholder="Email"
                     name="email"
                     value={oUser.email}
+                    onChange={onTextboxChangeUpdateEmail}
                     required
                 />
                 <div className=''>
@@ -66,22 +90,26 @@ const EditProfile = (props) => {
                         type="date"
                         name="birthday"
                         placeholder="Fecha de nacimiento"
-                        value={''}
+                        value={oUser.birthday}
+                        onChange={onTextboxChangeUpdateFecha}
                         required
                     />
                 </div>
                 <label className='label_inputs mt-2 ps-2' style={{ fontWeight: '700' }}>Género</label>
                 <div
                     className='d-flex ps-2'
-                    value={''}>
+                    value={oUser.gender}
+                    onChange={onTextboxChangeUpdateGenero}
+                    >
                     <div className='d-flex align-items-center'>
                         <Input
                             className='d-inline-block inputs_radius mr-2'
                             type="radio"
                             name='gender'
                             id='male'
-                            value={'masculino'}
-                            required />
+                            value={'Masculino'}
+                            required 
+                            />
                         <label htmlFor="male" className='label_inputs mr-3 mt-1 pt-1'>Masculino</label>
                     </div>
                     <div className='d-flex align-items-center'>
@@ -90,7 +118,7 @@ const EditProfile = (props) => {
                             type="radio"
                             name='gender'
                             id='female'
-                            value={'femenino'}
+                            value={'Femenino'}
                             required />
                         <label htmlFor="female" className='label_inputs mr-3 mt-1 pt-1'>Femenino</label>
                     </div>
@@ -111,7 +139,8 @@ const EditProfile = (props) => {
                         required
                         name='career'
                         id='career'
-                        value={''}
+                        value={oUser.career}
+                        onChange={onTextboxChangeUpdateCarrera}
                     >
                         <option value='' selected disabled>Escoge una opción</option>
                         <option value='ingenieria de sistemas'>Ingeniería de Sistemas</option>
@@ -128,7 +157,8 @@ const EditProfile = (props) => {
                     type="password"
                     name="password"
                     placeholder="Contraseña"
-                    value={''}
+                    value={oUser.password}
+                    onChange={onTextboxChangeUpdateContraseña}
                 />
                 <SubmitButton className='mt-3' type="submit" value='submit'>Guardar</SubmitButton>
             </form>
