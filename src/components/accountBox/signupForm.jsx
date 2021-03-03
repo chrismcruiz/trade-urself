@@ -22,26 +22,20 @@ export function SignupForm(props) {
     confirmP = e.target.value
 
   }
-  const handlePass = (e) => {
-    let pass = props.signUpPassword
-    if (pass !== confirmP) {
-      e.preventDefault()
-      handleShow()
-      limpiar.current.value = ''
-    }
-  }
+  // const handlePass = (e) => {
+  //   let pass = props.signUpPassword
+  //   if (pass !== confirmP) {
+  //     e.preventDefault()
+  //     handleShow()
+  //     limpiar.current.value = ''
+  //   }
+  // }
 
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-  
-  const [show2, setShow2] = useState(false);
-  const handleShow2 = () => setShow2(true);
-  const handleClose2 = () => {
-    setShow2(false);
+  const handleClose = () => {
+    setShow(false);
     switchToSignin()
   }
-
   return (
     <BoxContainer>
       {
@@ -49,7 +43,7 @@ export function SignupForm(props) {
           <p>{props.signUpError}</p>
         ) : (null)
       }
-      <Button className='d-none' variant="primary" onClick={handleShow}>
+      {/* <Button className='d-none' variant="primary" onClick={handleShow}>
       </Button>
       <Modal show={show} onHide={handleClose} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header>
@@ -61,22 +55,22 @@ export function SignupForm(props) {
             Cerrar
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
-      <Button className='d-none' variant="success" onClick={handleShow2}>
-      </Button>
-      <Modal show={show2} onHide={handleClose2} aria-labelledby="contained-modal-title-vcenter" centered animation={true}>
-        <Modal.Header>
+      {/* <Button className='d-none' variant="success">
+      </Button> */}
+      <Modal show={show} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header className='m-0 p-0'>
           <Modal.Title className='alert alert-success w-100 text-white bg-success' role='alert'>¡Correcto!</Modal.Title>
         </Modal.Header>
         <Modal.Body>Registro realizado satisfactoriamente</Modal.Body>
         <Modal.Footer>
-          <Button variant="success" className="text-white bg-success" onClick={handleClose2}>
+          <Button variant="success" className="text-white bg-success" onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
-      <form method='POST' encType='multipart/form-data' onSubmit={handlePass} style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <form method='POST' encType='multipart/form-data' style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Input
           className='mb-2'
           type="text"
@@ -187,7 +181,7 @@ export function SignupForm(props) {
           placeholder="Confirmar Contraseña"
           value={confirmP}
           ref={limpiar}
-          onChange={handleChangeP}
+          // onChange={handleChangeP}
           
         />
         <SubmitButton className='mt-3' onClick={props.onSignUp}>Registrarme</SubmitButton>

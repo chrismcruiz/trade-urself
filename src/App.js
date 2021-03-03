@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css'
 import Home from "./pages/Home"
@@ -14,6 +14,8 @@ import { AccountBox } from "./components/accountBox";
 import styled from "styled-components";
 import { CircularProgress } from '@material-ui/core';
 import { filtrarUser, recorrerObjeto } from './utils/Utils'
+import { AccountContext } from "./components/accountBox/accountContext";
+import { Button, Modal, Alert } from 'react-bootstrap';
 
 
 <script
@@ -30,6 +32,12 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
+
+  const [active, setActive] = useState("signup");
+
+  const switchToSignup = () => {
+    setActive("signup");
+  };
 
   const [users, setUsers] = useState([]);
   const [sessions, setSessions] = useState([]);
@@ -122,6 +130,13 @@ const App = () => {
     setSignUpPhoto(e.target.files[0])
   }
 
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  }
+
   const onSignUp = (e) => {
     e.preventDefault();
 
@@ -139,7 +154,6 @@ const App = () => {
 
     axios.post('http://localhost:4000/app/signup/', formData)
       .then(response => {
-        //console.log(response.data);
         if (response.status === 200 && response.data.success) {
           setSignUpError(response.message)
           setIsLoading(false)
@@ -149,6 +163,7 @@ const App = () => {
           setSignUpGender('')
           setSignUpCareer('')
           setSignUpPassword('')
+          setShow(true);
         }
       })
       .catch(error => {
@@ -222,6 +237,17 @@ const App = () => {
   if (!token) {
     return (
       <AppContainer>
+        <Modal show={show} animation={true} aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Header className='m-0 p-0'>
+            <Modal.Title className='alert alert-success w-100 text-white bg-success' role='alert'>¡Correcto!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Registro realizado satisfactoriamente</Modal.Body>
+          <Modal.Footer>
+            <Button variant="success" className="text-white bg-success" onClick={handleClose}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <AccountBox
           props={
             {
@@ -246,7 +272,7 @@ const App = () => {
               onTextboxChangeSignUpGender,
               onTextboxChangeSignUpCareer,
               onTextboxChangeSignUpPassword,
-              onPhotoChangeSignUpPhoto
+              onPhotoChangeSignUpPhoto,
             }
           }
         />
