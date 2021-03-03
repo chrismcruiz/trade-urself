@@ -468,5 +468,25 @@ router.put('/update', upload.single('photo'), async (req, res) => { // downloadi
   
 })
 
+router.delete('/admin/deleteuser', (req, res, next) => {
+
+    const { body } = req
+    const { _id } = body
+    users.deleteOne({
+        _id: _id
+    }, null, (err, sessions) => {
+    if (err) {
+        return res.send({
+            sucess: false,
+            message: 'Error: Server error'
+        })
+    }
+    return res.send({
+        success: true,
+        message: 'Correcto'
+        })
+    })
+
+})
 
 module.exports = router

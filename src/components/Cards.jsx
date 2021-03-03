@@ -220,13 +220,8 @@ function Cards(props) {
                             <div
                                 className='p-0 overflow-auto d-none div_descripcion'
                                 ref={div_descripcion_hover}
-                                >El presente proyecto tiene como objetivo definir los procesos a realizar durante el
-                                funcionamiento de una sala de despiece, fabrica de embutidos y salazones cárnicos a
-                                partir de canales de cerdo ibérico con capacidad para transformar 140 canales de cerdo
-                                ibérico durante 5 días a la semana, así como definir y justificar, técnica y
-                                económicamente, las obras e instalaciones necesarias para que pueda desarrollarse dicha
-                                actividad.
-                                .</div>
+                                >{user.description}
+                                </div>
                             <IconButton
                                 className='boton_volver_card shadow d-none'
                                 onClick={ocultarInfo}
